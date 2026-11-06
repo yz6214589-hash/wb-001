@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="'Noto Sans CJK SC','Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="a1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#64748b"/></marker>
+  </defs>
+  <rect width="1200" height="640" fill="#f8fafc"/>
+  <text x="600" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#0f172a">unique 整体业务流程</text>
+  <text x="600" y="70" text-anchor="middle" font-size="13" fill="#64748b">产品 / 版本 → 需求 → AI 解析 → 人工调整 → 任务 → 执行 → 评审 → 验收 → 缺陷闭环</text>
+
+  <g font-size="14">
+    <rect x="40" y="120" width="170" height="86" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="125" y="152" text-anchor="middle" font-weight="700" fill="#1e3a8a">产品 / 版本</text>
+    <text x="125" y="176" text-anchor="middle" font-size="12" fill="#1e40af">建产品 · 建版本</text>
+    <text x="125" y="194" text-anchor="middle" font-size="12" fill="#1e40af">定范围 · 定分支</text>
+
+    <rect x="230" y="120" width="170" height="86" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="315" y="152" text-anchor="middle" font-weight="700" fill="#1e3a8a">需求输入</text>
+    <text x="315" y="176" text-anchor="middle" font-size="12" fill="#1e40af">Markdown / 飞书</text>
+    <text x="315" y="194" text-anchor="middle" font-size="12" fill="#1e40af">HTML / Figma / 墨刀</text>
+
+    <rect x="420" y="120" width="170" height="86" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="505" y="152" text-anchor="middle" font-weight="700" fill="#1e3a8a">AI 解析草稿</text>
+    <text x="505" y="176" text-anchor="middle" font-size="12" fill="#1e40af">任务树 · 依赖</text>
+    <text x="505" y="194" text-anchor="middle" font-size="12" fill="#1e40af">验收标准建议</text>
+
+    <rect x="610" y="120" width="170" height="86" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="695" y="152" text-anchor="middle" font-weight="700" fill="#1e3a8a">人工调整</text>
+    <text x="695" y="176" text-anchor="middle" font-size="12" fill="#1e40af">增 / 删 / 改</text>
+    <text x="695" y="194" text-anchor="middle" font-size="12" fill="#1e40af">diff + 原因留存</text>
+
+    <rect x="800" y="120" width="170" height="86" rx="10" fill="#fef3c7" stroke="#d97706"/>
+    <text x="885" y="152" text-anchor="middle" font-weight="700" fill="#92400e">闸门 G1</text>
+    <text x="885" y="176" text-anchor="middle" font-size="12" fill="#92400e">计划确认</text>
+    <text x="885" y="194" text-anchor="middle" font-size="12" fill="#92400e">M1 可批量确认</text>
+
+    <rect x="990" y="120" width="170" height="86" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="1075" y="152" text-anchor="middle" font-weight="700" fill="#1e3a8a">调度中心</text>
+    <text x="1075" y="176" text-anchor="middle" font-size="12" fill="#1e40af">队列 · 能力匹配</text>
+    <text x="1075" y="194" text-anchor="middle" font-size="12" fill="#1e40af">并发配额 · 改派</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="1.6" fill="none">
+    <path d="M210,163 L226,163" marker-end="url(#a1)"/>
+    <path d="M400,163 L416,163" marker-end="url(#a1)"/>
+    <path d="M590,163 L606,163" marker-end="url(#a1)"/>
+    <path d="M780,163 L796,163" marker-end="url(#a1)"/>
+    <path d="M970,163 L986,163" marker-end="url(#a1)"/>
+    <path d="M1075,206 L1075,300 L125,300 L125,372" marker-end="url(#a1)"/>
+  </g>
+
+  <g font-size="14">
+    <rect x="40" y="380" width="170" height="96" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="125" y="412" text-anchor="middle" font-weight="700" fill="#1e3a8a">Runner 执行</text>
+    <text x="125" y="436" text-anchor="middle" font-size="12" fill="#1e40af">执行工具 CLI</text>
+    <text x="125" y="454" text-anchor="middle" font-size="12" fill="#1e40af">+ Agent + 模型</text>
+
+    <rect x="230" y="380" width="170" height="96" rx="10" fill="#fef3c7" stroke="#d97706"/>
+    <text x="315" y="412" text-anchor="middle" font-weight="700" fill="#92400e">闸门 G4</text>
+    <text x="315" y="436" text-anchor="middle" font-size="12" fill="#92400e">人工问答</text>
+    <text x="315" y="454" text-anchor="middle" font-size="12" fill="#92400e">触发式 · 不阻塞队列</text>
+
+    <rect x="420" y="380" width="170" height="96" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="505" y="412" text-anchor="middle" font-weight="700" fill="#1e3a8a">产出物</text>
+    <text x="505" y="436" text-anchor="middle" font-size="12" fill="#1e40af">任务分支 + PR</text>
+    <text x="505" y="454" text-anchor="middle" font-size="12" fill="#1e40af">文档 / 测试报告</text>
+
+    <rect x="610" y="380" width="170" height="96" rx="10" fill="#fef3c7" stroke="#d97706"/>
+    <text x="695" y="412" text-anchor="middle" font-weight="700" fill="#92400e">闸门 G2</text>
+    <text x="695" y="436" text-anchor="middle" font-size="12" fill="#92400e">产出物评审</text>
+    <text x="695" y="454" text-anchor="middle" font-size="12" fill="#92400e">PR Review 通过</text>
+
+    <rect x="800" y="380" width="170" height="96" rx="10" fill="#fef3c7" stroke="#d97706"/>
+    <text x="885" y="412" text-anchor="middle" font-weight="700" fill="#92400e">闸门 G3</text>
+    <text x="885" y="436" text-anchor="middle" font-size="12" fill="#92400e">逐条验收</text>
+    <text x="885" y="454" text-anchor="middle" font-size="12" fill="#92400e">全部通过才完成</text>
+
+    <rect x="990" y="380" width="170" height="96" rx="10" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="1075" y="412" text-anchor="middle" font-weight="700" fill="#166534">完成归档</text>
+    <text x="1075" y="436" text-anchor="middle" font-size="12" fill="#166534">成本统计</text>
+    <text x="1075" y="454" text-anchor="middle" font-size="12" fill="#166534">质量记录 · 时间线</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="1.6" fill="none">
+    <path d="M210,428 L226,428" marker-end="url(#a1)"/>
+    <path d="M400,428 L416,428" marker-end="url(#a1)"/>
+    <path d="M590,428 L606,428" marker-end="url(#a1)"/>
+    <path d="M780,428 L796,428" marker-end="url(#a1)"/>
+    <path d="M970,428 L986,428" marker-end="url(#a1)"/>
+  </g>
+
+  <rect x="40" y="540" width="1120" height="70" rx="10" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="60" y="566" font-size="13" fill="#312e81">版本与分支：一个版本一条独立发布分支；任务分支从版本分支拉出 → PR 目标为版本分支 → 版本结束由人合并回主干。</text>
+  <text x="60" y="591" font-size="13" fill="#312e81">缺陷闭环：测试执行 → 缺陷记录（按一次执行聚合）→ GitHub Issue → 修复任务 → 修复 PR → 复测 → 关闭。</text>
+</svg>

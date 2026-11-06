@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="'Noto Sans CJK SC','Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="a5" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#64748b"/></marker>
+  </defs>
+  <rect width="1200" height="700" fill="#f8fafc"/>
+  <text x="600" y="42" text-anchor="middle" font-size="26" font-weight="700" fill="#0f172a">成本统计与缺陷闭环</text>
+  <text x="600" y="68" text-anchor="middle" font-size="13" fill="#64748b">成本只统计不设限；测试执行产生缺陷，以 GitHub Issue 提交并转为修复任务</text>
+
+  <text x="40" y="112" font-size="17" font-weight="700" fill="#1e3a8a">一、成本统计（无预算模块）</text>
+
+  <g font-size="14">
+    <rect x="70" y="130" width="240" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="190" y="160" text-anchor="middle" font-weight="700" fill="#1e3a8a">成本来源</text>
+    <text x="190" y="184" text-anchor="middle" font-size="12" fill="#1e40af">Run token / 调用费</text>
+    <text x="190" y="204" text-anchor="middle" font-size="12" fill="#1e40af">线上自动计时 · 线下录入工时</text>
+
+    <rect x="340" y="130" width="240" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="460" y="160" text-anchor="middle" font-weight="700" fill="#1e3a8a">成本记录</text>
+    <text x="460" y="184" text-anchor="middle" font-size="12" fill="#1e40af">单价表版本化</text>
+    <text x="460" y="204" text-anchor="middle" font-size="12" fill="#1e40af">历史记录不随改价变化</text>
+
+    <rect x="610" y="130" width="240" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="730" y="160" text-anchor="middle" font-weight="700" fill="#1e3a8a">成本统计</text>
+    <text x="730" y="184" text-anchor="middle" font-size="12" fill="#1e40af">产品 / 版本 / 任务 / 成员</text>
+    <text x="730" y="204" text-anchor="middle" font-size="12" fill="#1e40af">执行工具 / Agent / 模型 / 时间</text>
+
+    <rect x="880" y="130" width="240" height="100" rx="10" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="1000" y="160" text-anchor="middle" font-weight="700" fill="#166534">展示与导出</text>
+    <text x="1000" y="184" text-anchor="middle" font-size="12" fill="#166534">看板与明细</text>
+    <text x="1000" y="204" text-anchor="middle" font-size="12" fill="#166534">CSV 导出 · 审计留痕</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="1.5" fill="none">
+    <path d="M310,180 L336,180" marker-end="url(#a5)"/>
+    <path d="M580,180 L606,180" marker-end="url(#a5)"/>
+    <path d="M850,180 L876,180" marker-end="url(#a5)"/>
+  </g>
+
+  <rect x="70" y="246" width="1110" height="34" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="600" y="268" text-anchor="middle" font-size="13" fill="#92400e">成本仅用于统计与复盘：不设预算、不设单任务上限、超阈值不自动暂停；双跑前提示成本翻倍。</text>
+
+  <text x="40" y="322" font-size="17" font-weight="700" fill="#166534">二、缺陷闭环（一次测试执行 → GitHub Issue → 修复 → 复测）</text>
+
+  <g font-size="12">
+    <rect x="40" y="345" width="150" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="115" y="375" text-anchor="middle" font-size="14" font-weight="700" fill="#1e3a8a">测试执行</text>
+    <text x="115" y="398" text-anchor="middle" fill="#1e40af">用例结果</text>
+    <text x="115" y="418" text-anchor="middle" fill="#1e40af">失败项 · 环境</text>
+    <text x="115" y="438" text-anchor="middle" fill="#1e40af">关联版本 / 任务</text>
+
+    <rect x="202" y="345" width="150" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="277" y="375" text-anchor="middle" font-size="14" font-weight="700" fill="#1e3a8a">缺陷草稿</text>
+    <text x="277" y="398" text-anchor="middle" fill="#1e40af">按一次执行聚合</text>
+    <text x="277" y="418" text-anchor="middle" fill="#1e40af">复现步骤 · 期望</text>
+    <text x="277" y="438" text-anchor="middle" fill="#1e40af">实际 · 严重度</text>
+
+    <rect x="364" y="345" width="150" height="100" rx="10" fill="#fef3c7" stroke="#d97706"/>
+    <text x="439" y="375" text-anchor="middle" font-size="14" font-weight="700" fill="#92400e">人工确认</text>
+    <text x="439" y="398" text-anchor="middle" fill="#92400e">去重 / 合并</text>
+    <text x="439" y="418" text-anchor="middle" fill="#92400e">定严重度与范围</text>
+    <text x="439" y="438" text-anchor="middle" fill="#92400e">确认后提交</text>
+
+    <rect x="526" y="345" width="150" height="100" rx="10" fill="#e0e7ff" stroke="#6366f1"/>
+    <text x="601" y="375" text-anchor="middle" font-size="14" font-weight="700" fill="#312e81">GitHub Issue</text>
+    <text x="601" y="398" text-anchor="middle" fill="#3730a3">Issue 模板</text>
+    <text x="601" y="418" text-anchor="middle" fill="#3730a3">关联版本 / PR</text>
+    <text x="601" y="438" text-anchor="middle" fill="#3730a3">状态双向同步</text>
+
+    <rect x="688" y="345" width="150" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="763" y="375" text-anchor="middle" font-size="14" font-weight="700" fill="#1e3a8a">修复任务</text>
+    <text x="763" y="398" text-anchor="middle" fill="#1e40af">类型 T09</text>
+    <text x="763" y="418" text-anchor="middle" fill="#1e40af">关联 Issue</text>
+    <text x="763" y="438" text-anchor="middle" fill="#1e40af">继承版本分支</text>
+
+    <rect x="850" y="345" width="150" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="925" y="375" text-anchor="middle" font-size="14" font-weight="700" fill="#1e3a8a">修复 PR</text>
+    <text x="925" y="398" text-anchor="middle" fill="#1e40af">PR 引用 Issue</text>
+    <text x="925" y="418" text-anchor="middle" fill="#1e40af">评审 G2</text>
+    <text x="925" y="438" text-anchor="middle" fill="#1e40af">合并后待验证</text>
+
+    <rect x="1012" y="345" width="148" height="100" rx="10" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="1086" y="375" text-anchor="middle" font-size="14" font-weight="700" fill="#166534">复测关闭</text>
+    <text x="1086" y="398" text-anchor="middle" fill="#166534">按原用例复测</text>
+    <text x="1086" y="418" text-anchor="middle" fill="#166534">通过 → 已关闭</text>
+    <text x="1086" y="438" text-anchor="middle" fill="#166534">不通过 → 重开</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="1.4" fill="none">
+    <path d="M190,395 L198,395" marker-end="url(#a5)"/>
+    <path d="M352,395 L360,395" marker-end="url(#a5)"/>
+    <path d="M514,395 L522,395" marker-end="url(#a5)"/>
+    <path d="M676,395 L684,395" marker-end="url(#a5)"/>
+    <path d="M838,395 L846,395" marker-end="url(#a5)"/>
+    <path d="M1000,395 L1008,395" marker-end="url(#a5)"/>
+  </g>
+
+  <rect x="40" y="480" width="1120" height="96" rx="10" fill="#ecfdf5" stroke="#16a34a"/>
+  <text x="60" y="508" font-size="15" font-weight="700" fill="#166534">质量指标（事实来源：验收记录、评审意见、Run 结果、人工介入、缺陷）</text>
+  <text x="60" y="532" font-size="12" fill="#166534">一次验收通过率 · 验收返工率 · 评审驳回率 · 人工介入率 · 上下文缺失率 · 平均执行时长 · 缺陷逃逸率 · 单位产出成本 · AI 承担率 · 双跑胜率 · AI 拆解采纳率</text>
+  <text x="60" y="556" font-size="12" fill="#166534">缺陷逃逸率 = 关联任务的缺陷数 / 完成任务数；缺陷按版本与「任务类型 × 难度 × 执行模式」聚合。</text>
+
+  <rect x="40" y="606" width="1120" height="70" rx="10" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="60" y="632" font-size="13" fill="#312e81">首期只做最小缺陷模块：记录、确认、提交 Issue、转修复任务、状态同步、复测关闭。</text>
+  <text x="60" y="656" font-size="13" fill="#312e81">不做独立测试管理平台，不接管 CI，不做缺陷趋势分析（P2 再扩展）。</text>
+</svg>

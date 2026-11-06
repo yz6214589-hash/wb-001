@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" font-family="'Noto Sans CJK SC','Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="a2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#64748b"/></marker>
+  </defs>
+  <rect width="1200" height="680" fill="#f8fafc"/>
+  <text x="600" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#0f172a">调度中心业务流程</text>
+  <text x="600" y="70" text-anchor="middle" font-size="13" fill="#64748b">任务池 → 统一调度 → Runner 领取执行 → 回传；AI 执行者占 99%，一人可并行多个 Run</text>
+
+  <rect x="40" y="120" width="250" height="170" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="165" y="152" text-anchor="middle" font-size="16" font-weight="700" fill="#1e3a8a">任务池</text>
+  <text x="60" y="180" font-size="13" fill="#1e40af">· 优先级 P0 / P1 / P2</text>
+  <text x="60" y="204" font-size="13" fill="#1e40af">· 依赖任务未完成则等待</text>
+  <text x="60" y="228" font-size="13" fill="#1e40af">· 子任务可并行拆分</text>
+  <text x="60" y="252" font-size="13" fill="#1e40af">· 适配器 / 仓库权限校验</text>
+  <text x="60" y="276" font-size="13" fill="#1e40af">· 只领取已确认计划的任务</text>
+
+  <rect x="360" y="100" width="330" height="210" rx="10" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="525" y="134" text-anchor="middle" font-size="18" font-weight="700" fill="#312e81">任务调度中心</text>
+  <text x="385" y="166" font-size="13" fill="#3730a3">1. 队列排序：优先级 + 先进先出</text>
+  <text x="385" y="192" font-size="13" fill="#3730a3">2. 能力匹配：适配器 / 模型 / 仓库权限</text>
+  <text x="385" y="218" font-size="13" fill="#3730a3">3. 并发配额：Runner 上限 + 全局配额</text>
+  <text x="385" y="244" font-size="13" fill="#3730a3">4. 一次性领取锁，禁止重复领取</text>
+  <text x="385" y="270" font-size="13" fill="#3730a3">5. 失败重试 / 超时 / 离线改派</text>
+  <text x="385" y="296" font-size="13" fill="#3730a3">6. 所有改派与重试动作留痕</text>
+
+  <g font-size="13">
+    <rect x="800" y="70" width="340" height="110" rx="10" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="820" y="98" font-weight="700" font-size="15" fill="#166534">Runner A（成员 1）</text>
+    <text x="820" y="122" fill="#166534">并发上限 8 · 当前 5 个 Run</text>
+    <text x="820" y="144" fill="#166534">CLI：Codex / Claude Code / Trae / OpenCode</text>
+    <text x="820" y="166" fill="#166534">能力：仓库读写 · 会话恢复 · 用量上报</text>
+
+    <rect x="800" y="200" width="340" height="110" rx="10" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="820" y="228" font-weight="700" font-size="15" fill="#166534">Runner B（成员 2）</text>
+    <text x="820" y="252" fill="#166534">并发上限 6 · 当前 3 个 Run</text>
+    <text x="820" y="274" fill="#166534">CLI：Claude Code / OpenCode</text>
+    <text x="820" y="296" fill="#166534">能力：前端任务优先 · 可续聊</text>
+
+    <rect x="800" y="330" width="340" height="110" rx="10" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="820" y="358" font-weight="700" font-size="15" fill="#166534">Runner C（成员 3）</text>
+    <text x="820" y="382" fill="#166534">并发上限 4 · 当前 1 个 Run</text>
+    <text x="820" y="404" fill="#166534">CLI：Codex / Trae</text>
+    <text x="820" y="426" fill="#166534">能力：后端任务优先</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="1.6" fill="none">
+    <path d="M290,205 L356,205" marker-end="url(#a2)"/>
+    <path d="M690,160 L796,125" marker-end="url(#a2)"/>
+    <path d="M690,205 L796,255" marker-end="url(#a2)"/>
+    <path d="M690,250 L796,385" marker-end="url(#a2)"/>
+  </g>
+
+  <rect x="800" y="480" width="340" height="80" rx="10" fill="#fef3c7" stroke="#d97706"/>
+  <text x="970" y="508" text-anchor="middle" font-size="15" font-weight="700" fill="#92400e">离线判定与改派</text>
+  <text x="970" y="532" text-anchor="middle" font-size="13" fill="#92400e">心跳 30 秒；离线满 30 分钟 → 告警</text>
+  <text x="970" y="552" text-anchor="middle" font-size="13" fill="#92400e">→ 调度中心改派到其他在线 Runner</text>
+
+  <rect x="360" y="500" width="330" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="525" y="528" text-anchor="middle" font-size="15" font-weight="700" fill="#1e3a8a">执行回传</text>
+  <text x="380" y="552" font-size="13" fill="#1e40af">实时日志 · 完整对话 · 产出物</text>
+  <text x="380" y="574" font-size="13" fill="#1e40af">token 用量 · 成本 · 状态同步</text>
+  <text x="380" y="594" font-size="13" fill="#1e40af">失败原因 · 重试序号 · 会话 ID</text>
+
+  <g stroke="#64748b" stroke-width="1.6" fill="none">
+    <path d="M525,310 L525,496" marker-end="url(#a2)"/>
+    <path d="M800,385 L694,540" marker-end="url(#a2)"/>
+  </g>
+
+  <rect x="40" y="630" width="1100" height="34" rx="8" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="590" y="652" text-anchor="middle" font-size="13" fill="#312e81">并发不是「一人一个任务」：成员可同时调度多个 Agent / Run；任务拆分后按子任务并行，队列统一配额与限流。</text>
+</svg>
