@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>unique · 手机端产品原型（只读）</title>
+<style>
+:root{--line:#e5e7eb;--line2:#f1f3f5;--text:#111827;--muted:#6b7280;--subtle:#9ca3af;--accent:#2563eb;--accent-weak:#eff6ff;--ok:#15803d;--ok-weak:#f0fdf4;--warn:#b45309;--warn-weak:#fffbeb;--bad:#b91c1c;--bad-weak:#fef2f2}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:#eef0f3;display:flex;justify-content:center;align-items:flex-start;padding:24px 0;min-height:100vh}
+.phone{width:390px;height:780px;background:#fff;border:1px solid #dfe2e6;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+@media(max-width:480px){body{padding:0;background:#fff}.phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}}
+.m-head{height:52px;flex:none;display:flex;align-items:center;gap:8px;padding:0 12px;border-bottom:1px solid var(--line);background:#fff}
+.back{width:26px;height:28px;border:none;background:none;font-size:22px;line-height:1;color:#374151;cursor:pointer;padding:0;visibility:hidden}
+.m-title{font-size:15px;font-weight:600;flex:1}
+.read{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:1px 7px;background:#fafafa;white-space:nowrap}
+.m-body{flex:1;overflow-y:auto;background:#fafafa}
+.m-page{display:none;padding:12px 14px 20px}
+.m-page.active{display:block}
+.m-tabs{height:52px;flex:none;display:flex;border-top:1px solid var(--line);background:#fff}
+.m-tabs a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;color:#9ca3af;position:relative}
+.m-tabs a.active{color:var(--accent);font-weight:600}
+.m-tabs .ic{width:15px;height:15px;border:1.5px solid currentColor;border-radius:4px}
+.m-tabs a[data-tab="todo"] .ic{border-radius:50%}
+.m-tabs .num{position:absolute;top:6px;right:calc(50% - 22px);background:#dc2626;color:#fff;font-size:9px;line-height:13px;border-radius:7px;padding:0 4px;font-weight:400}
+.m-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px}
+.m-card h2{font-size:13px;font-weight:600;margin:0 0 8px}
+.muted{color:var(--muted)}
+.subtle{color:var(--subtle);font-size:11px}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px}
+.badge{display:inline-flex;align-items:center;height:19px;padding:0 7px;border-radius:9px;font-size:10px;line-height:1;border:1px solid transparent;white-space:nowrap}
+.b-blue{background:var(--accent-weak);color:#1d4ed8;border-color:#dbeafe}
+.b-gray{background:#f3f4f6;color:#4b5563;border-color:#e5e7eb}
+.b-green{background:var(--ok-weak);color:var(--ok);border-color:#dcfce7}
+.b-orange{background:var(--warn-weak);color:var(--warn);border-color:#fde68a}
+.b-red{background:var(--bad-weak);color:var(--bad);border-color:#fecaca}
+.bar{height:6px;background:#f1f2f4;border-radius:3px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.bar.green>i{background:#16a34a}
+.row{display:flex;align-items:center;gap:8px}
+.between{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.stat3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.stat3 .n{font-size:16px;font-weight:700}
+.stat3 .l{font-size:10px;color:var(--subtle);margin-top:2px}
+.item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line2)}
+.item:last-child{border-bottom:none;padding-bottom:0}
+.item .grow{flex:1;min-width:0}
+.item .t{font-size:13px;font-weight:500}
+.item .m{font-size:11px;color:var(--subtle);margin-top:2px}
+.note{border:1px solid #dbeafe;background:var(--accent-weak);border-radius:8px;padding:9px 11px;font-size:11px;color:#1e40af;line-height:1.6}
+.warn{border:1px solid #fde68a;background:var(--warn-weak);border-radius:8px;padding:9px 11px;font-size:11px;color:#92400e;line-height:1.6}
+.check{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--line2);font-size:12px}
+.check:last-child{border-bottom:none}
+.box{width:13px;height:13px;border:1px solid #d1d5db;border-radius:3px;flex:none;margin-top:3px;position:relative}
+.box.on{background:var(--accent);border-color:var(--accent)}
+.box.on:after{content:"";position:absolute;left:4px;top:1px;width:4px;height:7px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(40deg)}
+.tabs-line{display:flex;gap:16px;border-bottom:1px solid var(--line);margin-bottom:10px}
+.tabs-line span{font-size:12px;padding:6px 0;color:var(--muted)}
+.tabs-line span.on{color:var(--accent);border-bottom:2px solid var(--accent);font-weight:600}
+.link{color:var(--accent);font-size:12px}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <header class="m-head">
+    <button class="back" id="back" onclick="back()">‹</button>
+    <div class="m-title" id="mtitle">产品进度</div>
+    <span class="read">只读视图</span>
+  </header>
+
+  <main class="m-body" id="mbody">
+
+    <!-- 产品进度 -->
+    <section class="m-page active" id="m-products">
+      <div class="m-card">
+        <div class="between"><span class="subtle">当前团队 · 6 名成员 · 基线 100 并发</span><span class="badge b-green">4 个 Run 进行中</span></div>
+        <div class="stat3" style="margin-top:12px">
+          <div><div class="n">3</div><div class="l">产品</div></div>
+          <div><div class="n">1</div><div class="l">进行中</div></div>
+          <div><div class="n">3</div><div class="l">风险</div></div>
+        </div>
+      </div>
+
+      <div class="m-card">
+        <div class="between">
+          <div><div style="font-size:14px;font-weight:600">unique AI 工作台</div><div class="subtle">v1.0 · 负责人 林岚</div></div>
+          <span class="badge b-green">进行中</span>
+        </div>
+        <div class="between" style="margin-top:10px"><span class="subtle">任务 18 / 32</span><span class="subtle">¥18,642</span></div>
+        <div class="bar" style="margin-top:5px"><i style="width:56%"></i></div>
+        <div class="between" style="margin-top:10px">
+          <span class="badge b-orange">风险 2</span>
+          <a class="link" href="javascript:void(0)" onclick="go('version')">查看版本 →</a>
+        </div>
+      </div>
+
+      <div class="m-card">
+        <div class="between">
+          <div><div style="font-size:14px;font-weight:600">内部 CRM 重构</div><div class="subtle">v0.1 · 负责人 陈默</div></div>
+          <span class="badge b-blue">规划中</span>
+        </div>
+        <div class="between" style="margin-top:10px"><span class="subtle">任务 0 / 12</span><span class="subtle">¥0</span></div>
+        <div class="bar" style="margin-top:5px"><i style="width:0%"></i></div>
+        <div class="between" style="margin-top:10px"><span class="badge b-gray">风险 1</span><span class="subtle">暂无版本可查看</span></div>
+      </div>
+
+      <div class="m-card">
+        <div class="between">
+          <div><div style="font-size:14px;font-weight:600">数据标注平台</div><div class="subtle">v0.3 · 负责人 赵一</div></div>
+          <span class="badge b-gray">已暂停</span>
+        </div>
+        <div class="between" style="margin-top:10px"><span class="subtle">任务 7 / 9</span><span class="subtle">¥3,120</span></div>
+        <div class="bar" style="margin-top:5px"><i style="width:78%"></i></div>
+        <div class="between" style="margin-top:10px"><span class="badge b-red">风险 3</span><span class="subtle">暂停中</span></div>
+      </div>
+
+      <div class="note">手机端仅查看进度与提醒，确认计划、评审、验收等写操作请在电脑端完成。</div>
+    </section>
+
+    <!-- 版本进度 -->
+    <section class="m-page" id="m-version">
+      <div class="m-card">
+        <div class="between">
+          <div style="font-size:15px;font-weight:600">unique · v1.0</div>
+          <span class="badge b-green">开发中</span>
+        </div>
+        <div class="subtle" style="margin-top:4px">分支 release/v1.0 · 计划 2026-11-20</div>
+        <div class="muted" style="font-size:12px;margin-top:8px;line-height:1.6">目标：跑通调度中心、任务详情与缺陷闭环；AI 编程工厂按二期增强。</div>
+      </div>
+
+      <div class="m-card">
+        <div class="stat3">
+          <div><div class="n">18/32</div><div class="l">任务完成</div></div>
+          <div><div class="n">¥12,480</div><div class="l">版本成本</div></div>
+          <div><div class="n" style="color:#b45309">2</div><div class="l">风险</div></div>
+        </div>
+        <div class="bar" style="margin-top:12px"><i style="width:56%"></i></div>
+        <div class="subtle" style="margin-top:6px">进度由任务完成数计算，版本状态由版本负责人手动维护</div>
+      </div>
+
+      <div class="m-card">
+        <h2>任务</h2>
+        <div class="item" onclick="go('task')" style="cursor:pointer">
+          <div class="grow"><div class="t">T09 修复离线改派不生效</div><div class="m">陈默 · Codex CLI · ¥38</div></div>
+          <span class="badge b-orange">待验收</span>
+        </div>
+        <div class="item" onclick="go('task')" style="cursor:pointer">
+          <div class="grow"><div class="t">T07 任务详情页一屏布局</div><div class="m">周宇 · Trae CLI · 执行中</div></div>
+          <span class="badge b-blue">执行中</span>
+        </div>
+        <div class="item" onclick="go('task')" style="cursor:pointer">
+          <div class="grow"><div class="t">T06 AI 解析草稿 diff 留存</div><div class="m">林岚 · Claude Code · ¥92</div></div>
+          <span class="badge b-orange">待评审</span>
+        </div>
+        <div class="item">
+          <div class="grow"><div class="t">T02 版本分支与 PR 归集</div><div class="m">陈默 · Claude Code · ¥31</div></div>
+          <span class="badge b-red">已失败</span>
+        </div>
+      </div>
+
+      <div class="warn">版本进度与成本为聚合数据，存在 1 分钟缓存；需要处理任务请到电脑端。</div>
+    </section>
+
+    <!-- 任务详情（只读） -->
+    <section class="m-page" id="m-task">
+      <div class="m-card">
+        <div class="row"><span class="badge b-orange">待验收</span><span class="badge b-blue">M2 AI 主导</span></div>
+        <div style="font-size:15px;font-weight:600;margin-top:8px">T09 修复离线改派不生效</div>
+        <div class="subtle" style="margin-top:4px">unique · v1.0 · 负责人 陈默 · Codex CLI</div>
+      </div>
+
+      <div class="m-card">
+        <h2>当前状态</h2>
+        <div class="stat3">
+          <div><div class="n">3/5</div><div class="l">验收标准</div></div>
+          <div><div class="n">¥38</div><div class="l">成本累计</div></div>
+          <div><div class="n" style="font-size:13px;padding-top:2px">林岚</div><div class="l">下一步待办人</div></div>
+        </div>
+        <div class="item" style="margin-top:10px"><div class="grow"><div class="t">当前 Run</div><div class="m">R-1024 · 已产出 · 18:42</div></div><span class="badge b-green">已产出</span></div>
+        <div class="item"><div class="grow"><div class="t">最近闸门</div><div class="m">产出评审通过 · 09:58</div></div></div>
+        <div class="item"><div class="grow"><div class="t">产出物</div><div class="m mono">PR #145 · ai/T09-requeue</div></div><span class="link">查看</span></div>
+      </div>
+
+      <div class="m-card">
+        <h2>验收标准</h2>
+        <div class="check"><span class="box on"></span><span>心跳超时后任务 30 分钟内保持原状并标记待改派</span></div>
+        <div class="check"><span class="box on"></span><span>超过 30 分钟自动回队列，原 Runner 不可再领取</span></div>
+        <div class="check"><span class="box on"></span><span>改派后调度中心显示新 Runner，旧 Run 标记已中断</span></div>
+        <div class="check"><span class="box"></span><span>一次性领取锁生效，任务不会被两台 Runner 同时领取</span></div>
+        <div class="check"><span class="box"></span><span>补充单测覆盖改派分支</span></div>
+      </div>
+
+      <div class="m-card">
+        <h2>执行摘要 · R-1024</h2>
+        <div class="muted" style="font-size:12px;line-height:1.7">AI 已定位到改派逻辑只在心跳超时后触发，补充了重新入队调用与单测，提交 PR #145 等待复测。</div>
+        <div class="subtle" style="margin-top:8px">完整会话与续聊请在电脑端查看。</div>
+      </div>
+
+      <div class="note">验收需逐条勾选并确认，手机端仅提供查看与提醒。</div>
+    </section>
+
+    <!-- 待办提醒 -->
+    <section class="m-page" id="m-todo">
+      <div class="m-card">
+        <div class="between"><h2 style="margin:0">待我处理</h2><span class="badge b-orange">12 项</span></div>
+        <div class="subtle" style="margin-top:6px">按等待时长排序，超过 30 分钟标红</div>
+      </div>
+
+      <div class="m-card">
+        <div class="item">
+          <div class="grow"><div class="t">T05 上下文包四层拼装</div><div class="m">计划确认 · 已等待 32 分钟</div></div>
+          <span class="badge b-red">超时</span>
+        </div>
+        <div class="item">
+          <div class="grow"><div class="t">T06 AI 解析草稿 diff 留存</div><div class="m">产出评审 · PR #142 · 18 分钟</div></div>
+          <span class="badge b-blue">评审</span>
+        </div>
+        <div class="item">
+          <div class="grow"><div class="t">T09 修复离线改派不生效</div><div class="m">验收 · 3/5 项已勾选</div></div>
+          <span class="badge b-orange">验收</span>
+        </div>
+        <div class="item">
+          <div class="grow"><div class="t">T07 任务详情页一屏布局</div><div class="m">AI 提问 · 已暂停 8 分钟</div></div>
+          <span class="badge b-red">待回复</span>
+        </div>
+        <div class="item">
+          <div class="grow"><div class="t">T12 移动端只读页</div><div class="m">计划确认 · 已等待 1 小时</div></div>
+          <span class="badge b-red">超时</span>
+        </div>
+      </div>
+
+      <div class="warn">手机端只提醒不处理：点击任一项后在电脑端打开对应页面完成操作。</div>
+    </section>
+
+    <!-- 成本概览 + 消息 -->
+    <section class="m-page" id="m-me">
+      <div class="m-card">
+        <div class="between"><h2 style="margin:0">成本概览</h2><span class="subtle">本月 · CNY</span></div>
+        <div style="font-size:22px;font-weight:700;margin-top:8px">¥18,642</div>
+        <div class="subtle">AI ¥12,980 · 人工 56.6h ¥5,662</div>
+        <div class="bar" style="margin-top:10px;height:8px"><i style="width:69.6%"></i></div>
+        <div class="between subtle" style="margin-top:6px"><span>AI 69.6%</span><span>人工 30.4%</span></div>
+        <div class="item" style="margin-top:12px"><div class="grow"><div class="t">v1.0</div><div class="m">AI ¥9,120 · 人工 ¥3,360</div></div><span class="subtle">¥12,480</span></div>
+        <div class="item"><div class="grow"><div class="t">v0.9</div><div class="m">AI ¥3,410 · 人工 ¥1,692</div></div><span class="subtle">¥5,102</span></div>
+        <div class="item"><div class="grow"><div class="t">v0.2</div><div class="m">AI ¥450 · 人工 ¥610</div></div><span class="subtle">¥1,060</span></div>
+        <div class="warn" style="margin-top:12px">Claude Code 今日调用成本较 7 日均值高 38%。</div>
+      </div>
+
+      <div class="m-card">
+        <div class="between"><h2 style="margin:0">消息</h2><span class="subtle">站内 + 邮件</span></div>
+        <div class="item">
+          <div class="grow"><div class="t">T09 已进入待验收</div><div class="m">PR #145 评审通过 · 10:02</div></div>
+          <span class="badge b-orange">待办</span>
+        </div>
+        <div class="item">
+          <div class="grow"><div class="t">RUNNER-06 离线 24 分钟</div><div class="m">2 个排队任务待改派 · 10:12</div></div>
+          <span class="badge b-red">告警</span>
+        </div>
+        <div class="item">
+          <div class="grow"><div class="t">T08 已完成</div><div class="m">成本 ¥126 · 08:40</div></div>
+          <span class="badge b-gray">已读</span>
+        </div>
+      </div>
+
+      <div class="m-card">
+        <h2>账号</h2>
+        <div class="item"><div class="grow"><div class="t">林岚</div><div class="m">AI 产品经理 · 产品管理员</div></div><span class="badge b-blue">GitHub</span></div>
+        <div class="item"><div class="grow"><div class="t">登录方式</div><div class="m">GitHub OAuth 授权</div></div></div>
+        <div class="item"><div class="grow"><div class="t">通知订阅</div><div class="m">告警与待我处理 · 邮件已开启</div></div><span class="link">设置</span></div>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="m-tabs">
+    <a href="javascript:void(0)" data-tab="products" class="active" onclick="go('products',true)"><span class="ic"></span>产品</a>
+    <a href="javascript:void(0)" data-tab="todo" onclick="go('todo',true)"><span class="ic"></span>待办<span class="num">12</span></a>
+    <a href="javascript:void(0)" data-tab="me" onclick="go('me',true)"><span class="ic"></span>我的</a>
+  </nav>
+</div>
+
+<script>
+var titles={products:'产品进度',version:'版本进度',task:'任务详情',todo:'待办提醒',me:'我的'};
+var tabMap={products:'products',version:'products',task:'products',todo:'todo',me:'me'};
+var stack=['products'];
+
+function go(id,reset){
+  if(reset){stack=[id]}
+  else if(stack[stack.length-1]!==id){stack.push(id)}
+  render(id);
+}
+
+function back(){
+  if(stack.length>1){stack.pop()}
+  render(stack[stack.length-1]);
+}
+
+function render(id){
+  document.querySelectorAll('.m-page').forEach(function(p){p.classList.remove('active')});
+  var el=document.getElementById('m-'+id);
+  if(el){el.classList.add('active')}
+  document.getElementById('mtitle').textContent=titles[id]||'';
+  document.getElementById('back').style.visibility=(id==='version'||id==='task')?'visible':'hidden';
+  document.querySelectorAll('.m-tabs a').forEach(function(a){
+    a.classList.toggle('active',a.getAttribute('data-tab')===tabMap[id]);
+  });
+  document.getElementById('mbody').scrollTop=0;
+}
+</script>
+</body>
+</html>

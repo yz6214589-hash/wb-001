@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="'Noto Sans CJK SC','Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="a3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#64748b"/></marker>
+  </defs>
+  <rect width="1200" height="700" fill="#f8fafc"/>
+  <text x="600" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#0f172a">AI 编程工厂业务流程</text>
+  <text x="600" y="70" text-anchor="middle" font-size="13" fill="#64748b">需求 → AI 解析 → 人工调整 → 任务定义 → 上下文与路由 → 执行 → 评审 → 验收</text>
+
+  <g font-size="14">
+    <rect x="30" y="110" width="200" height="90" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="130" y="142" text-anchor="middle" font-weight="700" fill="#1e3a8a">需求材料 / 原型</text>
+    <text x="130" y="166" text-anchor="middle" font-size="12" fill="#1e40af">Markdown / 飞书文档</text>
+    <text x="130" y="184" text-anchor="middle" font-size="12" fill="#1e40af">HTML / Figma / 墨刀</text>
+
+    <rect x="255" y="110" width="200" height="90" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="355" y="142" text-anchor="middle" font-weight="700" fill="#1e3a8a">AI 解析草稿</text>
+    <text x="355" y="166" text-anchor="middle" font-size="12" fill="#1e40af">任务树 · 类型 · 难度</text>
+    <text x="355" y="184" text-anchor="middle" font-size="12" fill="#1e40af">依赖 · 验收标准建议</text>
+
+    <rect x="480" y="110" width="200" height="90" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="580" y="142" text-anchor="middle" font-weight="700" fill="#1e3a8a">人工调整</text>
+    <text x="580" y="166" text-anchor="middle" font-size="12" fill="#1e40af">增 / 删 / 改任务与字段</text>
+    <text x="580" y="184" text-anchor="middle" font-size="12" fill="#1e40af">diff + 原因留存</text>
+
+    <rect x="705" y="110" width="200" height="90" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="805" y="142" text-anchor="middle" font-weight="700" fill="#1e3a8a">任务 / 子任务</text>
+    <text x="805" y="166" text-anchor="middle" font-size="12" fill="#1e40af">唯一版本 · 执行模式</text>
+    <text x="805" y="184" text-anchor="middle" font-size="12" fill="#1e40af">验收标准冻结版本号</text>
+
+    <rect x="930" y="110" width="240" height="90" rx="10" fill="#fef3c7" stroke="#d97706"/>
+    <text x="1050" y="142" text-anchor="middle" font-weight="700" fill="#92400e">闸门 G1 计划确认</text>
+    <text x="1050" y="166" text-anchor="middle" font-size="12" fill="#92400e">执行模式 / 上下文 / 路由</text>
+    <text x="1050" y="184" text-anchor="middle" font-size="12" fill="#92400e">M1 可批量确认</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="1.6" fill="none">
+    <path d="M230,155 L251,155" marker-end="url(#a3)"/>
+    <path d="M455,155 L476,155" marker-end="url(#a3)"/>
+    <path d="M680,155 L701,155" marker-end="url(#a3)"/>
+    <path d="M905,155 L926,155" marker-end="url(#a3)"/>
+    <path d="M1050,200 L1050,268 L130,268 L130,338" marker-end="url(#a3)"/>
+  </g>
+
+  <g font-size="14">
+    <rect x="30" y="345" width="250" height="130" rx="10" fill="#e0e7ff" stroke="#6366f1"/>
+    <text x="155" y="375" text-anchor="middle" font-weight="700" fill="#312e81">上下文包（四层）</text>
+    <text x="50" y="400" font-size="12" fill="#3730a3">① 产品级常驻：目标 / 范围 / 规范</text>
+    <text x="50" y="422" font-size="12" fill="#3730a3">② 版本级常驻：版本目标 / 差异 / 模块</text>
+    <text x="50" y="444" font-size="12" fill="#3730a3">③ 任务级必填：验收标准 / 接口 / 代码</text>
+    <text x="50" y="466" font-size="12" fill="#3730a3">④ 执行级补充：日志 / 报错 / 人工说明</text>
+
+    <rect x="305" y="345" width="250" height="130" rx="10" fill="#e0e7ff" stroke="#6366f1"/>
+    <text x="430" y="375" text-anchor="middle" font-weight="700" fill="#312e81">路由选择</text>
+    <text x="325" y="400" font-size="12" fill="#3730a3">执行工具：Codex / Claude Code</text>
+    <text x="325" y="422" font-size="12" fill="#3730a3">　　　　　Trae / OpenCode</text>
+    <text x="325" y="444" font-size="12" fill="#3730a3">Agent：身份 / 工具 / 技能 / 权限</text>
+    <text x="325" y="466" font-size="12" fill="#3730a3">模型档位 · 是否双跑 · 成本预估</text>
+
+    <rect x="580" y="345" width="250" height="130" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="705" y="375" text-anchor="middle" font-weight="700" fill="#1e3a8a">Runner 执行</text>
+    <text x="600" y="400" font-size="12" fill="#1e40af">本地拉起 CLI + 注入 Agent</text>
+    <text x="600" y="422" font-size="12" fill="#1e40af">实时日志 · 可续聊 · 可中断</text>
+    <text x="600" y="444" font-size="12" fill="#1e40af">失败重试 / 双跑对比</text>
+    <text x="600" y="466" font-size="12" fill="#1e40af">成本与用量回传</text>
+
+    <rect x="855" y="345" width="150" height="130" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="930" y="390" text-anchor="middle" font-weight="700" fill="#1e3a8a">产出物</text>
+    <text x="930" y="414" text-anchor="middle" font-size="12" fill="#1e40af">任务分支 + PR</text>
+    <text x="930" y="436" text-anchor="middle" font-size="12" fill="#1e40af">文档 / 报告</text>
+    <text x="930" y="458" text-anchor="middle" font-size="12" fill="#1e40af">上下文快照编号</text>
+
+    <rect x="1030" y="345" width="140" height="130" rx="10" fill="#fef3c7" stroke="#d97706"/>
+    <text x="1100" y="382" text-anchor="middle" font-weight="700" fill="#92400e">闸门 G2</text>
+    <text x="1100" y="406" text-anchor="middle" font-size="12" fill="#92400e">产出物评审</text>
+    <text x="1100" y="428" text-anchor="middle" font-size="12" fill="#92400e">PR Review</text>
+    <text x="1100" y="452" text-anchor="middle" font-weight="700" fill="#92400e">闸门 G3</text>
+    <text x="1100" y="472" text-anchor="middle" font-size="12" fill="#92400e">逐条验收</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="1.6" fill="none">
+    <path d="M280,410 L301,410" marker-end="url(#a3)"/>
+    <path d="M555,410 L576,410" marker-end="url(#a3)"/>
+    <path d="M830,410 L851,410" marker-end="url(#a3)"/>
+    <path d="M1005,410 L1026,410" marker-end="url(#a3)"/>
+  </g>
+
+  <rect x="30" y="520" width="540" height="80" rx="10" fill="#fef3c7" stroke="#d97706"/>
+  <text x="300" y="550" text-anchor="middle" font-size="15" font-weight="700" fill="#92400e">人工问答 G4（触发式）</text>
+  <text x="50" y="574" font-size="12" fill="#92400e">信息不足 / 需授权 / 高风险动作 → Run 暂停 → 人回复 → 同一会话继续</text>
+  <text x="50" y="592" font-size="12" fill="#92400e">超时升级产品管理员；不阻塞其他任务与 Run</text>
+
+  <rect x="600" y="520" width="570" height="80" rx="10" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="885" y="550" text-anchor="middle" font-size="15" font-weight="700" fill="#166534">解析调整记录 → 持续优化</text>
+  <text x="620" y="574" font-size="12" fill="#166534">每一次增删改记录前后值、原因、操作人与最终采纳结果</text>
+  <text x="620" y="592" font-size="12" fill="#166534">用于优化解析提示词、任务模板与路由；用于训练前需脱敏与审批</text>
+
+  <rect x="30" y="630" width="1140" height="46" rx="10" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="600" y="659" text-anchor="middle" font-size="13" fill="#312e81">MVP 与后续版本一致：先由 AI 解析生成草稿，人调整确认；AI 不得直接创建可执行任务。</text>
+</svg>
