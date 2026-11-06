@@ -1,201 +1,95 @@
-                                 Apache License
-                           Version 2.0, January 2004
-                        http://www.apache.org/licenses/
+免费传播与内部使用许可证（商业授权与收入分成）
+版本：1.0-draft
 
-   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+软件名称：{{PROJECT_NAME}}
+官方仓库：{{REPOSITORY_URL}}
+许可方／版权主体：{{LICENSOR_NAME}}
+商业授权联系邮箱：{{COMMERCIAL_EMAIL}}
+Copyright (c) 2026 {{LICENSOR_NAME}}
 
-   1. Definitions.
+本文件为自定义源码可用许可证，包含商业用途限制，不是 MIT、GPL、PolyForm 或其他标准开源许可证。许可方仅在其拥有或有权授予的权利范围内作出本许可。
 
-      "License" shall mean the terms and conditions for use, reproduction,
-      and distribution as defined by Sections 1 through 9 of this document.
+一、适用范围与定义
 
-      "Licensor" shall mean the copyright owner or entity authorized by
-      the copyright owner that is granting the License.
+1. “软件”指在本许可证下发布的代码、构建产物及明确纳入本许可证的配套材料，以及其中受本许可覆盖的修改部分。另行声明许可的第三方组件、数据、图片、模型和其他材料不自动适用本许可证。
+2. “你”指使用、复制、修改或分发软件的个人或组织。代表组织实施这些行为时，相关许可义务由该组织承担，但不因此扩大你的代理权限。
+3. “内部使用”指个人为自己，或组织及其直接或间接控制、受控制或受共同控制的关联组织，为自身内部业务而使用软件，包括测试和生产环境。控制指能够决定相关组织的经营管理。员工和受托人员可以为该内部目的操作软件；外部客户、租户、订阅用户和独立经销商不因此成为内部人员。受托服务者自己的收费行为仍按第四条判断。
+4. “对价”指为取得软件副本、访问软件功能或取得以软件为主要对象的服务而支付的费用或其他经济利益，包括相关订阅费、会员费、服务费和捆绑交易中可归属于软件的对价。
+5. “书面商业协议”指你与有权授予相应商业权利的许可方订立的、具有约束力的书面协议，包括依法有效的电子协议。该协议须明确授权范围和收入分成安排。
 
-      "Legal Entity" shall mean the union of the acting entity and all
-      other entities that control, are controlled by, or are under common
-      control with that entity. For the purposes of this definition,
-      "control" means (i) the power, direct or indirect, to cause the
-      direction or management of such entity, whether by contract or
-      otherwise, or (ii) ownership of fifty percent (50%) or more of the
-      outstanding shares, or (iii) beneficial ownership of such entity.
+二、免费许可
 
-      "You" (or "Your") shall mean an individual or Legal Entity
-      exercising permissions granted by this License.
+在持续遵守本许可证的条件下，许可方授予你全球性、非独占、免许可费的权利，使你可以：
 
-      "Source" form shall mean the preferred form for making modifications,
-      including but not limited to software source code, documentation
-      source, and configuration files.
+1. 下载、阅读、研究、运行、复制和修改软件，用于个人活动、学习、研究、内部使用及第五条明确允许的用途；组织具有营利性质或因内部使用提高效率、降低成本，不单独触发商业授权。
+2. 免费复制、分享、镜像、Fork 和分发软件及修改版，包括源码和构建产物，但须遵守第三条，且不得实施第四条所列行为。
+3. 免费向外部用户提供软件功能或访问服务，前提是未收取第四条所列对价，且不存在收费捆绑或第四条所列其他商业行为。
+4. 为评估或开发目的进行测试和演示；在未取得商业授权前，不得借此向外部客户实际交付本许可证限制的收费产品或服务。
 
-      "Object" form shall mean any form resulting from mechanical
-      transformation or translation of a Source form, including but
-      not limited to compiled object code, generated documentation,
-      and conversions to other media types.
+本许可证不要求你公开内部修改或分发修改版的源码。免费取得副本不代表取得第四条所列商业化权利。
 
-      "Work" shall mean the work of authorship, whether in Source or
-      Object form, made available under the License, as indicated by a
-      copyright notice that is included in or attached to the work
-      (an example is provided in the Appendix below).
+三、免费传播的条件
 
-      "Derivative Works" shall mean any work, whether in Source or Object
-      form, that is based on (or derived from) the Work and for which the
-      editorial revisions, annotations, elaborations, or other modifications
-      represent, as a whole, an original work of authorship. For the purposes
-      of this License, Derivative Works shall not include works that remain
-      separable from, or merely link (or bind by name) to the interfaces of,
-      the Work and Derivative Works thereof.
+1. 分发软件或其中受版权保护的实质性部分时，须提供本许可证全文，并保留适用的版权、许可及第三方声明。
+2. 分发修改版时，须以合理方式标明已作修改及修改者，不得使接收者误认为其是许可方发布或背书的官方版本。
+3. 受本许可证覆盖的软件部分继续适用本许可证，包括商业化限制。不得以其他许可、用户条款、收费捆绑或技术措施消除接收者对这些部分已经取得的本许可权利。可分离且不包含受许可代码的独立作品不自动适用本许可证。
+4. 每个接收者在相应权利人有权授权的范围内，直接依据本许可证取得免费许可，并独立承担自身用途的合规义务。免费分发者不保证接收者可以开展商业化，也无权代许可方出售商业授权。
+5. 接收者的免费许可不因上游分发者违反本许可证而当然终止，但接收者自身仍须遵守本许可证。
 
-      "Contribution" shall mean any work of authorship, including
-      the original version of the Work and any modifications or additions
-      to that Work or Derivative Works thereof, that is intentionally
-      submitted to Licensor for inclusion in the Work by the copyright owner
-      or by an individual or Legal Entity authorized to submit on behalf of
-      the copyright owner. For the purposes of this definition, "submitted"
-      means any form of electronic, verbal, or written communication sent
-      to the Licensor or its representatives, including but not limited to
-      communication on electronic mailing lists, source code control systems,
-      and issue tracking systems that are managed by, or on behalf of, the
-      Licensor for the purpose of discussing and improving the Work, but
-      excluding communication that is conspicuously marked or otherwise
-      designated in writing by the copyright owner as "Not a Contribution."
+四、须事先取得商业授权的行为
 
-      "Contributor" shall mean Licensor and any individual or Legal Entity
-      on behalf of whom a Contribution has been received by Licensor and
-      subsequently incorporated within the Work.
+除第五条明确允许的情况、适用法律规定无需授权的行为，或另有有效书面商业协议外，你在实施下列任何行为前，必须取得书面商业授权并约定收入分成：
 
-   2. Grant of Copyright License. Subject to the terms and conditions of
-      this License, each Contributor hereby grants to You a perpetual,
-      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-      copyright license to reproduce, prepare Derivative Works of,
-      publicly display, publicly perform, sublicense, and distribute the
-      Work and such Derivative Works in Source or Object form.
+1. 收费销售、转售、出租、许可、交付或分发软件、软件副本、修改版，或其中受本许可覆盖的实质性部分。
+2. 将软件作为组件集成到向外部客户收费提供的软件、应用、设备或其他产品中；收费包括一次性收费、订阅、会员和有偿捆绑，收费项目名称不影响判断。
+3. 以软件的功能作为交付内容，向外部客户提供收费 SaaS、API、托管、在线访问、处理服务或其他付费服务，即使未向客户交付软件副本。
+4. 以软件或其修改版为主要服务对象，向客户收费提供部署、定制开发、运维、技术支持或操作培训。客户自身符合免费内部使用条件，不免除服务提供者的商业授权义务。
+5. 通过关联方代收、拆分合同、将软件标为免费但强制购买其他项目、或将必要付款称为捐赠等方式，实际实施上述行为。
 
-   3. Grant of Patent License. Subject to the terms and conditions of
-      this License, each Contributor hereby grants to You a perpetual,
-      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-      (except as stated in this section) patent license to make, have made,
-      use, offer to sell, sell, import, and otherwise transfer the Work,
-      where such license applies only to those patent claims licensable
-      by such Contributor that are necessarily infringed by their
-      Contribution(s) alone or by combination of their Contribution(s)
-      with the Work to which such Contribution(s) was submitted. If You
-      institute patent litigation against any entity (including a
-      cross-claim or counterclaim in a lawsuit) alleging that the Work
-      or a Contribution incorporated within the Work constitutes direct
-      or contributory patent infringement, then any patent licenses
-      granted to You under this License for that Work shall terminate
-      as of the date such litigation is filed.
+免费使用权不会因客户愿意遵守本许可证、承诺未来付款、联系询价或自行支付某笔款项而自动扩展为商业授权。
 
-   4. Redistribution. You may reproduce and distribute copies of the
-      Work or Derivative Works thereof in any medium, with or without
-      modifications, and in Source or Object form, provided that You
-      meet the following conditions:
+五、不单独触发商业授权的情形
 
-      (a) You must give any other recipients of the Work or
-          Derivative Works a copy of this License; and
+1. 为获准的内部使用支付员工工资，或购买不以本软件功能为交付内容的通用计算、网络、存储、机房和基础设施服务。该项不豁免第四条所列针对本软件的收费服务。
+2. 自愿且无条件的捐赠、赞助，前提是其不作为取得软件、副本、功能或本软件服务的必要条件或对应对价。赞助不自动附带商业授权。
+3. 制作、使用或出售由软件辅助形成的独立输出成果，例如报告、图片、视频、业务数据或与软件无关的商品，前提是未交付受许可的软件部分，且交易主要交付内容不是第四条所列软件功能或软件服务。客户主要购买独立专业分析、人工创作或编辑成果时，不仅因按单、按次或订阅收费而触发商业授权；客户主要购买软件自身处理、生成、查询等功能的运行或其直接结果，提供者主要代客户操作软件时，仍属于第四条第三项。交易名称、交付文件格式和名义上增加人工步骤，不改变按实际主要交付内容作出的判断。
+4. 发布介绍、评测、教程或讨论。若同时收费交付软件、访问其功能，或提供第四条第四项所列服务，相关部分仍须商业授权。
 
-      (b) You must cause any modified files to carry prominent notices
-          stating that You changed the files; and
+仅因使用软件，许可方不取得你的输入数据、独立代码或输出成果的权利；输出包含本软件代码或第三方受保护内容时，相应内容仍依其原有许可处理。
 
-      (c) You must retain, in the Source form of any Derivative Works
-          that You distribute, all copyright, patent, trademark, and
-          attribution notices from the Source form of the Work,
-          excluding those notices that do not pertain to any part of
-          the Derivative Works; and
+六、商业授权与收入分成
 
-      (d) If the Work includes a "NOTICE" text file as part of its
-          distribution, then any Derivative Works that You distribute must
-          include a readable copy of the attribution notices contained
-          within such NOTICE file, excluding those notices that do not
-          pertain to any part of the Derivative Works, in at least one
-          of the following places: within a NOTICE text file distributed
-          as part of the Derivative Works; within the Source form or
-          documentation, if provided along with the Derivative Works; or,
-          within a display generated by the Derivative Works, if and
-          wherever such third-party notices normally appear. The contents
-          of the NOTICE file are for informational purposes only and
-          do not modify the License. You may add Your own attribution
-          notices within Derivative Works that You distribute, alongside
-          or as an addendum to the NOTICE text from the Work, provided
-          that such additional attribution notices cannot be construed
-          as modifying the License.
+1. 书面商业协议应明确主体、软件版本、产品和服务、地域、期限、客户使用权及分发权限，并约定计入分成的收入、正数分成比例、可扣除项目、报告、付款和核验安排。许可方没有必须向任何人提供商业授权的义务。
+2. 本许可证本身不确定分成比例，不构成自动签订商业合同的要约，也不因未经授权的商业行为自动产生某个预设比例的分成或补签义务。未经授权的行为不因此获得许可；相应法律责任依法处理。
+3. 已生效的商业协议仅在其明确覆盖的主体、软件、用途及期限内优先处理与本许可证的冲突；未覆盖部分仍按本许可证或其他适用许可处理。购买支持、赞助或服务不当然取得商业授权。
+4. 商业协议到期或终止后，不再取得该协议项下新增商业化权利，但双方依法或依约保留的结算义务、有效终端客户权利以及独立满足本许可证条件的免费用途，不因此当然消失。
 
-      You may add Your own copyright statement to Your modifications and
-      may provide additional or different license terms and conditions
-      for use, reproduction, or distribution of Your modifications, or
-      for any such Derivative Works as a whole, provided Your use,
-      reproduction, and distribution of the Work otherwise complies with
-      the conditions stated in this License.
+七、权利保留与第三方材料
 
-   5. Submission of Contributions. Unless You explicitly state otherwise,
-      any Contribution intentionally submitted for inclusion in the Work
-      by You to the Licensor shall be under the terms and conditions of
-      this License, without any additional terms or conditions.
-      Notwithstanding the above, nothing herein shall supersede or modify
-      the terms of any separate license agreement you may have executed
-      with Licensor regarding such Contributions.
+1. 软件版权及其他权利仍归相应权利人。本许可证不授予商标、商号或背书权利，也不授予超出许可方授权能力的第三方权利。
+2. 如实施获准行为必然涉及许可方有权许可的、由其软件贡献本身或与软件结合而实施的专利权利要求，许可方仅在本许可证获准用途范围内授予实施这些权利要求的免许可费许可。该许可不覆盖无权许可的第三方专利，亦不授权第四条所列商业用途。
+3. 第三方组件和独立材料保留各自许可。若组合使用所需的许可彼此不兼容，不得仅凭本许可证声称已取得全部权利。
+4. 修改者对自己的新增部分依法保有权利。本许可证不使原许可方自动取得所有外部修改的另行商业授权权利；商业使用者还须取得其实际所需的其他权利。
+5. 贡献者提交内容时，应有权按本许可证提供该内容。提交 PR、Issue 或代码本身不当然转让版权，也不当然授予另行商业再许可权；需要统一对外商业授权时，应另行取得明确的贡献者授权。
 
-   6. Trademarks. This License does not grant permission to use the trade
-      names, trademarks, service marks, or product names of the Licensor,
-      except as required for reasonable and customary use in describing the
-      origin of the Work and reproducing the content of the NOTICE file.
+八、期限、整改与终止
 
-   7. Disclaimer of Warranty. Unless required by applicable law or
-      agreed to in writing, Licensor provides the Work (and each
-      Contributor provides its Contributions) on an "AS IS" BASIS,
-      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-      implied, including, without limitation, any warranties or conditions
-      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
-      PARTICULAR PURPOSE. You are solely responsible for determining the
-      appropriateness of using or redistributing the Work and assume any
-      risks associated with Your exercise of permissions under this License.
+1. 对依据本许可证合法取得的相应软件版本，在相关权利存续且你遵守本许可证期间，免费许可持续有效。许可方可以为未来版本选择不同许可，但不因此追溯取消你已取得并合规行使的版本许可。
+2. 超出免费许可范围的行为自始不在本许可证授权内。你应立即停止未经授权的商业化行为，不能因存在整改期而继续开展。
+3. 对其他实质性违约，许可方书面通知后，你须在三十日内完成整改；逾期未完成的，授予你的免费许可终止。整改不追溯授权此前商业化行为，也不免除已发生的责任或欠款。
+4. 免费许可终止后，应停止依赖该许可实施相应行为，但可依法保存必要的合规、证据和归档副本。重新获得免费许可须经许可方书面确认，法律另有强制规定的除外。
 
-   8. Limitation of Liability. In no event and under no legal theory,
-      whether in tort (including negligence), contract, or otherwise,
-      unless required by applicable law (such as deliberate and grossly
-      negligent acts) or agreed to in writing, shall any Contributor be
-      liable to You for damages, including any direct, indirect, special,
-      incidental, or consequential damages of any character arising as a
-      result of this License or out of the use or inability to use the
-      Work (including but not limited to damages for loss of goodwill,
-      work stoppage, computer failure or malfunction, or any and all
-      other commercial damages or losses), even if such Contributor
-      has been advised of the possibility of such damages.
+九、无担保与责任限制
 
-   9. Accepting Warranty or Additional Liability. While redistributing
-      the Work or Derivative Works thereof, You may choose to offer,
-      and charge a fee for, acceptance of support, warranty, indemnity,
-      or other liability obligations and/or rights consistent with this
-      License. However, in accepting such obligations, You may act only
-      on Your own behalf and on Your sole responsibility, not on behalf
-      of any other Contributor, and only if You agree to indemnify,
-      defend, and hold each Contributor harmless for any liability
-      incurred by, or claims asserted against, such Contributor by reason
-      of your accepting any such warranty or additional liability.
+在适用法律允许的最大范围内，软件按现状提供，不保证适销性、特定用途适用性、安全性、持续可用性或不侵权。除另有有效书面约定外，许可方不承担维护、更新、支持、修复或服务等级义务。
 
-   END OF TERMS AND CONDITIONS
+在适用法律允许的最大范围内，许可方及贡献者不对使用或无法使用软件造成的损失承担责任。本条不排除依法不得排除或限制的责任。
 
-   APPENDIX: How to apply the Apache License to your work.
+十、其他
 
-      To apply the Apache License to your work, attach the following
-      boilerplate notice, with the fields enclosed by brackets "[]"
-      replaced with your own identifying information. (Don't include
-      the brackets!)  The text should be enclosed in the appropriate
-      comment syntax for the file format. We also recommend that a
-      file or class name and description of purpose be included on the
-      same "printed page" as the copyright notice for easier
-      identification within third-party archives.
+1. 本许可证不限制合理使用、法定例外、权利用尽或其他依法无需许可即可实施的行为，也不排除适用法律规定的强制性权利。
+2. 某一条款被认定无效或不可执行，不影响其余条款在法律允许范围内的效力。各条款应结合免费传播、内部使用免费以及指定商业化需授权的整体目的解释，但不得超越许可方有权授予或限制的范围。
+3. 除有效书面商业协议另有明确约定，本许可证不因 README、报价、仓库标签或未获授权人员的说明而被修改。许可版本更新不自动适用于已合法取得的旧版本。
+4. 本许可证中文文本为控制文本。翻译仅供参考，除非有权许可方明确指定同等效力。
 
-   Copyright [yyyy] [name of copyright owner]
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+商业授权申请请联系：{{COMMERCIAL_EMAIL}}
