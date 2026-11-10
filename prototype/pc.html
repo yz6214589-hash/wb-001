@@ -625,7 +625,7 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
               <button class="btn" onclick="toast('已创建续聊轮次，Runner 将继续执行')">续聊 / 追加指令</button>
               <button class="btn" disabled>通过评审（已通过）</button>
               <button class="btn btn-primary" id="btn-accept" onclick="acceptTask()" disabled>验收通过</button>
-              <button class="btn" onclick="toast('已发起驳回，填写驳回原因后回到待评审')">驳回到待评审</button>
+              <button class="btn" onclick="toast('已发起驳回，填写驳回原因后回到排队中')">驳回到排队中</button>
             </div>
             <div class="subtle mt12">验收通过前需逐条勾选 5 项验收标准；执行人不得评审自身产出。</div>
           </div>
@@ -815,11 +815,11 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
               </tr>
               <tr id="bug-B02" data-step="fixing" onclick="selectBug('B02')" style="cursor:pointer">
                 <td class="mono">B02</td><td>验收标准勾选后进度条不更新</td><td><span class="badge b-orange">一般</span></td><td><span class="badge b-orange bug-status">修复中</span></td><td class="mono">v1.0</td><td class="mono">#131</td>
-                <td><button class="btn btn-sm" onclick="event.stopPropagation();advanceBug(this)">转修复任务 T17</button></td>
+                <td><button class="btn btn-sm" onclick="event.stopPropagation();advanceBug(this)">修复 PR 已合并</button></td>
               </tr>
               <tr id="bug-B03" data-step="confirmed" onclick="selectBug('B03')" style="cursor:pointer">
                 <td class="mono">B03</td><td>成本明细导出缺少币种列</td><td><span class="badge b-gray">轻微</span></td><td><span class="badge b-blue bug-status">已确认</span></td><td class="mono">v1.0</td><td class="mono">#130</td>
-                <td><button class="btn btn-sm" onclick="event.stopPropagation();advanceBug(this)">提交 GitHub Issue</button></td>
+                <td><button class="btn btn-sm" onclick="event.stopPropagation();advanceBug(this)">转修复任务</button></td>
               </tr>
               <tr id="bug-B04" data-step="new" onclick="selectBug('B04')" style="cursor:pointer">
                 <td class="mono">B04</td><td>移动端任务详情返回 500</td><td><span class="badge b-red">严重</span></td><td><span class="badge b-blue bug-status">新建</span></td><td class="mono">v1.0</td><td class="mono">—</td>
@@ -948,8 +948,8 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
     <h1>登录 unique</h1>
     <p>团队内部 AI 工作台。使用 GitHub 账号授权登录，首次登录后需系统管理员开通权限。</p>
     <button class="btn btn-primary" onclick="location.hash='#home';toast('已使用 GitHub 登录（原型示意）')"><span class="git" style="background:#fff"></span>使用 GitHub 登录</button>
-    <button class="btn" onclick="location.hash='#home'">跳过登录，直接预览原型</button>
-    <div class="subtle mt16">未开通账号将进入待开通页，仅显示申请状态。</div>
+    <button class="btn" onclick="location.hash='#home';toast('原型演示：正式环境不提供跳过登录')">原型演示：跳过登录（正式环境不可用）</button>
+    <div class="note mt16">此入口仅用于原型预览，正式环境不提供跳过登录。真实登录必须使用 GitHub 账号，未开通账号只能进入待开通页。</div>
   </div>
 </div>
 
@@ -1057,29 +1057,49 @@ function selectBug(id){
   syncBugStatus(document.getElementById('bug-'+id));
 }
 
+// 缺陷操作按钮文案：按规格 7.4 的当前状态与是否已关联 Issue 决定下一步动作
+function bugActionLabel(step,hasIssue){
+  if(step==='new')return '确认';
+  if(step==='confirmed')return hasIssue?'转修复任务':'提交 GitHub Issue';
+  if(step==='fixing')return '修复 PR 已合并';
+  if(step==='verify')return '复测关闭';
+  return '已关闭';
+}
+
+// Issue 列为第 6 列，未提交时显示「—」
+function bugHasIssue(tr){
+  return tr.cells[5].textContent.trim()!=='—';
+}
+
 function advanceBug(btn){
   var tr=btn.closest('tr');
   var st=tr.querySelector('.bug-status');
   var step=tr.getAttribute('data-step');
+  var hasIssue=bugHasIssue(tr);
   if(step==='new'){
     st.textContent='已确认';st.className='badge b-blue bug-status';
     tr.setAttribute('data-step','confirmed');
-    btn.textContent='提交 GitHub Issue';
-    toast('缺陷已确认，可提交 GitHub Issue');
+    btn.textContent=bugActionLabel('confirmed',hasIssue);
+    toast(hasIssue?'缺陷已确认，可转为修复任务':'缺陷已确认，可提交 GitHub Issue');
+  }else if(step==='confirmed'&&!hasIssue){
+    // 提交 Issue 不改变缺陷状态，只回写 Issue 编号
+    tr.cells[5].textContent='#132';
+    btn.textContent=bugActionLabel('confirmed',true);
+    toast('已按统一模板提交 GitHub Issue #132，可转为修复任务');
   }else if(step==='confirmed'){
     st.textContent='修复中';st.className='badge b-orange bug-status';
     tr.setAttribute('data-step','fixing');
-    btn.textContent='转修复任务 T17';
-    toast('已提交 GitHub Issue，等待转为修复任务');
+    btn.textContent=bugActionLabel('fixing',true);
+    toast('已创建修复任务，缺陷进入修复中');
   }else if(step==='fixing'){
     st.textContent='待验证';st.className='badge b-orange bug-status';
     tr.setAttribute('data-step','verify');
-    btn.textContent='复测关闭';
-    toast('已创建修复任务并关联版本 v1.0');
+    btn.textContent=bugActionLabel('verify',true);
+    toast('已标记修复 PR 合并，缺陷进入待验证');
   }else if(step==='verify'){
     st.textContent='已关闭';st.className='badge b-green bug-status';
     tr.setAttribute('data-step','closed');
-    btn.textContent='已关闭';
+    btn.textContent=bugActionLabel('closed',true);
     btn.disabled=true;
     toast('复测通过，缺陷已关闭');
   }
