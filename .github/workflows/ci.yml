@@ -1,0 +1,26 @@
+name: 资产检查
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  assets-check:
+    name: 原型与文档检查
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 准备 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 校验 HTML 原型、Markdown 链接与 SVG
+        run: python scripts/check_assets.py
