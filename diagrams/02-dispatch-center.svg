@@ -19,7 +19,7 @@
   <text x="385" y="166" font-size="13" fill="#3730a3">1. 队列排序：优先级 + 先进先出</text>
   <text x="385" y="192" font-size="13" fill="#3730a3">2. 能力匹配：适配器 / 模型 / 仓库权限</text>
   <text x="385" y="218" font-size="13" fill="#3730a3">3. 并发配额：Runner 上限 + 全局配额</text>
-  <text x="385" y="244" font-size="13" fill="#3730a3">4. 一次性领取锁，禁止重复领取</text>
+  <text x="385" y="244" font-size="13" fill="#3730a3">4. 领取租约 90 秒，心跳续约，过期回收</text>
   <text x="385" y="270" font-size="13" fill="#3730a3">5. 失败重试 / 超时 / 离线改派</text>
   <text x="385" y="296" font-size="13" fill="#3730a3">6. 所有改派与重试动作留痕</text>
 
