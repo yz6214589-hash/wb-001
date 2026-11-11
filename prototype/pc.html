@@ -136,6 +136,26 @@ tbody tr:hover{background:#fbfcfd}
 .git{width:14px;height:14px;border-radius:50%;background:#111827;display:inline-block}
 .sec-title{font-size:12px;font-weight:600;color:#374151;margin:14px 0 8px}
 .sec-title:first-child{margin-top:0}
+.dim-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.dim-bar button{height:30px;padding:0 12px;border:1px solid var(--line);background:#fff;border-radius:6px;color:#374151;cursor:pointer}
+.dim-bar button:hover{background:#f9fafb}
+.dim-bar button.active{background:var(--accent-weak);border-color:#bfdbfe;color:var(--accent);font-weight:600}
+.cost-dim{display:none}
+.cost-dim.active{display:block}
+.exp{width:20px;height:20px;padding:0;border:1px solid var(--line);border-radius:4px;background:#fff;color:var(--muted);cursor:pointer;line-height:1;transition:transform .15s}
+.exp.open{transform:rotate(90deg)}
+tr.detail{display:none}
+tr.detail.open{display:table-row}
+tr.detail>td{padding:0;background:#fbfcfd}
+.detail-box{padding:10px 16px 12px 44px;font-size:12px;color:var(--muted);line-height:1.9}
+.detail-box .between{border-bottom:1px dashed var(--line2);padding:2px 0}
+.detail-box .between:last-child{border-bottom:none}
+.kv{font-size:12px;line-height:1.65;color:#374151}
+.ac-list{margin:4px 0 0 18px;padding:0;font-size:12px;line-height:1.8;color:#374151}
+.ac-list li{margin:0}
+.audit-table{table-layout:fixed}
+.audit-table td{vertical-align:top}
+.audit-table .kv{word-break:break-word}
 </style>
 </head>
 <body>
@@ -493,30 +513,267 @@ tbody tr:hover{background:#fbfcfd}
         <div class="grid g3">
           <div class="card stat"><div class="label">累计成本</div><div class="num">¥18,642</div><div class="sub">只统计，不设预算与上限</div></div>
           <div class="card stat"><div class="label">AI 成本</div><div class="num">¥12,980</div><div class="sub">token 与调用费 · 69.6%</div></div>
-          <div class="card stat"><div class="label">人工成本</div><div class="num">¥5,662</div><div class="sub">56.6 h × ¥100/h</div></div>
+          <div class="card stat"><div class="label">人工成本</div><div class="num">¥5,662</div><div class="sub">56.62 h × ¥100/h</div></div>
         </div>
-        <div class="grid g2 mt12">
-          <div class="card">
-            <div class="card-head"><h2>按版本</h2><button class="btn btn-sm" onclick="toast('已导出 cost-unique.csv')">导出 CSV</button></div>
+
+        <div class="card mt12">
+          <div class="toolbar" style="margin-bottom:8px">
+            <span class="subtle">统计区间</span>
+            <select class="select" onchange="costRange(this)">
+              <option value="all">全部时间（2026-09-01 至 2026-11-11）</option>
+              <option value="30">最近 30 天</option>
+              <option value="7">最近 7 天</option>
+            </select>
+            <span class="subtle" id="cost-range-label">当前：全部时间 · 七个维度共用同一区间</span>
+            <button class="btn btn-sm" style="margin-left:auto" onclick="toast('已导出 cost-unique.csv：含七个维度与明细行')">导出 CSV</button>
+          </div>
+          <div class="dim-bar" id="cost-dims">
+            <button class="active" onclick="showCostDim('product',this)">按产品</button>
+            <button onclick="showCostDim('version',this)">按版本</button>
+            <button onclick="showCostDim('task',this)">按任务</button>
+            <button onclick="showCostDim('member',this)">按成员</button>
+            <button onclick="showCostDim('tool',this)">按执行工具</button>
+            <button onclick="showCostDim('agent',this)">按 Agent</button>
+            <button onclick="showCostDim('model',this)">按模型</button>
+          </div>
+          <div class="note">七个维度都按同一个时间区间汇总；每个维度先给汇总行，点行首箭头展开 AI 与人工成本明细。AI 与人工始终分列，页面不提供预算、上限与自动暂停入口。成本不完整与待计价记录按已上报部分展示并标注缺失范围，补价只生成调整记录，不改写原记录金额。</div>
+        </div>
+
+        <div class="cost-dim active" data-dim="product">
+          <div class="card mt12" style="padding:0">
             <table>
-              <thead><tr><th>版本</th><th>AI</th><th>人工</th><th>合计</th><th>占比</th></tr></thead>
+              <thead><tr><th style="width:28px"></th><th>产品</th><th>AI 成本</th><th>人工成本</th><th>合计</th><th>占比</th></tr></thead>
               <tbody>
-                <tr><td class="mono">v1.0</td><td>¥9,120</td><td>¥3,360</td><td>¥12,480</td><td>66.9%</td></tr>
-                <tr><td class="mono">v0.9</td><td>¥3,410</td><td>¥1,692</td><td>¥5,102</td><td>27.4%</td></tr>
-                <tr><td class="mono">v0.2</td><td>¥450</td><td>¥610</td><td>¥1,060</td><td>5.7%</td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>unique AI 工作台（当前产品）</td><td>¥12,980</td><td>¥5,662</td><td>¥18,642</td><td>100%</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>版本合计（v1.0 + v0.9 + v0.2）</span><span class="mono">AI ¥12,980 + 人工 ¥5,662 = ¥18,642</span></div>
+                  <div class="between"><span>产品级直接投入</span><span class="mono">AI ¥0 + 人工 ¥0 = ¥0</span></div>
+                  <div class="between"><span>产品总成本口径</span><span class="mono">全部版本总成本之和 + 产品级直接投入 = ¥18,642</span></div>
+                </div></td></tr>
               </tbody>
+              <tfoot>
+                <tr><td colspan="2" style="font-weight:600">合计</td><td>¥12,980</td><td>¥5,662</td><td>¥18,642</td><td>100%</td></tr>
+                <tr><td colspan="6" class="subtle" style="padding-top:0">明细 1 项之和 = ¥18,642；与维度合计一致，误差 ¥0。</td></tr>
+              </tfoot>
+            </table>
+            <div class="note" style="margin:0 16px 12px">产品维度固定为当前产品；跨产品对比在「产品」页与工作台成本卡查看，本页不重复列出其他产品。</div>
+          </div>
+        </div>
+
+        <div class="cost-dim" data-dim="version">
+          <div class="card mt12" style="padding:0">
+            <table>
+              <thead><tr><th style="width:28px"></th><th>版本</th><th>AI 成本</th><th>人工成本</th><th>合计</th><th>占比</th></tr></thead>
+              <tbody>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td class="mono">v1.0</td><td>¥9,120</td><td>¥3,360</td><td>¥12,480</td><td>66.9%</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥7,620 + 调用费 ¥1,500 = ¥9,120</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">33.60 h × ¥100/h = ¥3,360</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td class="mono">v0.9</td><td>¥3,410</td><td>¥1,692</td><td>¥5,102</td><td>27.4%</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥2,840 + 调用费 ¥570 = ¥3,410</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">16.92 h × ¥100/h = ¥1,692</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td class="mono">v0.2</td><td>¥450</td><td>¥610</td><td>¥1,060</td><td>5.7%</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥380 + 调用费 ¥70 = ¥450</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">6.10 h × ¥100/h = ¥610</span></div>
+                </div></td></tr>
+              </tbody>
+              <tfoot>
+                <tr><td colspan="2" style="font-weight:600">合计</td><td>¥12,980</td><td>¥5,662</td><td>¥18,642</td><td>100%</td></tr>
+                <tr><td colspan="6" class="subtle" style="padding-top:0">明细 3 项之和 = ¥18,642；与维度合计一致，误差 ¥0。</td></tr>
+              </tfoot>
             </table>
           </div>
-          <div class="card">
-            <div class="card-head"><h2>按执行工具</h2><span class="more">单价表版本化，历史不随改价变化</span></div>
+        </div>
+
+        <div class="cost-dim" data-dim="task">
+          <div class="card mt12" style="padding:0">
             <table>
-              <thead><tr><th>工具</th><th>Run 数</th><th>token</th><th>成本</th></tr></thead>
+              <thead><tr><th style="width:28px"></th><th>任务</th><th>版本</th><th>AI 成本</th><th>人工成本</th><th>合计</th></tr></thead>
               <tbody>
-                <tr><td>Codex CLI</td><td>31</td><td>4.2M</td><td>¥5,640</td></tr>
-                <tr><td>Claude Code</td><td>24</td><td>5.1M</td><td>¥4,980</td></tr>
-                <tr><td>Trae CLI</td><td>16</td><td>2.2M</td><td>¥1,720</td></tr>
-                <tr><td>OpenCode</td><td>9</td><td>0.6M</td><td>¥640</td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>T09 修复离线改派不生效</td><td class="mono">v1.0</td><td>¥30</td><td>¥8</td><td>¥38</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥24 + 调用费 ¥6 = ¥30</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">0.08 h × ¥100/h = ¥8（计划确认、评审、验收）</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>T08 Runner 心跳与离线判定</td><td class="mono">v1.0</td><td>¥104</td><td>¥22</td><td>¥126</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥86 + 调用费 ¥18 = ¥104</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">0.22 h × ¥100/h = ¥22</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>T07 任务详情页一屏布局</td><td class="mono">v1.0</td><td>¥52</td><td>¥12</td><td>¥64</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥43 + 调用费 ¥9 = ¥52</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">0.12 h × ¥100/h = ¥12</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>T06 AI 解析草稿 diff 留存</td><td class="mono">v1.0</td><td>¥76</td><td>¥16</td><td>¥92</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥63 + 调用费 ¥13 = ¥76</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">0.16 h × ¥100/h = ¥16</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>T04 成本记录与单价表</td><td class="mono">v1.0</td><td>¥20</td><td>¥34</td><td>¥54</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥16 + 调用费 ¥4 = ¥20</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">0.34 h × ¥100/h = ¥34</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>T03 缺陷转 GitHub Issue</td><td class="mono">v1.0</td><td>¥24</td><td>¥23</td><td>¥47</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥20 + 调用费 ¥4 = ¥24</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">0.23 h × ¥100/h = ¥23</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>T02 版本分支与 PR 归集</td><td class="mono">v1.0</td><td>¥28</td><td>¥3</td><td>¥31</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥23 + 调用费 ¥5 = ¥28</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">0.03 h × ¥100/h = ¥3</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>T05 上下文包四层拼装</td><td class="mono">v1.0</td><td>¥0</td><td>¥0</td><td>¥0</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>成本构成</span><span class="mono">任务处于待确认计划，尚未产生 AI 与人工成本</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>v1.0 其余 24 个任务</td><td class="mono">v1.0</td><td>¥8,786</td><td>¥3,242</td><td>¥12,028</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥7,345 + 调用费 ¥1,441 = ¥8,786</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">32.42 h × ¥100/h = ¥3,242</span></div>
+                  <div class="between"><span>逐任务明细</span><span class="mono">导出 CSV 可按任务编号逐条核对</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>v0.9 全部任务（11 个）</td><td class="mono">v0.9</td><td>¥3,410</td><td>¥1,692</td><td>¥5,102</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥2,840 + 调用费 ¥570 = ¥3,410</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">16.92 h × ¥100/h = ¥1,692</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>v0.2 全部任务（7 个）</td><td class="mono">v0.2</td><td>¥450</td><td>¥610</td><td>¥1,060</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥380 + 调用费 ¥70 = ¥450</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">6.10 h × ¥100/h = ¥610</span></div>
+                </div></td></tr>
               </tbody>
+              <tfoot>
+                <tr><td colspan="3" style="font-weight:600">合计</td><td>¥12,980</td><td>¥5,662</td><td>¥18,642</td></tr>
+                <tr><td colspan="6" class="subtle" style="padding-top:0">明细 11 项之和 = ¥18,642；与维度合计一致，误差 ¥0。</td></tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <div class="cost-dim" data-dim="member">
+          <div class="card mt12" style="padding:0">
+            <div class="toolbar" style="padding:12px 16px 4px;margin-bottom:0">
+              <span class="subtle">成员口径</span>
+              <select class="select" id="member-basis" onchange="renderMemberCost(this.value)">
+                <option value="executor">执行人（Run 归属成员）</option>
+                <option value="initiator">发起人（触发成本动作的成员）</option>
+                <option value="runner">Runner 设备（绑定账号）</option>
+              </select>
+              <span class="subtle">当前口径：<b id="member-basis-label">执行人</b></span>
+            </div>
+            <table>
+              <thead><tr><th style="width:28px"></th><th>成员 / 设备</th><th>AI 成本</th><th>人工成本</th><th>合计</th></tr></thead>
+              <tbody id="member-cost-body"></tbody>
+              <tfoot>
+                <tr><td colspan="2" style="font-weight:600">合计</td><td>¥12,980</td><td>¥5,662</td><td>¥18,642</td></tr>
+                <tr><td colspan="5" class="subtle" style="padding-top:0">明细 6 项之和 = ¥18,642；与维度合计一致，误差 ¥0。</td></tr>
+              </tfoot>
+            </table>
+            <div class="note" style="margin:0 16px 12px" id="member-basis-note">执行人指该 Run 的发起成员，即 Run 归属成员；续聊轮次沿用所属 Run 的执行人。</div>
+          </div>
+        </div>
+
+        <div class="cost-dim" data-dim="tool">
+          <div class="card mt12" style="padding:0">
+            <table>
+              <thead><tr><th style="width:28px"></th><th>执行工具</th><th>Run 数</th><th>token</th><th>AI 成本</th><th>人工成本</th><th>合计</th></tr></thead>
+              <tbody>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>Codex CLI</td><td>31</td><td>4.2M</td><td>¥5,640</td><td>¥2,420</td><td>¥8,060</td></tr>
+                <tr class="detail"><td colspan="7"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥4,700 + 调用费 ¥940 = ¥5,640</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">24.20 h × ¥100/h = ¥2,420</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>Claude Code</td><td>24</td><td>5.1M</td><td>¥4,980</td><td>¥1,980</td><td>¥6,960</td></tr>
+                <tr class="detail"><td colspan="7"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥4,180 + 调用费 ¥800 = ¥4,980</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">19.80 h × ¥100/h = ¥1,980</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>Trae CLI</td><td>16</td><td>2.2M</td><td>¥1,720</td><td>¥890</td><td>¥2,610</td></tr>
+                <tr class="detail"><td colspan="7"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥1,440 + 调用费 ¥280 = ¥1,720</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">8.90 h × ¥100/h = ¥890</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>OpenCode</td><td>9</td><td>0.6M</td><td>¥640</td><td>¥372</td><td>¥1,012</td></tr>
+                <tr class="detail"><td colspan="7"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥520 + 调用费 ¥120 = ¥640</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">3.72 h × ¥100/h = ¥372</span></div>
+                </div></td></tr>
+              </tbody>
+              <tfoot>
+                <tr><td colspan="4" style="font-weight:600">合计</td><td>¥12,980</td><td>¥5,662</td><td>¥18,642</td></tr>
+                <tr><td colspan="7" class="subtle" style="padding-top:0">明细 4 项之和 = ¥18,642；与维度合计一致，误差 ¥0。人工成本按 Run 所属执行工具归集，跨工具不重复计算。</td></tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <div class="cost-dim" data-dim="agent">
+          <div class="card mt12" style="padding:0">
+            <table>
+              <thead><tr><th style="width:28px"></th><th>Agent</th><th>关联任务</th><th>AI 成本</th><th>人工成本</th><th>合计</th></tr></thead>
+              <tbody>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>后端修复 Agent</td><td>12 个</td><td>¥5,900</td><td>¥2,540</td><td>¥8,440</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥4,920 + 调用费 ¥980 = ¥5,900</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">25.40 h × ¥100/h = ¥2,540</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>前端实现 Agent</td><td>9 个</td><td>¥3,980</td><td>¥1,760</td><td>¥5,740</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥3,320 + 调用费 ¥660 = ¥3,980</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">17.60 h × ¥100/h = ¥1,760</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>测试生成 Agent</td><td>6 个</td><td>¥1,900</td><td>¥862</td><td>¥2,762</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥1,580 + 调用费 ¥320 = ¥1,900</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">8.62 h × ¥100/h = ¥862</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>文档整理 Agent</td><td>4 个</td><td>¥1,200</td><td>¥500</td><td>¥1,700</td></tr>
+                <tr class="detail"><td colspan="6"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥1,020 + 调用费 ¥180 = ¥1,200</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">5.00 h × ¥100/h = ¥500</span></div>
+                </div></td></tr>
+              </tbody>
+              <tfoot>
+                <tr><td colspan="3" style="font-weight:600">合计</td><td>¥12,980</td><td>¥5,662</td><td>¥18,642</td></tr>
+                <tr><td colspan="6" class="subtle" style="padding-top:0">明细 4 项之和 = ¥18,642；与维度合计一致，误差 ¥0。</td></tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <div class="cost-dim" data-dim="model">
+          <div class="card mt12" style="padding:0">
+            <table>
+              <thead><tr><th style="width:28px"></th><th>模型档位</th><th>AI 成本</th><th>人工成本</th><th>合计</th></tr></thead>
+              <tbody>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>高精度档</td><td>¥6,480</td><td>¥2,740</td><td>¥9,220</td></tr>
+                <tr class="detail"><td colspan="5"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥5,400 + 调用费 ¥1,080 = ¥6,480</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">27.40 h × ¥100/h = ¥2,740</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>标准档</td><td>¥4,620</td><td>¥2,160</td><td>¥6,780</td></tr>
+                <tr class="detail"><td colspan="5"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥3,860 + 调用费 ¥760 = ¥4,620</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">21.60 h × ¥100/h = ¥2,160</span></div>
+                </div></td></tr>
+                <tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td><td>快速档</td><td>¥1,880</td><td>¥762</td><td>¥2,642</td></tr>
+                <tr class="detail"><td colspan="5"><div class="detail-box">
+                  <div class="between"><span>AI 成本构成</span><span class="mono">token 费 ¥1,580 + 调用费 ¥300 = ¥1,880</span></div>
+                  <div class="between"><span>人工成本构成</span><span class="mono">7.62 h × ¥100/h = ¥762</span></div>
+                </div></td></tr>
+              </tbody>
+              <tfoot>
+                <tr><td colspan="2" style="font-weight:600">合计</td><td>¥12,980</td><td>¥5,662</td><td>¥18,642</td></tr>
+                <tr><td colspan="5" class="subtle" style="padding-top:0">明细 3 项之和 = ¥18,642；与维度合计一致，误差 ¥0。</td></tr>
+              </tfoot>
             </table>
           </div>
         </div>
@@ -907,15 +1164,16 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
           </div>
           <div class="code"><span class="add">+ 任务树草稿 · v1.0（AI 识别，来源：BRS 第 11 章）</span>
   <span class="add">+ T05 上下文包四层拼装</span>
-  <span class="add">+ T06 AI 解析草稿 diff 留存</span>
+  <span class="add">+ T06 AI 解析草稿 diff 留存（人改：P1 → P0）</span>
   <span class="add">+ T07 任务详情页一屏布局（人改：M2 → M3）</span>
   <span class="add">+ T08 Runner 心跳与离线判定</span>
   <span class="del">- T10 数据驱动自动路由（人删：二期能力）</span>
   <span class="add">+ T09 修复离线改派不生效（人新增）</span></div>
           <div class="note mt12">AI 只生成任务树草稿，不创建版本；版本由人在产品详情中创建，草稿经人确认后才生成正式任务。</div>
           <div class="row mt12">
-            <span class="subtle">AI 生成 5 个任务，人工新增 1、删除 1、调整 1</span>
-            <button class="btn btn-primary btn-sm" style="margin-left:auto" id="btn-draft" onclick="confirmDraft(this)">确认草稿并生成任务</button>
+            <span class="subtle" id="draft-summary">AI 生成 5 个任务，人工新增 1、删除 1、字段修改 2</span>
+            <button class="btn btn-sm" id="link-generated" style="display:none;margin-left:auto" onclick="go('#generated')">查看生成的任务 →</button>
+            <button class="btn btn-primary btn-sm" style="margin-left:8px" id="btn-draft" onclick="confirmDraft(this)">确认草稿并生成任务</button>
             <button class="btn btn-sm" onclick="toast('已重新解析，覆盖未确认草稿')">重新解析</button>
           </div>
         </div>
@@ -924,14 +1182,62 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
       <div class="card mt12">
         <div class="card-head"><h2>人工调整记录</h2><span class="more">diff、原因与结果全部留存</span></div>
         <table>
-          <thead><tr><th>时间</th><th>操作人</th><th>对象</th><th>调整内容</th><th>原因</th></tr></thead>
+          <thead><tr><th>时间</th><th>操作人</th><th>对象</th><th>动作</th><th>字段名</th><th>前值</th><th>后值</th><th>原因</th></tr></thead>
           <tbody>
-            <tr><td class="subtle">10:20</td><td>林岚</td><td>T10 数据驱动自动路由</td><td><span class="badge b-red">删除</span></td><td>二期能力，本期不做</td></tr>
-            <tr><td class="subtle">10:18</td><td>林岚</td><td>T09 修复离线改派不生效</td><td><span class="badge b-green">新增</span></td><td>测试反馈的线上缺陷，需本期修复</td></tr>
-            <tr><td class="subtle">10:12</td><td>林岚</td><td>T07 任务详情页一屏布局</td><td><span class="badge b-blue">修改模式</span> M2 → M3</td><td>涉及布局评审，需要人工参与</td></tr>
-            <tr><td class="subtle">10:05</td><td>AI</td><td>v1.0 任务树草稿</td><td><span class="badge b-gray">生成</span></td><td>根据 BRS 第 11 章 MVP 范围解析，仅生成任务草稿，未创建版本</td></tr>
+            <tr><td class="subtle">10:20</td><td>林岚</td><td>T10 数据驱动自动路由</td><td><span class="badge b-red">删除</span></td><td>任务树</td><td>包含 T10 数据驱动自动路由</td><td>不包含 T10</td><td>二期能力，本期不做</td></tr>
+            <tr><td class="subtle">10:18</td><td>林岚</td><td>T09 修复离线改派不生效</td><td><span class="badge b-green">新增</span></td><td>任务树</td><td>不包含 T09</td><td>包含 T09 修复离线改派不生效</td><td>测试反馈的线上缺陷，需本期修复</td></tr>
+            <tr><td class="subtle">10:12</td><td>林岚</td><td>T07 任务详情页一屏布局</td><td><span class="badge b-blue">修改</span></td><td>执行模式</td><td>M2</td><td>M3</td><td>涉及布局评审，需要人工参与</td></tr>
+            <tr><td class="subtle">10:08</td><td>林岚</td><td>T06 AI 解析草稿 diff 留存</td><td><span class="badge b-blue">修改</span></td><td>优先级</td><td>P1</td><td>P0</td><td>解析 diff 留存是本期验收前置条件，优先保障</td></tr>
+            <tr><td class="subtle">10:05</td><td>AI</td><td>v1.0 任务树草稿</td><td><span class="badge b-gray">生成</span></td><td>任务树</td><td>无草稿</td><td>生成 5 个任务草稿</td><td>根据 BRS 第 11 章 MVP 范围解析，仅生成任务草稿，未创建版本</td></tr>
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <!-- 生成的任务列表 -->
+    <section class="page" id="page-generated">
+      <div class="page-head">
+        <div><h1>生成的任务列表</h1><div class="desc">草稿确认后生成 5 个任务；验收标准在 G1 计划确认时冻结版本号，验收只按冻结版本判定</div></div>
+        <div class="head-actions">
+          <button class="btn" onclick="go('#requirements')">返回需求中心</button>
+          <button class="btn btn-primary" onclick="openProductTab('tasks')">在产品详情查看任务</button>
+        </div>
+      </div>
+
+      <div class="note">来源：需求中心 v1.0 任务树草稿。AI 生成 5 个任务，人工新增 T09、删除 T10、修改执行模式与优先级各 1 次。验收标准与冻结版本号在本页逐条展示，验收时不允许按最新草稿临时改判。</div>
+
+      <div class="card mt12" style="padding:0">
+        <table>
+          <thead><tr><th>任务</th><th>负责人</th><th>验收标准</th><th>冻结版本号</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>T05 上下文包四层拼装</td><td>周宇</td>
+              <td><ul class="ac-list"><li>四层拼装顺序与规格 7.2.1 一致</li><li>页面展示可用上限与裁剪说明</li><li>上下文包快照编号可在 Run 详情追溯</li></ul></td>
+              <td class="mono">AC-v1.0-05</td>
+            </tr>
+            <tr>
+              <td>T06 AI 解析草稿 diff 留存</td><td>林岚</td>
+              <td><ul class="ac-list"><li>每条调整记录包含字段名、前值、后值与原因</li><li>调整记录可导出 CSV</li><li>删除任务必须填写原因</li></ul></td>
+              <td class="mono">AC-v1.0-06</td>
+            </tr>
+            <tr>
+              <td>T07 任务详情页一屏布局</td><td>周宇</td>
+              <td><ul class="ac-list"><li>一屏可见规格 9.3 要求的 8 项信息</li><li>验收标准进度 x/y 与勾选结果同步</li><li>执行模式调整在调整记录中留痕</li></ul></td>
+              <td class="mono">AC-v1.0-07</td>
+            </tr>
+            <tr>
+              <td>T08 Runner 心跳与离线判定</td><td>陈默</td>
+              <td><ul class="ac-list"><li>心跳 30 秒，连续 2 个周期未上报判离线</li><li>租约 90 秒到期后 Run 置「已中断（租约过期）」</li><li>离线满 30 分钟才允许改派</li></ul></td>
+              <td class="mono">AC-v1.0-08</td>
+            </tr>
+            <tr>
+              <td>T09 修复离线改派不生效</td><td>陈默</td>
+              <td><ul class="ac-list"><li>改派后负责人与 Run 归属同步更新</li><li>原 Run 标记「已中断（改派）」，新 Run 序号递增</li><li>同一子任务不产生重复计费</li></ul></td>
+              <td class="mono">AC-v1.0-09</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="note" style="margin:12px 16px">冻结版本号在 G1 计划确认时写入；驳回回到排队中时沿用原冻结版本，不因重新解析而改变。</div>
       </div>
     </section>
 
@@ -1093,28 +1399,94 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
 
       <div class="toolbar">
         <select class="select"><option>今天</option><option>最近 7 天</option><option>最近 30 天</option></select>
-        <select class="select"><option>全部操作人</option><option>林岚</option><option>苏萌</option><option>系统</option></select>
-        <select class="select"><option>全部动作</option><option>权限变更</option><option>路由变更</option><option>闸门动作</option><option>改派</option><option>取消</option><option>撤销验收</option><option>成本改价</option><option>缺陷状态变更</option></select>
+        <select class="select"><option>全部操作人</option><option>林岚</option><option>苏萌</option><option>何晴</option><option>系统</option></select>
+        <select class="select"><option>全部动作</option><option>确认计划</option><option>评审通过</option><option>驳回</option><option>权限变更</option><option>路由变更</option><option>改派</option><option>取消</option><option>撤销验收</option><option>成本改价</option><option>缺陷状态变更</option></select>
         <input class="input" placeholder="对象编号或名称" style="width:180px">
         <button class="btn" onclick="toast('已按筛选条件刷新（原型示意）')">筛选</button>
       </div>
 
+      <div class="note" style="margin:12px 16px 0">六类关键动作覆盖：确认计划 2 条、驳回 2 条（评审驳回与验收驳回各 1 条）、改派 1 条、取消 1 条、权限变更 1 条、成本改价 1 条；另含评审通过、路由变更、撤销验收、缺陷状态变更各 1 条。前值与后值统一按字段名=值展示。</div>
+
       <div class="card" style="padding:0">
-        <table>
-          <thead><tr><th>时间</th><th>操作人</th><th>动作</th><th>对象</th><th>变更内容</th><th>原因 / 依据</th></tr></thead>
+        <table class="audit-table">
+          <colgroup><col style="width:88px"><col style="width:64px"><col style="width:92px"><col style="width:116px"><col style="width:280px"><col style="width:300px"><col></colgroup>
+          <thead><tr><th>时间</th><th>操作人</th><th>动作</th><th>对象</th><th>前值（必填字段）</th><th>后值（必填字段）</th><th>原因 / 依据</th></tr></thead>
           <tbody>
-            <tr><td class="subtle">11-06 10:42</td><td>林岚</td><td><span class="badge b-blue">闸门动作</span></td><td>T07</td><td>计划确认通过，执行模式 M2 → M3</td><td>涉及布局评审，需要人工参与</td></tr>
-            <tr><td class="subtle">11-06 10:31</td><td>苏萌</td><td><span class="badge b-blue">权限变更</span></td><td>成员 赵一</td><td>增加「上传产出」权限</td><td>数据标注模板只读，产出需单独授权</td></tr>
-            <tr><td class="subtle">11-06 10:12</td><td>系统</td><td><span class="badge b-orange">改派</span></td><td>RUNNER-04</td><td>T05 改派到 RUNNER-02，原 Run R-1018 标记「已中断（改派）」，新 Run 已生成</td><td>设备离线满 31 分钟，原 Run 租约已过期</td></tr>
-            <tr><td class="subtle">11-06 09:58</td><td>林岚</td><td><span class="badge b-blue">闸门动作</span></td><td>T09</td><td>产出评审通过，任务进入待验收</td><td>PR #145 已 approve</td></tr>
-            <tr><td class="subtle">11-06 09:40</td><td>林岚</td><td><span class="badge b-blue">闸门动作</span></td><td>T09</td><td>计划确认通过，G1 不跳过</td><td>验收标准与上下文包齐全</td></tr>
-            <tr><td class="subtle">11-06 09:22</td><td>苏萌</td><td><span class="badge b-orange">路由变更</span></td><td>规则 R-2026-11-01</td><td>高风险变更默认模式由 M2 调整为 M3</td><td>高风险任务需人工确认关键动作</td></tr>
-            <tr><td class="subtle">11-06 09:05</td><td>苏萌</td><td><span class="badge b-orange">成本改价</span></td><td>单价表 2026-11-01</td><td>Claude Code 输出单价更新，历史成本不变</td><td>供应商官网调价，按生效时间执行</td></tr>
-            <tr><td class="subtle">11-06 08:47</td><td>何晴</td><td><span class="badge b-gray">缺陷状态变更</span></td><td>B02</td><td>已确认 → 修复中，关联修复任务 T17</td><td>已创建修复任务并关联 Issue #131</td></tr>
-            <tr><td class="subtle">11-06 08:30</td><td>系统</td><td><span class="badge b-gray">取消</span></td><td>T21 导出任务时间线</td><td>Run 超时后负责人选择终止，任务置为已取消</td><td>执行超时 120 分钟；超时不自动重试</td></tr>
+            <tr>
+              <td class="subtle">11-06 10:42</td><td>林岚</td><td><span class="badge b-blue">确认计划</span></td><td>T07</td>
+              <td><div class="kv">任务状态=待确认计划<br>计划版本号=P-1.2<br>验收标准版本号=AC-v1.0-07<br>上下文包版本号=CP-20261106-07</div></td>
+              <td><div class="kv">任务状态=排队中<br>计划版本号=P-1.2<br>确认人=林岚<br>确认时间=2026-11-06 10:42</div></td>
+              <td>涉及布局评审，需要人工参与；G1 计划确认通过</td>
+            </tr>
+            <tr>
+              <td class="subtle">11-06 10:31</td><td>苏萌</td><td><span class="badge b-blue">权限变更</span></td><td>成员 赵一</td>
+              <td><div class="kv">权限点集合=读取任务、查看产出<br>角色模板名称=数据标注（只读）</div></td>
+              <td><div class="kv">权限点集合=读取任务、查看产出、上传产出<br>角色模板名称=数据标注（只读）<br>生效时间=2026-11-06 10:31</div></td>
+              <td>数据标注模板只读，产出需单独授权</td>
+            </tr>
+            <tr>
+              <td class="subtle">11-06 10:12</td><td>系统</td><td><span class="badge b-orange">改派</span></td><td>RUNNER-04</td>
+              <td><div class="kv">原 Runner 设备 ID=RUNNER-04<br>原 Run 编号=R-1018<br>任务状态=执行中</div></td>
+              <td><div class="kv">新 Runner 设备 ID=RUNNER-02<br>新 Run 编号=R-1021<br>改派原因=设备离线满 31 分钟，原 Run 租约已过期</div></td>
+              <td>离线满 30 分钟才允许改派；租约 90 秒到期后原 Run 置「已中断（租约过期）」</td>
+            </tr>
+            <tr>
+              <td class="subtle">11-06 09:58</td><td>林岚</td><td><span class="badge b-blue">评审通过</span></td><td>T09</td>
+              <td><div class="kv">任务状态=待评审<br>评审轮次=第 1 轮<br>已通过项数=4/5</div></td>
+              <td><div class="kv">任务状态=待验收<br>评审轮次=第 1 轮<br>已通过项数=5/5</div></td>
+              <td>PR #145 已 approve</td>
+            </tr>
+            <tr>
+              <td class="subtle">11-06 09:40</td><td>林岚</td><td><span class="badge b-blue">确认计划</span></td><td>T09</td>
+              <td><div class="kv">任务状态=待确认计划<br>计划版本号=P-1.1<br>验收标准版本号=AC-v1.0-09<br>上下文包版本号=CP-20261106-09</div></td>
+              <td><div class="kv">任务状态=排队中<br>计划版本号=P-1.1<br>确认人=林岚<br>确认时间=2026-11-06 09:40</div></td>
+              <td>验收标准与上下文包齐全；G1 不跳过</td>
+            </tr>
+            <tr>
+              <td class="subtle">11-06 09:22</td><td>苏萌</td><td><span class="badge b-orange">路由变更</span></td><td>规则 R-2026-11-01</td>
+              <td><div class="kv">规则版本号=R-2026-10-18<br>高风险变更默认模式=M2</div></td>
+              <td><div class="kv">规则版本号=R-2026-11-01<br>高风险变更默认模式=M3<br>生效时间=2026-11-06 09:22</div></td>
+              <td>高风险任务需人工确认关键动作</td>
+            </tr>
+            <tr>
+              <td class="subtle">11-06 09:05</td><td>苏萌</td><td><span class="badge b-orange">成本改价</span></td><td>单价表 2026-11-01</td>
+              <td><div class="kv">原输入单价=¥18/M<br>原输出单价=¥68/M<br>原单价表版本号=PT-2026-10-18</div></td>
+              <td><div class="kv">新输入单价=¥18/M<br>新输出单价=¥72/M<br>新单价表版本号=PT-2026-11-01<br>生效时间=2026-11-06 09:05</div></td>
+              <td>供应商官网调价，按生效时间执行，历史成本不变</td>
+            </tr>
+            <tr>
+              <td class="subtle">11-06 08:47</td><td>何晴</td><td><span class="badge b-gray">缺陷状态变更</span></td><td>B02</td>
+              <td><div class="kv">缺陷状态=已确认<br>关联 Issue=#131</div></td>
+              <td><div class="kv">缺陷状态=修复中<br>关联 Issue=#131<br>修复任务=T17</div></td>
+              <td>已创建修复任务并关联 Issue #131</td>
+            </tr>
+            <tr>
+              <td class="subtle">11-06 08:30</td><td>系统</td><td><span class="badge b-gray">取消</span></td><td>T21 导出任务时间线</td>
+              <td><div class="kv">任务状态=执行中<br>活跃 Run 编号=R-1027</div></td>
+              <td><div class="kv">任务状态=已取消<br>取消原因=执行超时 120 分钟，负责人选择终止<br>被终止的 Run 编号=R-1027</div></td>
+              <td>超时不自动重试；取消后不生成新 Run</td>
+            </tr>
+            <tr>
+              <td class="subtle">11-06 08:12</td><td>林岚</td><td><span class="badge b-red">驳回</span></td><td>T06</td>
+              <td><div class="kv">任务状态=待评审<br>评审轮次=第 1 轮<br>已通过项数=2/4</div></td>
+              <td><div class="kv">任务状态=排队中<br>驳回意见=缺少解析 diff 导出用例，补充后重跑<br>新 Run 编号=R-1029</div></td>
+              <td>评审驳回回到排队中；原 Run 记录保留，新 Run 序号递增</td>
+            </tr>
+            <tr>
+              <td class="subtle">11-06 07:55</td><td>林岚</td><td><span class="badge b-red">驳回</span></td><td>T09</td>
+              <td><div class="kv">任务状态=待验收<br>验收轮次=第 2 轮<br>已通过项数=3/5</div></td>
+              <td><div class="kv">任务状态=排队中<br>驳回意见=离线改派后负责人未更新，不满足 AC-v1.0-09 第 1 条<br>新 Run 编号=R-1030</div></td>
+              <td>验收驳回回到排队中；验收标准仍按冻结版本 AC-v1.0-09 判定</td>
+            </tr>
+            <tr>
+              <td class="subtle">11-06 07:30</td><td>苏萌</td><td><span class="badge b-orange">撤销验收</span></td><td>T08</td>
+              <td><div class="kv">任务状态=已完成<br>验收轮次=第 1 轮<br>已通过项数=5/5</div></td>
+              <td><div class="kv">任务状态=待验收<br>撤销原因=AC-v1.0-08 第 2 条判定有误，需重新验收<br>验收轮次=第 1 轮（重开）</div></td>
+              <td>产品管理员批准撤销验收；代码不回滚，后续修复用新 Run</td>
+            </tr>
           </tbody>
         </table>
-        <div class="note" style="margin:12px 16px">审计记录不可删除，永久保留；导出动作本身也留痕。权限变更、路由变更、闸门动作、改派、取消、撤销验收、成本改价与缺陷状态变更均在此留痕。</div>
+        <div class="note" style="margin:12px 16px">审计记录不可删除，永久保留；导出动作本身也留痕。六类关键动作均有样例，前值与后值按统一字段展示；缺失必填字段的记录不允许提交。</div>
       </div>
     </section>
 
@@ -1287,7 +1659,7 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
 <div class="toast" id="toast"></div>
 
 <script>
-var titles={home:'工作台',products:'产品',product:'产品详情',version:'版本详情',task:'任务详情',dispatch:'调度中心',requirements:'需求中心',bugs:'缺陷中心',messages:'消息中心',audit:'审计日志',pending:'待开通'};
+var titles={home:'工作台',products:'产品',product:'产品详情',version:'版本详情',task:'任务详情',dispatch:'调度中心',requirements:'需求中心',generated:'生成的任务列表',bugs:'缺陷中心',messages:'消息中心',audit:'审计日志',pending:'待开通'};
 
 function go(h){location.hash=h}
 
@@ -1319,6 +1691,97 @@ function openProductTab(target){
   showTab('tabset-product',target,box.querySelectorAll('button')[map[target]]);
   go('#product');
 }
+
+// 成本维度切换：七个维度共用同一时间区间与同一套合计口径
+function showCostDim(name,btn){
+  var bar=document.getElementById('cost-dims');
+  bar.querySelectorAll('button').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  var tab=bar.closest('.tab');
+  tab.querySelectorAll('.cost-dim').forEach(function(d){
+    d.classList.toggle('active',d.getAttribute('data-dim')===name);
+  });
+}
+
+// 展开或收起单个成本明细行
+function toggleCost(btn){
+  var row=btn.closest('tr').nextElementSibling;
+  if(!row||!row.classList.contains('detail'))return;
+  var open=row.classList.toggle('open');
+  btn.classList.toggle('open',open);
+  btn.setAttribute('aria-expanded',open?'true':'false');
+}
+
+// 时间区间筛选：七个维度共用，切换后同步区间说明
+function costRange(sel){
+  var map={
+    all:'全部时间（2026-09-01 至 2026-11-11）',
+    30:'最近 30 天（2026-10-13 至 2026-11-11）',
+    7:'最近 7 天（2026-11-05 至 2026-11-11）'
+  };
+  var range=map[sel.value];
+  document.getElementById('cost-range-label').textContent='当前：'+range+' · 七个维度共用同一区间';
+  toast('已切换统计区间：'+range+'（原型示意，数值为演示数据）');
+}
+
+// 成员维度三种口径的数据，AI 与人工分列，三种口径合计均为 18,642
+var memberCost={
+  executor:{
+    label:'执行人',
+    note:'执行人指该 Run 的发起成员，即 Run 归属成员；续聊轮次沿用所属 Run 的执行人。',
+    rows:[
+      {name:'林岚',ai:'¥3,840',labor:'¥1,760',total:'¥5,600',token:'¥3,200',call:'¥640',hours:'17.60'},
+      {name:'陈默',ai:'¥3,210',labor:'¥1,540',total:'¥4,750',token:'¥2,690',call:'¥520',hours:'15.40'},
+      {name:'周宇',ai:'¥2,480',labor:'¥1,184',total:'¥3,664',token:'¥2,070',call:'¥410',hours:'11.84'},
+      {name:'何晴',ai:'¥1,960',labor:'¥790',total:'¥2,750',token:'¥1,640',call:'¥320',hours:'7.90'},
+      {name:'苏萌',ai:'¥1,020',labor:'¥268',total:'¥1,288',token:'¥850',call:'¥170',hours:'2.68'},
+      {name:'赵一',ai:'¥470',labor:'¥120',total:'¥590',token:'¥390',call:'¥80',hours:'1.20'}
+    ]
+  },
+  initiator:{
+    label:'发起人',
+    note:'发起人指触发该笔成本对应动作的成员；续聊轮次取追加指令的人。',
+    rows:[
+      {name:'林岚',ai:'¥3,600',labor:'¥1,580',total:'¥5,180',token:'¥3,000',call:'¥600',hours:'15.80'},
+      {name:'陈默',ai:'¥3,420',labor:'¥1,490',total:'¥4,910',token:'¥2,870',call:'¥550',hours:'14.90'},
+      {name:'周宇',ai:'¥2,500',labor:'¥1,100',total:'¥3,600',token:'¥2,090',call:'¥410',hours:'11.00'},
+      {name:'何晴',ai:'¥1,800',labor:'¥800',total:'¥2,600',token:'¥1,500',call:'¥300',hours:'8.00'},
+      {name:'苏萌',ai:'¥1,200',labor:'¥300',total:'¥1,500',token:'¥1,000',call:'¥200',hours:'3.00'},
+      {name:'赵一',ai:'¥460',labor:'¥392',total:'¥852',token:'¥380',call:'¥80',hours:'3.92'}
+    ]
+  },
+  runner:{
+    label:'Runner 设备',
+    note:'Runner 绑定账号单独计入 Runner 设备维度，不与执行人混用。',
+    rows:[
+      {name:'RUNNER-01（林岚 · MacBook Pro）',ai:'¥4,600',labor:'¥1,820',total:'¥6,420',token:'¥3,840',call:'¥760',hours:'18.20'},
+      {name:'RUNNER-02（陈默 · ThinkPad）',ai:'¥3,100',labor:'¥1,380',total:'¥4,480',token:'¥2,590',call:'¥510',hours:'13.80'},
+      {name:'RUNNER-03（周宇 · Mac mini）',ai:'¥2,800',labor:'¥1,160',total:'¥3,960',token:'¥2,340',call:'¥460',hours:'11.60'},
+      {name:'RUNNER-04（何晴 · Windows 台式）',ai:'¥1,600',labor:'¥700',total:'¥2,300',token:'¥1,340',call:'¥260',hours:'7.00'},
+      {name:'RUNNER-05（苏萌 · MacBook Air）',ai:'¥700',labor:'¥382',total:'¥1,082',token:'¥580',call:'¥120',hours:'3.82'},
+      {name:'RUNNER-06（赵一 · 笔记本）',ai:'¥180',labor:'¥220',total:'¥400',token:'¥150',call:'¥30',hours:'2.20'}
+    ]
+  }
+};
+
+function renderMemberCost(kind){
+  var data=memberCost[kind]||memberCost.executor;
+  var html='';
+  data.rows.forEach(function(r){
+    html+='<tr><td><button class="exp" onclick="toggleCost(this)" aria-expanded="false" aria-label="展开明细">›</button></td>'+
+      '<td>'+r.name+'</td><td>'+r.ai+'</td><td>'+r.labor+'</td><td>'+r.total+'</td></tr>'+
+      '<tr class="detail"><td colspan="5"><div class="detail-box">'+
+      '<div class="between"><span>口径说明</span><span>'+data.note+'</span></div>'+
+      '<div class="between"><span>AI 成本构成</span><span class="mono">token 费 '+r.token+' + 调用费 '+r.call+' = '+r.ai+'</span></div>'+
+      '<div class="between"><span>人工成本构成</span><span class="mono">'+r.hours+' h × ¥100/h = '+r.labor+'</span></div>'+
+      '</div></td></tr>';
+  });
+  document.getElementById('member-cost-body').innerHTML=html;
+  document.getElementById('member-basis-label').textContent=data.label;
+  document.getElementById('member-basis-note').textContent=data.note;
+}
+
+renderMemberCost('executor');
 
 var toastTimer=null;
 function toast(msg){
@@ -1363,7 +1826,10 @@ function confirmDraft(btn){
   st.textContent='已确认';
   st.className='badge b-green';
   btn.disabled=true;
-  toast('任务树草稿已确认：生成 5 个任务，进入计划确认');
+  btn.textContent='已生成 5 个任务';
+  document.getElementById('link-generated').style.display='inline-flex';
+  toast('任务树草稿已确认：生成 5 个任务，验收标准已冻结版本号');
+  setTimeout(function(){go('#generated')},400);
 }
 
 var bugData={
