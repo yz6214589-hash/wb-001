@@ -10,7 +10,7 @@
 | `prototype/pc.html` | PC 端原型（可操作） | 单文件，内联 CSS/JS，用 `location.hash` 做前端路由：`#home` 对应 `id="page-home"`，`#login` 对应 `id="login"` |
 | `prototype/mobile.html` | 手机端原型（只读） | 单文件，`go()` 切换 `m-*` 页面，不提供写操作 |
 | `diagrams/*.svg` | 五张业务流程与结构图 | 由业务规格说明书以相对路径引用，是规格书的配图，不是独立作品 |
-| `unique-业务规格说明书.md` | 业务规格说明书 v0.5 | 唯一的业务口径来源，14 章正文加附录 A–F，章节编号被原型页面直接引用（如 9.1、9.2） |
+| `unique-业务规格说明书.md` | 业务规格说明书 v0.6.1 | 唯一的业务口径来源，14 章正文加附录 A–F，章节编号被原型页面直接引用（如 9.1、9.2） |
 | `.trae-html-share-packages/` | 原型的 zip 分享包 | 派生物，只有明确要更新分享包时才重新打包 |
 | `.screenshots/` | 评审截图 | 只提交需要长期留存的截图；临时截图放 `.screenshots/.tmp/`，已被 `.gitignore` 忽略 |
 | `scripts/check_assets.py` | 资产检查脚本 | 本地与 CI 共用的唯一验证入口 |
