@@ -156,7 +156,9 @@ tbody tr:hover{background:#fbfcfd}
     <a href="#bugs" data-nav="bugs">缺陷中心 <span class="count">5</span></a>
     <div class="divider"></div>
     <a href="javascript:void(0)" onclick="openSettings()">工具、Agent 与模型</a>
-    <a href="javascript:void(0)" onclick="openDrawer()">消息中心</a>
+    <a href="#messages" data-nav="messages">消息中心 <span class="count">4</span></a>
+    <a href="#audit" data-nav="audit">审计日志</a>
+    <a href="#pending" data-nav="pending">待开通页</a>
     <a href="#login">登录页</a>
   </nav>
   <div class="side-foot">
@@ -174,7 +176,7 @@ tbody tr:hover{background:#fbfcfd}
   <header class="topbar">
     <div class="crumb" id="crumb">工作台</div>
     <input class="search" placeholder="搜索产品、任务、Run 编号">
-    <button class="bell" onclick="openDrawer()"><span class="dot"></span></button>
+    <button class="bell" onclick="go('#messages')"><span class="dot"></span></button>
     <div class="avatar" style="width:30px;height:30px">林</div>
   </header>
 
@@ -195,9 +197,9 @@ tbody tr:hover{background:#fbfcfd}
 
       <div class="grid g4">
         <div class="card stat"><div class="label">我的待办</div><div class="num">12</div><div class="sub">3 项计划确认、4 项验收</div></div>
-        <div class="card stat"><div class="label">执行中 Run</div><div class="num">23</div><div class="sub">团队并发 23 / 100</div></div>
+        <div class="card stat"><div class="label">执行中 Run</div><div class="num">11</div><div class="sub">Runner 上限 19 · 团队配额 11 / 100</div></div>
         <div class="card stat"><div class="label">今日成本</div><div class="num">¥1,286</div><div class="sub">AI ¥974 · 人工 ¥312</div></div>
-        <div class="card stat"><div class="label">风险</div><div class="num" style="color:#b45309">3</div><div class="sub">1 个 Runner 离线 · 1 个失败</div></div>
+        <div class="card stat"><div class="label">风险</div><div class="num" style="color:#b45309">3</div><div class="sub">2 个 Runner 离线 · 1 个失败</div></div>
       </div>
 
       <div class="grid g2 mt16" style="grid-template-columns:1.25fr 1fr">
@@ -248,23 +250,23 @@ tbody tr:hover{background:#fbfcfd}
         <div class="card">
           <div class="card-head"><h2>执行中</h2><a href="#dispatch" class="more">调度中心 →</a></div>
           <div class="list-row">
-            <div class="grow"><div class="title">T07 任务详情页一屏布局</div><div class="meta">Trae CLI · RUNNER-02 · 12:41 · ¥64</div></div>
+            <div class="grow"><div class="title">T07 任务详情页一屏布局</div><div class="meta">Trae CLI · RUNNER-02 · 子任务 2/4 · 12:41 · ¥64</div></div>
             <div style="width:64px"><div class="bar"><i style="width:78%"></i></div></div>
           </div>
           <div class="list-row">
-            <div class="grow"><div class="title">T11 站内消息与邮件通知</div><div class="meta">Codex CLI · RUNNER-05 · 06:12 · ¥22</div></div>
+            <div class="grow"><div class="title">T11 站内消息与邮件通知</div><div class="meta">Codex CLI · RUNNER-05 · 子任务 1/2 · 06:12 · ¥22</div></div>
             <div style="width:64px"><div class="bar"><i style="width:35%"></i></div></div>
           </div>
           <div class="list-row">
-            <div class="grow"><div class="title">T14 成本明细导出</div><div class="meta">Claude Code · RUNNER-01 · 22:08 · ¥118</div></div>
+            <div class="grow"><div class="title">T14 成本明细导出</div><div class="meta">Claude Code · RUNNER-01 · 子任务 3/4 · 22:08 · ¥118</div></div>
             <div style="width:64px"><div class="bar"><i style="width:91%"></i></div></div>
           </div>
           <div class="list-row">
-            <div class="grow"><div class="title">T16 缺陷列表批量确认</div><div class="meta">OpenCode · RUNNER-07 · 03:20 · ¥9</div></div>
+            <div class="grow"><div class="title">T16 缺陷列表批量确认</div><div class="meta">OpenCode · RUNNER-07 · 子任务 1/1 · 03:20 · ¥9</div></div>
             <div style="width:64px"><div class="bar"><i style="width:20%"></i></div></div>
           </div>
           <div class="list-row">
-            <div class="grow"><div class="title">T18 版本分支 PR 归集</div><div class="meta">Codex CLI · RUNNER-03 · 45:17 · ¥156</div></div>
+            <div class="grow"><div class="title">T18 版本分支 PR 归集</div><div class="meta">Codex CLI · RUNNER-03 · 子任务 2/3 · 45:17 · ¥156</div></div>
             <div style="width:64px"><div class="bar"><i style="width:64%"></i></div></div>
           </div>
         </div>
@@ -350,6 +352,8 @@ tbody tr:hover{background:#fbfcfd}
         <button onclick="showTab('tabset-product','tasks',this)">任务</button>
         <button onclick="showTab('tabset-product','artifacts',this)">产出物</button>
         <button onclick="showTab('tabset-product','cost',this)">成本</button>
+        <button onclick="showTab('tabset-product','quality',this)">质量</button>
+        <button onclick="showTab('tabset-product','members',this)">成员与设置</button>
       </div>
 
       <div class="tab active" data-tab="overview">
@@ -404,13 +408,15 @@ tbody tr:hover{background:#fbfcfd}
             <div class="list-row"><span class="subtle" style="width:64px">执行中</span><div class="grow"><div class="bar"><i style="width:19%"></i></div></div><span class="subtle">6</span></div>
             <div class="list-row"><span class="subtle" style="width:64px">待评审</span><div class="grow"><div class="bar"><i style="width:9%"></i></div></div><span class="subtle">3</span></div>
             <div class="list-row"><span class="subtle" style="width:64px">待验收</span><div class="grow"><div class="bar"><i style="width:6%"></i></div></div><span class="subtle">2</span></div>
-            <div class="list-row"><span class="subtle" style="width:64px">失败</span><div class="grow"><div class="bar orange"><i style="width:3%"></i></div></div><span class="subtle">1</span></div>
+            <div class="list-row"><span class="subtle" style="width:64px">待人工</span><div class="grow"><div class="bar orange"><i style="width:3%"></i></div></div><span class="subtle">1</span></div>
+            <div class="list-row"><span class="subtle" style="width:64px">排队中</span><div class="grow"><div class="bar"><i style="width:3%"></i></div></div><span class="subtle">1</span></div>
+            <div class="list-row"><span class="subtle" style="width:64px">已失败</span><div class="grow"><div class="bar orange"><i style="width:3%"></i></div></div><span class="subtle">1</span></div>
           </div>
           <div class="card">
             <div class="card-head"><h2>风险与待办</h2><span class="more">3 项</span></div>
             <div class="alert">RUNNER-06 离线，2 个排队任务临近改派阈值（30 分钟）。</div>
             <div class="alert mt12">T05 计划已等待 32 分钟，阻塞后续 3 个任务。</div>
-            <div class="alert mt12">T02 失败 2 次，建议改为 M3 人机协作后重试。</div>
+            <div class="alert mt12">T02 已自动重试 2 次仍失败（达到上限），建议改为 M3 人机协作后人工重试。</div>
           </div>
         </div>
 
@@ -432,9 +438,9 @@ tbody tr:hover{background:#fbfcfd}
           <table>
             <thead><tr><th>版本</th><th>目标</th><th>状态</th><th>计划日期</th><th>任务完成</th><th>版本成本</th><th>分支</th><th>操作</th></tr></thead>
             <tbody>
-              <tr><td class="mono">v1.0</td><td>调度中心 + 任务详情 + 缺陷闭环</td><td><span class="badge b-green">开发中</span></td><td>2026-11-20</td><td>18 / 32</td><td>¥12,480</td><td class="mono">release/v1.0</td><td><button class="btn btn-sm" onclick="toast('进入版本详情（原型示意）')">查看</button></td></tr>
-              <tr><td class="mono">v0.9</td><td>Runner 接入与执行会话</td><td><span class="badge b-blue">已发布</span></td><td>2026-10-24</td><td>24 / 24</td><td>¥5,102</td><td class="mono">release/v0.9</td><td><button class="btn btn-sm" onclick="toast('版本已发布，只能查看')">查看</button></td></tr>
-              <tr><td class="mono">v0.2</td><td>产品、版本与任务基础模型</td><td><span class="badge b-gray">已归档</span></td><td>2026-09-12</td><td>11 / 11</td><td>¥1,060</td><td class="mono">release/v0.2</td><td><button class="btn btn-sm" onclick="toast('版本已归档')">查看</button></td></tr>
+              <tr><td class="mono">v1.0</td><td>调度中心 + 任务详情 + 缺陷闭环</td><td><span class="badge b-green">开发中</span></td><td>2026-11-20</td><td>18 / 32</td><td>¥12,480</td><td class="mono">release/v1.0</td><td><button class="btn btn-sm" onclick="go('#version')">查看</button></td></tr>
+              <tr><td class="mono">v0.9</td><td>Runner 接入与执行会话</td><td><span class="badge b-blue">已发布</span></td><td>2026-10-24</td><td>24 / 24</td><td>¥5,102</td><td class="mono">release/v0.9</td><td><button class="btn btn-sm" onclick="go('#version')">查看</button></td></tr>
+              <tr><td class="mono">v0.2</td><td>产品、版本与任务基础模型</td><td><span class="badge b-gray">已归档</span></td><td>2026-09-12</td><td>11 / 11</td><td>¥1,060</td><td class="mono">release/v0.2</td><td><button class="btn btn-sm" onclick="go('#version')">查看</button></td></tr>
             </tbody>
           </table>
         </div>
@@ -443,7 +449,7 @@ tbody tr:hover{background:#fbfcfd}
       <div class="tab" data-tab="tasks">
         <div class="toolbar">
           <select class="select"><option>全部版本</option><option>v1.0</option><option>v0.9</option></select>
-          <select class="select"><option>全部状态</option><option>待确认计划</option><option>执行中</option><option>待评审</option><option>待验收</option></select>
+          <select class="select"><option>全部状态</option><option>草稿</option><option>待确认计划</option><option>排队中</option><option>执行中</option><option>待人工</option><option>待评审</option><option>待验收</option><option>已完成</option><option>已失败</option><option>已取消</option></select>
           <select class="select"><option>全部模式</option><option>M1 AI 自主</option><option>M2 AI 主导</option><option>M3 人机协作</option><option>M4 人主导</option></select>
           <input class="input" placeholder="搜索任务编号或标题" style="width:200px">
           <button class="btn" onclick="toast('已按筛选条件刷新（原型示意）')">筛选</button>
@@ -451,16 +457,16 @@ tbody tr:hover{background:#fbfcfd}
         </div>
         <div class="card" style="padding:0">
           <table>
-            <thead><tr><th>任务</th><th>版本</th><th>模式</th><th>状态</th><th>负责人</th><th>执行工具</th><th>成本</th><th>更新</th></tr></thead>
+            <thead><tr><th>任务</th><th>版本</th><th>模式</th><th>状态</th><th>子任务</th><th>负责人</th><th>执行工具</th><th>成本</th><th>更新</th></tr></thead>
             <tbody>
-              <tr><td><a href="#task">T09 修复离线改派不生效</a></td><td class="mono">v1.0</td><td><span class="badge b-blue">M2</span></td><td><span class="badge b-orange">待验收</span></td><td>陈默</td><td>Codex CLI</td><td>¥38</td><td class="subtle">10 分钟前</td></tr>
-              <tr><td><a href="#task">T08 Runner 心跳与离线判定</a></td><td class="mono">v1.0</td><td><span class="badge b-green">M1</span></td><td><span class="badge b-green">已完成</span></td><td>陈默</td><td>Claude Code</td><td>¥126</td><td class="subtle">2 小时前</td></tr>
-              <tr><td><a href="#task">T07 任务详情页一屏布局</a></td><td class="mono">v1.0</td><td><span class="badge b-blue">M3</span></td><td><span class="badge b-blue">执行中</span></td><td>周宇</td><td>Trae CLI</td><td>¥64</td><td class="subtle">执行中</td></tr>
-              <tr><td><a href="#task">T06 AI 解析草稿 diff 留存</a></td><td class="mono">v1.0</td><td><span class="badge b-blue">M2</span></td><td><span class="badge b-orange">待评审</span></td><td>林岚</td><td>Claude Code</td><td>¥92</td><td class="subtle">1 小时前</td></tr>
-              <tr><td><a href="#task">T05 上下文包四层拼装</a></td><td class="mono">v1.0</td><td><span class="badge b-blue">M2</span></td><td><span class="badge b-orange">待确认计划</span></td><td>周宇</td><td>Codex CLI</td><td>¥0</td><td class="subtle">30 分钟前</td></tr>
-              <tr><td><a href="#task">T04 成本记录与单价表</a></td><td class="mono">v1.0</td><td><span class="badge b-green">M1</span></td><td><span class="badge b-green">已完成</span></td><td>何晴</td><td>Codex CLI</td><td>¥54</td><td class="subtle">昨天</td></tr>
-              <tr><td><a href="#task">T03 缺陷转 GitHub Issue</a></td><td class="mono">v1.0</td><td><span class="badge b-blue">M3</span></td><td><span class="badge b-green">已完成</span></td><td>何晴</td><td>OpenCode</td><td>¥47</td><td class="subtle">昨天</td></tr>
-              <tr><td><a href="#task">T02 版本分支与 PR 归集</a></td><td class="mono">v1.0</td><td><span class="badge b-green">M1</span></td><td><span class="badge b-red">已失败</span></td><td>陈默</td><td>Claude Code</td><td>¥31</td><td class="subtle">昨天</td></tr>
+              <tr><td><a href="#task">T09 修复离线改派不生效</a></td><td class="mono">v1.0</td><td><span class="badge b-blue">M2</span></td><td><span class="badge b-orange">待验收</span></td><td>4 / 4</td><td>陈默</td><td>Codex CLI</td><td>¥38</td><td class="subtle">10 分钟前</td></tr>
+              <tr><td><a href="#task">T08 Runner 心跳与离线判定</a></td><td class="mono">v1.0</td><td><span class="badge b-green">M1</span></td><td><span class="badge b-green">已完成</span></td><td>2 / 2</td><td>陈默</td><td>Claude Code</td><td>¥126</td><td class="subtle">2 小时前</td></tr>
+              <tr><td><a href="#task">T07 任务详情页一屏布局</a></td><td class="mono">v1.0</td><td><span class="badge b-blue">M3</span></td><td><span class="badge b-blue">执行中</span></td><td>2 / 4</td><td>周宇</td><td>Trae CLI</td><td>¥64</td><td class="subtle">执行中</td></tr>
+              <tr><td><a href="#task">T06 AI 解析草稿 diff 留存</a></td><td class="mono">v1.0</td><td><span class="badge b-blue">M2</span></td><td><span class="badge b-orange">待评审</span></td><td>2 / 2</td><td>林岚</td><td>Claude Code</td><td>¥92</td><td class="subtle">1 小时前</td></tr>
+              <tr><td><a href="#task">T05 上下文包四层拼装</a></td><td class="mono">v1.0</td><td><span class="badge b-blue">M2</span></td><td><span class="badge b-orange">待确认计划</span></td><td class="subtle">待拆解</td><td>周宇</td><td>Codex CLI</td><td>¥0</td><td class="subtle">30 分钟前</td></tr>
+              <tr><td><a href="#task">T04 成本记录与单价表</a></td><td class="mono">v1.0</td><td><span class="badge b-green">M1</span></td><td><span class="badge b-green">已完成</span></td><td>3 / 3</td><td>何晴</td><td>Codex CLI</td><td>¥54</td><td class="subtle">昨天</td></tr>
+              <tr><td><a href="#task">T03 缺陷转 GitHub Issue</a></td><td class="mono">v1.0</td><td><span class="badge b-blue">M3</span></td><td><span class="badge b-green">已完成</span></td><td>1 / 1</td><td>何晴</td><td>OpenCode</td><td>¥47</td><td class="subtle">昨天</td></tr>
+              <tr><td><a href="#task">T02 版本分支与 PR 归集</a></td><td class="mono">v1.0</td><td><span class="badge b-green">M1</span></td><td><span class="badge b-red">已失败</span></td><td>1 / 2</td><td>陈默</td><td>Claude Code</td><td>¥31</td><td class="subtle">昨天</td></tr>
             </tbody>
           </table>
         </div>
@@ -472,13 +478,14 @@ tbody tr:hover{background:#fbfcfd}
           <table>
             <thead><tr><th>类型</th><th>名称</th><th>关联任务</th><th>关联 Run</th><th>状态</th><th>更新时间</th></tr></thead>
             <tbody>
-              <tr><td><span class="badge b-blue">PR</span></td><td class="mono">#145 ai/T09-requeue</td><td>T09</td><td class="mono">R-1024</td><td>待评审</td><td class="subtle">10:02</td></tr>
+              <tr><td><span class="badge b-blue">PR</span></td><td class="mono">#145 ai/T09-requeue</td><td>T09</td><td class="mono">R-1024</td><td>评审通过</td><td class="subtle">10:02</td></tr>
               <tr><td><span class="badge b-blue">PR</span></td><td class="mono">#142 ai/T06-parse-diff</td><td>T06</td><td class="mono">R-1019</td><td>待评审</td><td class="subtle">09:31</td></tr>
               <tr><td><span class="badge b-gray">文档</span></td><td>任务详情页布局说明.md</td><td>T07</td><td class="mono">R-1015</td><td>已产出</td><td class="subtle">09:18</td></tr>
               <tr><td><span class="badge b-gray">附件</span></td><td>v1.0 测试执行报告.pdf</td><td>T03</td><td class="mono">R-1008</td><td>已归档</td><td class="subtle">昨天</td></tr>
-              <tr><td><span class="badge b-gray">文档</span></td><td>上下文包模板 v2.md</td><td>T05</td><td class="mono">—</td><td>草稿</td><td class="subtle">昨天</td></tr>
+              <tr><td><span class="badge b-gray">文档</span></td><td>上下文包模板 v2.md</td><td>T05</td><td><span class="badge b-gray">人工产出</span></td><td>草稿</td><td class="subtle">昨天</td></tr>
             </tbody>
           </table>
+          <div class="note mt12">无关联 Run 的手工产出标记为「人工产出」；非代码类产出物由人上传，保留历史版本号。</div>
         </div>
       </div>
 
@@ -514,15 +521,116 @@ tbody tr:hover{background:#fbfcfd}
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- 任务详情 -->
+      <div class="tab" data-tab="quality">
+        <div class="grid g4">
+          <div class="card stat"><div class="label">一次验收通过率</div><div class="num">72%</div><div class="sub">首次验收即通过 28 / 39</div></div>
+          <div class="card stat"><div class="label">验收返工率</div><div class="num">18%</div><div class="sub">驳回 7 次 / 验收 39 次</div></div>
+          <div class="card stat"><div class="label">评审驳回率</div><div class="num">11%</div><div class="sub">驳回 5 次 / 评审 46 次</div></div>
+          <div class="card stat"><div class="label">人工介入率</div><div class="num">9%</div><div class="sub">8 次 / 89 个 Run</div></div>
+        </div>
+        <div class="grid g2 mt12">
+          <div class="card">
+            <div class="card-head"><h2>按任务类型 × 难度 × 执行模式</h2><span class="more">趋势图 P1 提供</span></div>
+            <table>
+              <thead><tr><th>任务类型</th><th>难度</th><th>模式</th><th>验收次数</th><th>一次通过率</th><th>返工率</th><th>平均返工</th><th>平均时长</th></tr></thead>
+              <tbody>
+                <tr><td>后端功能</td><td>L3</td><td>M1</td><td>14</td><td>64%</td><td>21%</td><td>1.4</td><td>42 分钟</td></tr>
+                <tr><td>前端页面</td><td>L2</td><td>M2</td><td>11</td><td>82%</td><td>9%</td><td>1.1</td><td>36 分钟</td></tr>
+                <tr><td>缺陷修复</td><td>L3</td><td>M2</td><td>9</td><td>67%</td><td>22%</td><td>1.6</td><td>28 分钟</td></tr>
+                <tr><td>测试执行</td><td>L1</td><td>M1</td><td>7</td><td>86%</td><td>14%</td><td>1.2</td><td>12 分钟</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <div class="card-head"><h2>驳回原因分布</h2><span class="more">验收与评审驳回合计 10 次</span></div>
+            <div class="list-row"><span class="subtle" style="width:72px">功能不符</span><div class="grow"><div class="bar orange"><i style="width:40%"></i></div></div><span class="subtle">4</span></div>
+            <div class="list-row"><span class="subtle" style="width:72px">上下文不足</span><div class="grow"><div class="bar orange"><i style="width:20%"></i></div></div><span class="subtle">2</span></div>
+            <div class="list-row"><span class="subtle" style="width:72px">质量问题</span><div class="grow"><div class="bar orange"><i style="width:20%"></i></div></div><span class="subtle">2</span></div>
+            <div class="list-row"><span class="subtle" style="width:72px">范围缺失</span><div class="grow"><div class="bar orange"><i style="width:10%"></i></div></div><span class="subtle">1</span></div>
+            <div class="list-row"><span class="subtle" style="width:72px">其他</span><div class="grow"><div class="bar orange"><i style="width:10%"></i></div></div><span class="subtle">1</span></div>
+          </div>
+        </div>
+        <div class="card mt12">
+          <div class="card-head"><h2>人工介入原因</h2><span class="more">近 30 天 · 8 次</span></div>
+          <table>
+            <thead><tr><th>原因</th><th>次数</th><th>平均等待</th><th>后续处理</th></tr></thead>
+            <tbody>
+              <tr><td>AI 提问（上下文缺失）</td><td>5</td><td>12 分钟</td><td>4 次补充上下文后继续，1 次转人工处理</td></tr>
+              <tr><td>高风险动作授权</td><td>2</td><td>6 分钟</td><td>均授权后继续，已留审计记录</td></tr>
+              <tr><td>执行失败转人工</td><td>1</td><td>25 分钟</td><td>改为 M3 人机协作后重试</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note mt12">质量事实来源：验收记录、评审意见、Run 结果、人工介入记录、缺陷关联。通过率与返工按验收轮次计算，缺陷逃逸率按线上缺陷数 / 完成任务数计算。</div>
+      </div>
+
+      <div class="tab" data-tab="members">
+        <div class="card">
+          <div class="card-head"><h2>成员与权限</h2><button class="btn btn-sm" onclick="toast('邀请成员：选择成员并套用角色模板')">邀请成员</button></div>
+          <table>
+            <thead><tr><th>成员</th><th>角色模板</th><th>负责范围</th><th>权限摘要</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>林岚</td><td>产品负责人</td><td>全产品</td><td>全部权限</td><td><button class="btn btn-sm" onclick="toast('产品负责人权限不可缩减，可转让')">查看</button></td></tr>
+              <tr><td>陈默</td><td>开发</td><td>调度与后端</td><td>执行、提交产出、评审、技术项验收</td><td><button class="btn btn-sm" onclick="toast('调整陈默的产品内权限（原型示意）')">调整</button></td></tr>
+              <tr><td>周宇</td><td>开发</td><td>前端与原型</td><td>执行、提交产出、评审、技术项验收</td><td><button class="btn btn-sm" onclick="toast('调整周宇的产品内权限（原型示意）')">调整</button></td></tr>
+              <tr><td>何晴</td><td>测试</td><td>测试执行与验收</td><td>验收、评审、质量数据查看</td><td><button class="btn btn-sm" onclick="toast('调整何晴的产品内权限（原型示意）')">调整</button></td></tr>
+              <tr><td>赵一</td><td>标注</td><td>标注任务</td><td>仅查看指定任务、上传产出</td><td><button class="btn btn-sm" onclick="toast('调整赵一的产品内权限（原型示意）')">调整</button></td></tr>
+              <tr><td>苏萌</td><td>产品管理员</td><td>产品配置</td><td>成员、路由规则、上下文模板、通知配置</td><td><button class="btn btn-sm" onclick="toast('调整苏萌的产品内权限（原型示意）')">调整</button></td></tr>
+            </tbody>
+          </table>
+          <div class="note mt12">角色只是权限模板，实际权限在产品内自由配置；执行人不得评审自身产出，验收人不得是唯一执行人。</div>
+        </div>
+
+        <div class="grid g2 mt12">
+          <div class="card">
+            <div class="card-head"><h2>上下文模板</h2><button class="btn btn-sm" onclick="toast('新建上下文模板（原型示意）')">新建</button></div>
+            <table>
+              <thead><tr><th>层级</th><th>模板</th><th>维护人</th><th>操作</th></tr></thead>
+              <tbody>
+                <tr><td>产品级常驻</td><td>产品简介、技术栈、目录结构、编码规范、分支与 PR 规范、验收模板、安全规范</td><td>林岚</td><td><button class="btn btn-sm" onclick="toast('编辑产品级常驻上下文（原型示意）')">编辑</button></td></tr>
+                <tr><td>版本级常驻</td><td>版本目标与范围、版本差异说明、涉及模块、发布约束</td><td>林岚</td><td><button class="btn btn-sm" onclick="toast('编辑版本级常驻上下文（原型示意）')">编辑</button></td></tr>
+                <tr><td>任务级必填</td><td>后端修复、前端实现、测试生成三套任务类型模板</td><td>陈默 / 周宇 / 何晴</td><td><button class="btn btn-sm" onclick="toast('编辑任务类型模板（原型示意）')">编辑</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <div class="card-head"><h2>路由规则</h2><span class="more">当前规则版本 R-2026-11-01</span></div>
+            <table>
+              <thead><tr><th>任务类型 / 难度</th><th>默认模式</th><th>执行工具</th><th>Agent</th><th>模型档位</th></tr></thead>
+              <tbody>
+                <tr><td>缺陷修复 · L3 · 风险中</td><td>M2</td><td>Codex CLI</td><td>后端修复</td><td>高精度</td></tr>
+                <tr><td>前端页面 · L2 · 风险中</td><td>M2</td><td>Trae CLI</td><td>前端实现</td><td>标准</td></tr>
+                <tr><td>文档整理 · L1 · 风险低</td><td>M1</td><td>Claude Code</td><td>文档整理</td><td>快速</td></tr>
+                <tr><td>高风险变更 · 任意 · 风险高</td><td>M3</td><td>Codex CLI</td><td>后端修复</td><td>高精度</td></tr>
+              </tbody>
+            </table>
+            <div class="note mt12">路由规则有版本号，变更需产品管理员审批；历史 Run 保留原规则版本号。</div>
+          </div>
+        </div>
+
+        <div class="card mt12">
+          <div class="card-head"><h2>通知配置</h2><button class="btn btn-sm" onclick="toast('通知配置已保存（原型示意）')">保存</button></div>
+          <table>
+            <thead><tr><th>事件</th><th>接收人</th><th>渠道</th><th>聚合策略</th></tr></thead>
+            <tbody>
+              <tr><td>计划待确认</td><td>任务负责人</td><td>站内 + 邮件</td><td>同类 15 分钟内合并</td></tr>
+              <tr><td>产出物待评审 / 待验收</td><td>评审人 / 验收人</td><td>站内 + 邮件</td><td>按任务合并</td></tr>
+              <tr><td>AI 提问 / 需授权</td><td>任务负责人</td><td>站内 + 邮件 + 强提醒</td><td>不聚合</td></tr>
+              <tr><td>执行失败 / Runner 离线</td><td>任务负责人 + 产品管理员</td><td>站内 + 邮件</td><td>合并</td></tr>
+              <tr><td>成本异常 / 超时</td><td>产品管理员 + 负责人</td><td>站内 + 邮件</td><td>合并</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
     <section class="page" id="page-task">
       <div class="page-head">
         <div>
           <div class="row">
             <h1>T09 修复离线改派不生效</h1>
             <span class="badge b-orange" id="task-status">待验收</span>
+            <span class="badge b-gray">子任务完成 4/4</span>
             <span class="badge b-blue">M2 AI 主导</span>
           </div>
           <div class="desc">unique / v1.0 / 任务 T09 · 负责人 陈默 · 执行工具 Codex CLI · Agent「后端修复」</div>
@@ -561,8 +669,8 @@ tbody tr:hover{background:#fbfcfd}
             </div>
             <div class="bar"><i id="ac-bar" style="width:60%"></i></div>
             <div class="mt12">
-              <label class="check"><input type="checkbox" class="ac-check" checked onchange="updateAc()"><span>Runner 心跳超时后，其执行中的任务在 30 分钟内保持原状并标记待改派。</span></label>
-              <label class="check"><input type="checkbox" class="ac-check" checked onchange="updateAc()"><span>超过 30 分钟仍离线，任务自动回到队列，原 Runner 不可再次领取。</span></label>
+              <label class="check"><input type="checkbox" class="ac-check" checked onchange="updateAc()"><span>Runner 心跳超时后，任务仍显示「执行中」；离线满 30 分钟时调度中心告警并支持改派。</span></label>
+              <label class="check"><input type="checkbox" class="ac-check" checked onchange="updateAc()"><span>超过 30 分钟仍离线，调度中心告警并支持改派到其他在线 Runner，不手工改任务状态。</span></label>
               <label class="check"><input type="checkbox" class="ac-check" checked onchange="updateAc()"><span>改派后调度中心显示新 Runner，旧 Runner 的 Run 标记为已中断。</span></label>
               <label class="check"><input type="checkbox" class="ac-check" onchange="updateAc()"><span>同一任务不会同时被两台 Runner 领取（一次性领取锁生效）。</span></label>
               <label class="check"><input type="checkbox" class="ac-check" onchange="updateAc()"><span>补充单测覆盖改派分支，失败时保留日志与复现步骤。</span></label>
@@ -579,6 +687,36 @@ tbody tr:hover{background:#fbfcfd}
             <div class="chips"><span class="chip">BRS 4.3 领取与并发规则</span><span class="chip">dispatch/*.ts</span><span class="chip">现有测试用例</span></div>
             <div class="sec-title">执行级补充</div>
             <div class="chips"><span class="chip">run-1023.log</span><span class="chip">复现步骤</span></div>
+            <div class="sec-title" style="margin-top:16px">上下文校验 · 已带入 / 已裁剪 / 缺失</div>
+            <div class="grid g3">
+              <div>
+                <div class="subtle" style="margin-bottom:6px;color:#15803d">已带入 · 9 项</div>
+                <div class="chips"><span class="chip">产品目标 v0.6</span><span class="chip">技术栈约定</span><span class="chip">编码规范</span><span class="chip">v1.0 交付范围</span><span class="chip">release/v1.0 分支</span><span class="chip">验收基线</span><span class="chip">BRS 4.3 领取与并发规则</span><span class="chip">dispatch/*.ts</span><span class="chip">run-1023.log</span></div>
+              </div>
+              <div>
+                <div class="subtle" style="margin-bottom:6px;color:#b45309">已裁剪 · 2 项</div>
+                <div class="chips"><span class="chip">全量需求附录（仅保留索引）</span><span class="chip">历史评审意见（保留最近 5 条）</span></div>
+              </div>
+              <div>
+                <div class="subtle" style="margin-bottom:6px;color:#b91c1c">缺失 · 1 项（已豁免）</div>
+                <div class="chips"><span class="chip" style="border-color:#fecaca;background:#fef2f2;color:#b91c1c">接口定义 v2</span></div>
+              </div>
+            </div>
+            <div class="alert mt12">缺失项「接口定义 v2」由林岚在 09:38 豁免：接口字段以现有代码为准，已标记风险并计入上下文缺失率。缺失项未处理时不得进入排队。</div>
+          </div>
+
+          <div class="card mt12">
+            <div class="card-head"><h2>子任务</h2><span class="more">4 / 4 已产出</span></div>
+            <table>
+              <thead><tr><th>子任务</th><th>状态</th><th>执行者</th><th>当前 Run</th></tr></thead>
+              <tbody>
+                <tr><td>ST-01 改派接口与重新入队</td><td><span class="badge b-green">已产出</span></td><td>RUNNER-02</td><td class="mono">R-1024</td></tr>
+                <tr><td>ST-02 补充改派分支单测</td><td><span class="badge b-green">已产出</span></td><td>RUNNER-02</td><td class="mono">R-1024</td></tr>
+                <tr><td>ST-03 日志与复现步骤</td><td><span class="badge b-green">已产出</span></td><td>RUNNER-02</td><td class="mono">R-1024</td></tr>
+                <tr><td>ST-04 任务分支与 PR 提交</td><td><span class="badge b-green">已产出</span></td><td>RUNNER-02</td><td class="mono">R-1024</td></tr>
+              </tbody>
+            </table>
+            <div class="note mt12">子任务全部已产出只代表任务可提交评审；任务是否完成仍由 G3 验收决定。子任务不单独过 G2、G3。</div>
           </div>
 
           <div class="card mt12">
@@ -591,6 +729,7 @@ tbody tr:hover{background:#fbfcfd}
                 <tr><td class="mono">R-1022</td><td>Claude Code / 后端修复</td><td>标准</td><td><span class="badge b-gray">已中断</span></td><td>00:52</td><td>¥3</td><td><button class="btn btn-sm" onclick="toast('该 Run 因 Runner 离线已中断，任务待改派')">查看</button></td></tr>
               </tbody>
             </table>
+            <div class="note mt12">R-1022 因 Runner 离线标记「已中断」（中断原因：Runner 离线）；R-1023 失败后按自动重试规则生成 R-1024。R-1022、R-1023 为终态，不复活；同一子任务同一时刻最多一个活跃 Run。</div>
             <div class="sec-title" style="margin-top:16px">当前会话片段 · R-1024</div>
             <div class="code">用户  离线改派的接口已经改了，为什么 RUNNER-06 的任务没有回到队列？
 AI    我看到改派逻辑只在心跳超时后触发；当前代码写入了 reassign_at，但没有重新入队。
@@ -608,6 +747,10 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
             <div class="card-head"><h2>当前状态</h2></div>
             <dl class="kv">
               <dt>状态</dt><dd><span class="badge b-orange" id="side-status">待验收</span></dd>
+              <dt>状态来源</dt><dd>子任务 + 闸门状态聚合派生</dd>
+              <dt>子任务完成</dt><dd>4 / 4（全部已产出）</dd>
+              <dt>自动重试</dt><dd>已自动重试 2 次（上限 2 次）</dd>
+              <dt>执行超时</dt><dd>120 分钟</dd>
               <dt>当前 Run</dt><dd class="mono">R-1024 · 已产出</dd>
               <dt>验收进度</dt><dd>3 / 5</dd>
               <dt>成本累计</dt><dd>¥38</dd>
@@ -616,6 +759,7 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
               <dt>最近闸门</dt><dd>产出评审通过 · 09:58</dd>
             </dl>
             <div class="mt12"><a href="javascript:void(0)" onclick="toast('打开 GitHub PR #145（原型示意）')">PR #145 · ai/T09-requeue →</a></div>
+            <div class="note mt12">任务状态由子任务状态与闸门状态聚合派生，系统不提供手工改状态入口；唯一的人工写状态动作是「取消」与「撤销验收」。</div>
           </div>
 
           <div class="card mt12">
@@ -653,11 +797,13 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
       </div>
 
       <div class="grid g4">
-        <div class="card stat"><div class="label">在线 Runner</div><div class="num">6 <small>/ 7</small></div><div class="sub">心跳 30 秒 · 2 周期判离线</div></div>
+        <div class="card stat"><div class="label">在线 Runner</div><div class="num">5 <small>/ 7</small></div><div class="sub">心跳 30 秒 · 2 周期判离线</div></div>
         <div class="card stat"><div class="label">排队任务</div><div class="num">14</div><div class="sub">最长等待 32 分钟</div></div>
-        <div class="card stat"><div class="label">执行中 Run</div><div class="num">23</div><div class="sub">配额 23 / 100</div></div>
-        <div class="card stat"><div class="label">待改派</div><div class="num" style="color:#b45309">2</div><div class="sub">离线已满 30 分钟</div></div>
+        <div class="card stat"><div class="label">执行中 Run</div><div class="num">11</div><div class="sub">Runner 上限合计 19 · 团队配额 11 / 100</div></div>
+        <div class="card stat"><div class="label">待改派</div><div class="num" style="color:#b45309">1</div><div class="sub">RUNNER-04 离线已满 30 分钟</div></div>
       </div>
+
+      <div class="note mt12">并发口径：7 台 Runner 的并发上限合计 19，当前执行中 11，团队基线配额 100。RUNNER-06 离线 24 分钟，其排队任务将在满 30 分钟后可改派。队列按 P0/P1/P2 排序，P0 可插队但不抢占正在执行的 Run。</div>
 
       <div class="card mt12">
         <div class="card-head"><h2>Runner</h2><span class="more">按成员绑定与能力匹配领取</span></div>
@@ -698,28 +844,30 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
 
       <div class="grid g2 mt12">
         <div class="card">
-          <div class="card-head"><h2>队列</h2><span class="more">按指派时间与优先级排序</span></div>
+          <div class="card-head"><h2>队列</h2><span class="more">按优先级与进入排队时间排序</span></div>
           <table>
             <thead><tr><th>任务</th><th>成员</th><th>等待</th><th>优先级</th><th>操作</th></tr></thead>
             <tbody>
-              <tr><td>T05 上下文包四层拼装</td><td>周宇</td><td>32 分钟</td><td><span class="badge b-orange">高</span></td><td><button class="btn btn-sm" onclick="toast('T05 已置顶')">置顶</button></td></tr>
-              <tr><td>T12 移动端只读页</td><td>陈默</td><td>18 分钟</td><td><span class="badge b-gray">普通</span></td><td><button class="btn btn-sm" onclick="toast('T12 已置顶')">置顶</button></td></tr>
-              <tr><td>T19 审计日志筛选</td><td>何晴</td><td>9 分钟</td><td><span class="badge b-gray">普通</span></td><td><button class="btn btn-sm" onclick="toast('T19 已置顶')">置顶</button></td></tr>
-              <tr><td>T20 通知聚合规则</td><td>赵一</td><td>3 分钟</td><td><span class="badge b-gray">普通</span></td><td><button class="btn btn-sm" onclick="toast('T20 已置顶')">置顶</button></td></tr>
+              <tr><td>T05 上下文包四层拼装</td><td>周宇</td><td>32 分钟</td><td><span class="badge b-red">P0</span></td><td><button class="btn btn-sm" onclick="toast('T05 已置顶')">置顶</button></td></tr>
+              <tr><td>T22 线上日志脱敏修复</td><td>周宇</td><td>5 分钟</td><td><span class="badge b-red">P0</span></td><td><button class="btn btn-sm" onclick="toast('T22 已置顶')">置顶</button></td></tr>
+              <tr><td>T12 移动端只读页</td><td>陈默</td><td>18 分钟</td><td><span class="badge b-blue">P1</span></td><td><button class="btn btn-sm" onclick="toast('T12 已置顶')">置顶</button></td></tr>
+              <tr><td>T19 审计日志筛选</td><td>何晴</td><td>9 分钟</td><td><span class="badge b-blue">P1</span></td><td><button class="btn btn-sm" onclick="toast('T19 已置顶')">置顶</button></td></tr>
+              <tr><td>T20 通知聚合规则</td><td>赵一</td><td>3 分钟</td><td><span class="badge b-gray">P2</span></td><td><button class="btn btn-sm" onclick="toast('T20 已置顶')">置顶</button></td></tr>
             </tbody>
           </table>
+          <div class="subtle mt12" style="line-height:1.7">优先级 P0 / P1 / P2（默认 P1）：同优先级按进入排队时间先进先出；P0 可插队，但不抢占正在执行的 Run。T22 仅等待 5 分钟，因 P0 排在 P1 任务之前。依赖未完成的任务显示「排队中 · 等待依赖」；「等待依赖」只是排队中的等待原因，不是独立任务状态。</div>
         </div>
         <div class="card">
-          <div class="card-head"><h2>失败任务</h2><span class="more">最近 24 小时</span></div>
+          <div class="card-head"><h2>失败与异常任务</h2><span class="more">最近 24 小时</span></div>
           <div class="list-row">
-            <div class="grow"><div class="title">T02 版本分支与 PR 归集</div><div class="meta">退出码 1 · 已重试 2 次 · Claude Code</div></div>
+            <div class="grow"><div class="title">T02 版本分支与 PR 归集</div><div class="meta">退出码 1 · 已自动重试 2 次（上限）· Claude Code</div></div>
             <button class="btn btn-sm" onclick="toast('已打开失败日志并预填重试说明')">处理</button>
           </div>
           <div class="list-row">
-            <div class="grow"><div class="title">T21 导出任务时间线</div><div class="meta">超时 30 分钟 · 已中断 · Codex CLI</div></div>
+            <div class="grow"><div class="title">T21 导出任务时间线</div><div class="meta">执行超时 120 分钟 · 任务已取消 · Codex CLI</div></div>
             <button class="btn btn-sm" onclick="toast('已打开失败日志并预填重试说明')">处理</button>
           </div>
-          <div class="note mt12">失败原因分布：超时 1、退出码异常 1；可改派或转 M3 后重试。</div>
+          <div class="note mt12">失败原因分布：超时 1、退出码异常 1；超时后由负责人选择继续、终止或换低成本路由，不自动重排、不自动改派、不自动判失败。</div>
         </div>
       </div>
     </section>
@@ -746,7 +894,7 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
             <span class="badge b-green">已解析</span>
           </div>
           <div class="list-row">
-            <div class="grow"><div class="title">11-05 需求评审纪要</div><div class="meta">飞书文档 · 关联 v1.1 · 待解析</div></div>
+            <div class="grow"><div class="title">11-05 需求评审纪要</div><div class="meta">飞书文档 · 关联 v1.0 · 待解析</div></div>
             <span class="badge b-blue">待解析</span>
           </div>
           <div class="note mt12">所有版本均为 AI 先解析、人调整；MVP 也一致。调整记录可导出，作为后续优化与训练依据。</div>
@@ -757,15 +905,16 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
             <h2>AI 解析草稿 · v1.0</h2>
             <span class="badge b-orange" id="draft-status">待确认</span>
           </div>
-          <div class="code"><span class="add">+ 版本 v1.0（AI 识别）</span>
+          <div class="code"><span class="add">+ 任务树草稿 · v1.0（AI 识别，来源：BRS 第 11 章）</span>
   <span class="add">+ T05 上下文包四层拼装</span>
   <span class="add">+ T06 AI 解析草稿 diff 留存</span>
   <span class="add">+ T07 任务详情页一屏布局（人改：M2 → M3）</span>
   <span class="add">+ T08 Runner 心跳与离线判定</span>
   <span class="del">- T10 数据驱动自动路由（人删：二期能力）</span>
   <span class="add">+ T09 修复离线改派不生效（人新增）</span></div>
+          <div class="note mt12">AI 只生成任务树草稿，不创建版本；版本由人在产品详情中创建，草稿经人确认后才生成正式任务。</div>
           <div class="row mt12">
-            <span class="subtle">AI 生成 6 个任务，人工新增 1、删除 1、调整 1</span>
+            <span class="subtle">AI 生成 5 个任务，人工新增 1、删除 1、调整 1</span>
             <button class="btn btn-primary btn-sm" style="margin-left:auto" id="btn-draft" onclick="confirmDraft(this)">确认草稿并生成任务</button>
             <button class="btn btn-sm" onclick="toast('已重新解析，覆盖未确认草稿')">重新解析</button>
           </div>
@@ -780,7 +929,7 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
             <tr><td class="subtle">10:20</td><td>林岚</td><td>T10 数据驱动自动路由</td><td><span class="badge b-red">删除</span></td><td>二期能力，本期不做</td></tr>
             <tr><td class="subtle">10:18</td><td>林岚</td><td>T09 修复离线改派不生效</td><td><span class="badge b-green">新增</span></td><td>测试反馈的线上缺陷，需本期修复</td></tr>
             <tr><td class="subtle">10:12</td><td>林岚</td><td>T07 任务详情页一屏布局</td><td><span class="badge b-blue">修改模式</span> M2 → M3</td><td>涉及布局评审，需要人工参与</td></tr>
-            <tr><td class="subtle">10:05</td><td>AI</td><td>版本 v1.0</td><td><span class="badge b-gray">生成</span></td><td>根据 BRS 第 11 章 MVP 范围解析</td></tr>
+            <tr><td class="subtle">10:05</td><td>AI</td><td>v1.0 任务树草稿</td><td><span class="badge b-gray">生成</span></td><td>根据 BRS 第 11 章 MVP 范围解析，仅生成任务草稿，未创建版本</td></tr>
           </tbody>
         </table>
       </div>
@@ -860,44 +1009,225 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
       </div>
     </section>
 
+    <!-- 版本详情 -->
+    <section class="page" id="page-version">
+      <div class="page-head">
+        <div>
+          <div class="row"><h1>v1.0 调度中心 + 任务详情 + 缺陷闭环</h1><span class="badge b-green">开发中</span><span class="badge b-gray">release/v1.0</span></div>
+          <div class="desc">unique AI 工作台 · 版本负责人 林岚 · 计划 2026-11-20 · 版本状态由负责人手动维护</div>
+        </div>
+        <div class="head-actions">
+          <button class="btn" onclick="toast('编辑版本目标、范围、负责人与计划日期（原型示意）')">编辑版本</button>
+          <button class="btn" onclick="openProductTab('tasks')">调整任务</button>
+          <button class="btn" onclick="toast('归档版本需版本负责人确认；归档后只读，不可新建任务')">归档版本</button>
+        </div>
+      </div>
+
+      <div class="grid g4">
+        <div class="card stat"><div class="label">任务完成</div><div class="num">18 <small>/ 32</small></div><div class="sub">不含已取消任务</div></div>
+        <div class="card stat"><div class="label">版本成本</div><div class="num">¥12,480</div><div class="sub">AI ¥9,120 · 人工 ¥3,360</div></div>
+        <div class="card stat"><div class="label">风险</div><div class="num" style="color:#b45309">2</div><div class="sub">1 个离线 Runner · 1 个失败任务</div></div>
+        <div class="card stat"><div class="label">一次验收通过率</div><div class="num">72%</div><div class="sub">近 30 天首次通过 28 / 39</div></div>
+      </div>
+
+      <div class="grid g2 mt12" style="grid-template-columns:1.4fr 1fr">
+        <div class="card">
+          <div class="card-head"><h2>版本目标与范围</h2><span class="more">计划 2026-11-20</span></div>
+          <p style="font-size:13px;line-height:1.8">跑通调度中心、任务详情与缺陷闭环：Runner 自动领取、优先级队列、离线 30 分钟改派、任务上下文包、产出评审与逐条验收。</p>
+          <div class="chips mt12"><span class="chip">调度中心</span><span class="chip">任务详情</span><span class="chip">缺陷闭环</span><span class="chip">移动端只读</span><span class="chip">成本与质量统计</span></div>
+          <div class="note mt12">版本进度 = 该版本完成任务数 / 该版本总任务数（不含已取消）；任务全部完成不会自动改变版本状态，版本状态由版本负责人手动维护。</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>版本级上下文</h2><span class="more">版本负责人维护</span></div>
+          <div class="sec-title">产品级常驻（继承）</div>
+          <div class="chips"><span class="chip">产品目标与范围</span><span class="chip">技术栈约定</span><span class="chip">编码规范</span></div>
+          <div class="sec-title">版本级常驻</div>
+          <div class="chips"><span class="chip">v1.0 交付范围</span><span class="chip">版本差异说明</span><span class="chip">涉及模块</span><span class="chip">release/v1.0 发布约束</span></div>
+        </div>
+      </div>
+
+      <div class="card mt12">
+        <div class="card-head"><h2>版本任务</h2><a href="javascript:void(0)" class="more" onclick="openProductTab('tasks')">在产品详情中调整 →</a></div>
+        <table>
+          <thead><tr><th>任务</th><th>优先级</th><th>模式</th><th>状态</th><th>子任务</th><th>负责人</th><th>执行工具</th><th>成本</th></tr></thead>
+          <tbody>
+            <tr><td><a href="#task">T09 修复离线改派不生效</a></td><td><span class="badge b-red">P0</span></td><td>M2</td><td><span class="badge b-orange">待验收</span></td><td>4 / 4</td><td>陈默</td><td>Codex CLI</td><td>¥38</td></tr>
+            <tr><td><a href="#task">T08 Runner 心跳与离线判定</a></td><td><span class="badge b-blue">P1</span></td><td>M1</td><td><span class="badge b-green">已完成</span></td><td>2 / 2</td><td>陈默</td><td>Claude Code</td><td>¥126</td></tr>
+            <tr><td><a href="#task">T07 任务详情页一屏布局</a></td><td><span class="badge b-blue">P1</span></td><td>M3</td><td><span class="badge b-blue">执行中</span></td><td>2 / 4</td><td>周宇</td><td>Trae CLI</td><td>¥64</td></tr>
+            <tr><td><a href="#task">T06 AI 解析草稿 diff 留存</a></td><td><span class="badge b-blue">P1</span></td><td>M2</td><td><span class="badge b-orange">待评审</span></td><td>2 / 2</td><td>林岚</td><td>Claude Code</td><td>¥92</td></tr>
+            <tr><td><a href="#task">T05 上下文包四层拼装</a></td><td><span class="badge b-red">P0</span></td><td>M2</td><td><span class="badge b-orange">待确认计划</span></td><td class="subtle">待拆解</td><td>周宇</td><td>Codex CLI</td><td>¥0</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid g2 mt12">
+        <div class="card">
+          <div class="card-head"><h2>版本成本</h2><span class="more">只统计，不设预算</span></div>
+          <table>
+            <thead><tr><th>类型</th><th>金额</th><th>占比</th><th>说明</th></tr></thead>
+            <tbody>
+              <tr><td>AI 成本</td><td>¥9,120</td><td>73.1%</td><td>token 与调用费，按 Run 归集</td></tr>
+              <tr><td>人工成本</td><td>¥3,360</td><td>26.9%</td><td>33.6 h × ¥100/h</td></tr>
+              <tr><td>合计</td><td>¥12,480</td><td>100%</td><td>任务 → 版本 → 产品逐级汇总</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>版本质量</h2><a href="javascript:void(0)" class="more" onclick="openProductTab('quality')">查看产品质量问题 →</a></div>
+          <div class="list-row"><span class="subtle" style="width:96px">一次验收通过率</span><div class="grow"><div class="bar green"><i style="width:72%"></i></div></div><span class="subtle">72%</span></div>
+          <div class="list-row"><span class="subtle" style="width:96px">验收返工率</span><div class="grow"><div class="bar orange"><i style="width:18%"></i></div></div><span class="subtle">18%</span></div>
+          <div class="list-row"><span class="subtle" style="width:96px">评审驳回率</span><div class="grow"><div class="bar orange"><i style="width:11%"></i></div></div><span class="subtle">11%</span></div>
+          <div class="list-row"><span class="subtle" style="width:96px">人工介入</span><div class="grow"><div class="bar orange"><i style="width:9%"></i></div></div><span class="subtle">4 次</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 审计日志 -->
+    <section class="page" id="page-audit">
+      <div class="page-head">
+        <div><h1>审计日志</h1><div class="desc">权限、路由、闸门、改派、取消、撤销验收、成本改价与缺陷状态变更留痕；记录不可删除</div></div>
+        <div class="head-actions">
+          <button class="btn" onclick="toast('已导出 audit-2026-11-06.csv；导出动作本身也留痕')">导出 CSV</button>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <select class="select"><option>今天</option><option>最近 7 天</option><option>最近 30 天</option></select>
+        <select class="select"><option>全部操作人</option><option>林岚</option><option>苏萌</option><option>系统</option></select>
+        <select class="select"><option>全部动作</option><option>权限变更</option><option>路由变更</option><option>闸门动作</option><option>改派</option><option>取消</option><option>撤销验收</option><option>成本改价</option><option>缺陷状态变更</option></select>
+        <input class="input" placeholder="对象编号或名称" style="width:180px">
+        <button class="btn" onclick="toast('已按筛选条件刷新（原型示意）')">筛选</button>
+      </div>
+
+      <div class="card" style="padding:0">
+        <table>
+          <thead><tr><th>时间</th><th>操作人</th><th>动作</th><th>对象</th><th>变更内容</th><th>原因 / 依据</th></tr></thead>
+          <tbody>
+            <tr><td class="subtle">11-06 10:42</td><td>林岚</td><td><span class="badge b-blue">闸门动作</span></td><td>T07</td><td>计划确认通过，执行模式 M2 → M3</td><td>涉及布局评审，需要人工参与</td></tr>
+            <tr><td class="subtle">11-06 10:31</td><td>苏萌</td><td><span class="badge b-blue">权限变更</span></td><td>成员 赵一</td><td>增加「上传产出」权限</td><td>数据标注模板只读，产出需单独授权</td></tr>
+            <tr><td class="subtle">11-06 10:12</td><td>系统</td><td><span class="badge b-orange">改派</span></td><td>RUNNER-04</td><td>T05 改派到 RUNNER-02，原 Run R-1018 标记已中断</td><td>设备离线满 31 分钟</td></tr>
+            <tr><td class="subtle">11-06 09:58</td><td>林岚</td><td><span class="badge b-blue">闸门动作</span></td><td>T09</td><td>产出评审通过，任务进入待验收</td><td>PR #145 已 approve</td></tr>
+            <tr><td class="subtle">11-06 09:40</td><td>林岚</td><td><span class="badge b-blue">闸门动作</span></td><td>T09</td><td>计划确认通过，G1 不跳过</td><td>验收标准与上下文包齐全</td></tr>
+            <tr><td class="subtle">11-06 09:22</td><td>苏萌</td><td><span class="badge b-orange">路由变更</span></td><td>规则 R-2026-11-01</td><td>高风险变更默认模式由 M2 调整为 M3</td><td>高风险任务需人工确认关键动作</td></tr>
+            <tr><td class="subtle">11-06 09:05</td><td>苏萌</td><td><span class="badge b-orange">成本改价</span></td><td>单价表 2026-11-01</td><td>Claude Code 输出单价更新，历史成本不变</td><td>供应商官网调价，按生效时间执行</td></tr>
+            <tr><td class="subtle">11-06 08:47</td><td>何晴</td><td><span class="badge b-gray">缺陷状态变更</span></td><td>B02</td><td>已确认 → 修复中，关联修复任务 T17</td><td>已创建修复任务并关联 Issue #131</td></tr>
+            <tr><td class="subtle">11-06 08:30</td><td>系统</td><td><span class="badge b-gray">取消</span></td><td>T21 导出任务时间线</td><td>Run 超时后负责人选择终止，任务置为已取消</td><td>执行超时 120 分钟；超时不自动重试</td></tr>
+          </tbody>
+        </table>
+        <div class="note" style="margin:12px 16px">审计记录不可删除，永久保留；导出动作本身也留痕。权限变更、路由变更、闸门动作、改派、取消、撤销验收、成本改价与缺陷状态变更均在此留痕。</div>
+      </div>
+    </section>
+
+    <!-- 消息中心 -->
+    <section class="page" id="page-messages">
+      <div class="page-head">
+        <div><h1>消息中心</h1><div class="desc">全部通知与订阅设置；同类通知按规则聚合，站内消息与邮件共用同一事件口径</div></div>
+        <div class="head-actions">
+          <button class="btn" onclick="markAllRead()">全部标为已读</button>
+          <button class="btn btn-primary" onclick="go('#requirements')">去处理待办</button>
+        </div>
+      </div>
+
+      <div class="grid" style="grid-template-columns:1.6fr 1fr">
+        <div class="card">
+          <div class="card-head"><h2>全部通知</h2><span class="more" id="msg-count">4 条未读</span></div>
+          <div class="toolbar" id="msg-filter">
+            <button class="btn btn-sm" onclick="filterMessages('all',this)">全部</button>
+            <button class="btn btn-sm" onclick="filterMessages('unread',this)">未读</button>
+            <button class="btn btn-sm" onclick="filterMessages('alert',this)">告警</button>
+            <button class="btn btn-sm" onclick="filterMessages('todo',this)">待我处理</button>
+          </div>
+          <div id="msg-list">
+            <div class="list-row" data-msg-type="todo unread">
+              <span class="badge b-orange">待验收</span>
+              <div class="grow"><div class="title">T09 已进入待验收</div><div class="meta">PR #145 评审通过 · 10:02 · 与同类待验收通知合并</div></div>
+              <span class="badge b-blue msg-read">未读</span>
+              <button class="btn btn-sm" onclick="go('#task')">去处理</button>
+            </div>
+            <div class="list-row" data-msg-type="alert unread">
+              <span class="badge b-red">告警</span>
+              <div class="grow"><div class="title">RUNNER-06 离线 24 分钟</div><div class="meta">2 个排队任务将在满 30 分钟后可改派 · 10:12</div></div>
+              <span class="badge b-blue msg-read">未读</span>
+              <button class="btn btn-sm" onclick="go('#dispatch')">去处理</button>
+            </div>
+            <div class="list-row" data-msg-type="todo unread">
+              <span class="badge b-blue">评审</span>
+              <div class="grow"><div class="title">T06 产出物等待评审</div><div class="meta">PR #142 · 09:31 · 与同任务评审通知合并</div></div>
+              <span class="badge b-blue msg-read">未读</span>
+              <button class="btn btn-sm" onclick="go('#task')">去处理</button>
+            </div>
+            <div class="list-row" data-msg-type="notice unread">
+              <span class="badge b-gray">通知</span>
+              <div class="grow"><div class="title">T08 已完成</div><div class="meta">成本 ¥126 · 08:40 · PR 已合并</div></div>
+              <span class="badge b-blue msg-read">未读</span>
+              <button class="btn btn-sm" onclick="go('#product')">查看</button>
+            </div>
+            <div class="list-row" data-msg-type="notice read">
+              <span class="badge b-gray">订阅</span>
+              <div class="grow"><div class="title">订阅设置已更新</div><div class="meta">邮件通知仅保留告警与待我处理 · 昨天</div></div>
+              <span class="badge b-gray msg-read">已读</span>
+              <button class="btn btn-sm" onclick="toast('打开订阅设置（原型示意）')">查看</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h2>订阅设置</h2><button class="btn btn-sm" onclick="toast('订阅设置已保存（原型示意）')">保存</button></div>
+          <table>
+            <thead><tr><th>事件</th><th>站内</th><th>邮件</th><th>聚合</th></tr></thead>
+            <tbody>
+              <tr><td>计划待确认</td><td>开</td><td>开</td><td>同类 15 分钟合并</td></tr>
+              <tr><td>产出物待评审 / 待验收</td><td>开</td><td>开</td><td>按任务合并</td></tr>
+              <tr><td>AI 提问 / 需授权</td><td>开</td><td>开</td><td>不聚合，强提醒</td></tr>
+              <tr><td>执行失败</td><td>开</td><td>开</td><td>合并</td></tr>
+              <tr><td>Runner 离线</td><td>开</td><td>关</td><td>合并</td></tr>
+              <tr><td>成本异常 / 超时</td><td>开</td><td>开</td><td>合并</td></tr>
+              <tr><td>PR 评审通过 / 合并</td><td>开</td><td>关</td><td>合并</td></tr>
+            </tbody>
+          </table>
+          <div class="sec-title">免打扰时段</div>
+          <div class="row"><input class="input" value="22:00" style="width:80px"><span class="subtle">至</span><input class="input" value="08:00" style="width:80px"><span class="subtle">强提醒不受免打扰限制</span></div>
+          <div class="note mt12">个人可配置免打扰时段与事件订阅；邮件失败进入重试队列，最终失败记录日志。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 待开通页 -->
+    <section class="page" id="page-pending">
+      <div class="page-head">
+        <div><h1>账号待开通</h1><div class="desc">GitHub 授权成功只代表身份可识别，还需系统管理员开通权限后才能进入系统</div></div>
+      </div>
+
+      <div class="card" style="max-width:760px">
+        <div class="between">
+          <div class="row">
+            <div class="avatar" style="width:36px;height:36px">林</div>
+            <div>
+              <div style="font-size:14px;font-weight:600">林岚</div>
+              <div class="subtle">GitHub 账号 linlan-dev · 授权时间 2026-11-11 09:12</div>
+            </div>
+          </div>
+          <span class="badge b-orange">待系统管理员开通</span>
+        </div>
+
+        <div class="grid g3 mt16">
+          <div class="card stat"><div class="label">申请状态</div><div class="num" style="font-size:16px">待开通</div><div class="sub">已进入系统管理员队列</div></div>
+          <div class="card stat"><div class="label">可访问范围</div><div class="num" style="font-size:16px">仅本页</div><div class="sub">工作台、产品、调度中心均不可访问</div></div>
+          <div class="card stat"><div class="label">申请时间</div><div class="num" style="font-size:16px">09:12</div><div class="sub">等待 1 小时 18 分钟</div></div>
+        </div>
+
+        <div class="alert mt16">未开通账号只能访问本页，不能进入工作台、产品与调度中心。开通后重新登录即可进入；登录与仓库凭证复用 GitHub 授权，不另设用户名密码。</div>
+
+        <div class="row mt16">
+          <button class="btn btn-primary" onclick="toast('已刷新开通状态：仍在等待系统管理员处理')">刷新状态</button>
+          <button class="btn" onclick="toast('已通知系统管理员（原型示意）')">通知管理员</button>
+          <button class="btn" onclick="go('#login')">返回登录</button>
+        </div>
+      </div>
+    </section>
+
   </main>
 </div>
-
-<!-- 消息抽屉 -->
-<div class="drawer-mask" id="drawer-mask" onclick="closeDrawer()"></div>
-<aside class="drawer" id="drawer">
-  <div class="drawer-head">
-    <div><div style="font-weight:600">消息中心</div><div class="subtle">站内消息 + 邮件 · 同类聚合</div></div>
-    <button class="btn btn-sm" onclick="closeDrawer()">关闭</button>
-  </div>
-  <div class="drawer-body">
-    <div class="list-row">
-      <span class="badge b-orange">待验收</span>
-      <div class="grow"><div class="title">T09 已进入待验收</div><div class="meta">PR #145 评审通过 · 10:02</div></div>
-      <button class="btn btn-sm" onclick="closeDrawer();go('#task')">处理</button>
-    </div>
-    <div class="list-row">
-      <span class="badge b-red">告警</span>
-      <div class="grow"><div class="title">RUNNER-06 离线 24 分钟</div><div class="meta">2 个排队任务待改派 · 10:12</div></div>
-      <button class="btn btn-sm" onclick="closeDrawer();go('#dispatch')">处理</button>
-    </div>
-    <div class="list-row">
-      <span class="badge b-blue">评审</span>
-      <div class="grow"><div class="title">T06 产出物等待评审</div><div class="meta">PR #142 · 09:31</div></div>
-      <button class="btn btn-sm" onclick="closeDrawer();go('#task')">处理</button>
-    </div>
-    <div class="list-row">
-      <span class="badge b-gray">通知</span>
-      <div class="grow"><div class="title">T08 已完成</div><div class="meta">成本 ¥126 · 08:40</div></div>
-      <button class="btn btn-sm" onclick="closeDrawer();go('#product')">查看</button>
-    </div>
-    <div class="list-row">
-      <span class="badge b-gray">订阅</span>
-      <div class="grow"><div class="title">邮件通知：仅告警与待我处理</div><div class="meta">可在消息中心设置中修改</div></div>
-      <button class="btn btn-sm" onclick="toast('已打开订阅设置（原型示意）')">设置</button>
-    </div>
-  </div>
-</aside>
 
 <!-- 工具 / Agent / 模型 -->
 <div class="modal-mask" id="settings-mask" onclick="if(event.target===this)closeSettings()">
@@ -949,6 +1279,7 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
     <p>团队内部 AI 工作台。使用 GitHub 账号授权登录，首次登录后需系统管理员开通权限。</p>
     <button class="btn btn-primary" onclick="location.hash='#home';toast('已使用 GitHub 登录（原型示意）')"><span class="git" style="background:#fff"></span>使用 GitHub 登录</button>
     <button class="btn" onclick="location.hash='#home';toast('原型演示：正式环境不提供跳过登录')">原型演示：跳过登录（正式环境不可用）</button>
+    <button class="btn" onclick="location.hash='#pending'">未开通账号？查看待开通页</button>
     <div class="note mt16">此入口仅用于原型预览，正式环境不提供跳过登录。真实登录必须使用 GitHub 账号，未开通账号只能进入待开通页。</div>
   </div>
 </div>
@@ -956,7 +1287,7 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
 <div class="toast" id="toast"></div>
 
 <script>
-var titles={home:'工作台',products:'产品',product:'产品详情',task:'任务详情',dispatch:'调度中心',requirements:'需求中心',bugs:'缺陷中心'};
+var titles={home:'工作台',products:'产品',product:'产品详情',version:'版本详情',task:'任务详情',dispatch:'调度中心',requirements:'需求中心',bugs:'缺陷中心',messages:'消息中心',audit:'审计日志',pending:'待开通'};
 
 function go(h){location.hash=h}
 
@@ -980,6 +1311,13 @@ function showTab(group,target,btn){
   btn.classList.add('active');
   var page=box.closest('.page');
   page.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('active',t.getAttribute('data-tab')===target)});
+}
+
+function openProductTab(target){
+  var box=document.getElementById('tabset-product');
+  var map={overview:0,versions:1,tasks:2,artifacts:3,cost:4,quality:5,members:6};
+  showTab('tabset-product',target,box.querySelectorAll('button')[map[target]]);
+  go('#product');
 }
 
 var toastTimer=null;
@@ -1025,7 +1363,7 @@ function confirmDraft(btn){
   st.textContent='已确认';
   st.className='badge b-green';
   btn.disabled=true;
-  toast('任务树草稿已确认：生成 6 个任务，进入计划确认');
+  toast('任务树草稿已确认：生成 5 个任务，进入计划确认');
 }
 
 var bugData={
@@ -1106,13 +1444,23 @@ function advanceBug(btn){
   if(tr.id==='bug-'+currentBug)syncBugStatus(tr);
 }
 
-function openDrawer(){
-  document.getElementById('drawer').classList.add('show');
-  document.getElementById('drawer-mask').classList.add('show');
+function filterMessages(type,btn){
+  document.querySelectorAll('#msg-filter button').forEach(function(b){b.className='btn btn-sm'});
+  btn.className='btn btn-sm btn-primary';
+  document.querySelectorAll('#msg-list .list-row').forEach(function(row){
+    var types=(row.getAttribute('data-msg-type')||'').split(' ');
+    row.style.display=(type==='all'||types.indexOf(type)>=0)?'':'none';
+  });
 }
-function closeDrawer(){
-  document.getElementById('drawer').classList.remove('show');
-  document.getElementById('drawer-mask').classList.remove('show');
+function markAllRead(){
+  document.querySelectorAll('#msg-list .msg-read').forEach(function(b){b.textContent='已读';b.className='badge b-gray msg-read'});
+  document.querySelectorAll('#msg-list .list-row').forEach(function(row){
+    row.setAttribute('data-msg-type',(row.getAttribute('data-msg-type')||'').replace('unread','read'));
+  });
+  document.getElementById('msg-count').textContent='0 条未读';
+  var nav=document.querySelector('.nav a[data-nav="messages"] .count');
+  if(nav)nav.textContent='0';
+  toast('全部消息已标记为已读');
 }
 function openSettings(){document.getElementById('settings-mask').classList.add('show')}
 function closeSettings(){document.getElementById('settings-mask').classList.remove('show')}
