@@ -75,7 +75,7 @@ body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Mi
     <!-- 产品进度 -->
     <section class="m-page active" id="m-products">
       <div class="m-card">
-        <div class="between"><span class="subtle">当前团队 · 6 名成员 · 基线 100 并发</span><span class="badge b-green">4 个 Run 进行中</span></div>
+        <div class="between"><span class="subtle">当前团队 · 6 名成员 · 基线 100 并发</span><span class="badge b-green">11 个 Run 进行中</span></div>
         <div class="stat3" style="margin-top:12px">
           <div><div class="n">3</div><div class="l">产品</div></div>
           <div><div class="n">1</div><div class="l">进行中</div></div>
@@ -116,6 +116,7 @@ body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Mi
         <div class="between" style="margin-top:10px"><span class="badge b-red">风险 3</span><span class="subtle">暂停中</span></div>
       </div>
 
+      <div class="note">移动端按规格 9.2 收敛为 5 屏：产品进度、版本进度、任务详情、待办提醒、我的。其中「我的」合并展示「成本概览」与「消息」两屏，并附只读账号信息；成本与消息不单列底部入口。</div>
       <div class="note">手机端仅查看进度与提醒，确认计划、评审、验收等写操作请在电脑端完成。</div>
     </section>
 
@@ -143,19 +144,19 @@ body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Mi
       <div class="m-card">
         <h2>任务</h2>
         <div class="item" onclick="go('task')" style="cursor:pointer">
-          <div class="grow"><div class="t">T09 修复离线改派不生效</div><div class="m">陈默 · Codex CLI · ¥38</div></div>
+          <div class="grow"><div class="t">T09 修复离线改派不生效</div><div class="m">陈默 · Codex CLI · 子任务 4/4 · ¥38</div></div>
           <span class="badge b-orange">待验收</span>
         </div>
         <div class="item" onclick="go('task')" style="cursor:pointer">
-          <div class="grow"><div class="t">T07 任务详情页一屏布局</div><div class="m">周宇 · Trae CLI · 执行中</div></div>
+          <div class="grow"><div class="t">T07 任务详情页一屏布局</div><div class="m">周宇 · Trae CLI · 子任务 2/4 · 执行中</div></div>
           <span class="badge b-blue">执行中</span>
         </div>
         <div class="item" onclick="go('task')" style="cursor:pointer">
-          <div class="grow"><div class="t">T06 AI 解析草稿 diff 留存</div><div class="m">林岚 · Claude Code · ¥92</div></div>
+          <div class="grow"><div class="t">T06 AI 解析草稿 diff 留存</div><div class="m">林岚 · Claude Code · 子任务 2/2 · ¥92</div></div>
           <span class="badge b-orange">待评审</span>
         </div>
         <div class="item">
-          <div class="grow"><div class="t">T02 版本分支与 PR 归集</div><div class="m">陈默 · Claude Code · ¥31</div></div>
+          <div class="grow"><div class="t">T02 版本分支与 PR 归集</div><div class="m">陈默 · Claude Code · 子任务 1/2 · ¥31</div></div>
           <span class="badge b-red">已失败</span>
         </div>
       </div>
@@ -166,7 +167,7 @@ body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Mi
     <!-- 任务详情（只读） -->
     <section class="m-page" id="m-task">
       <div class="m-card">
-        <div class="row"><span class="badge b-orange">待验收</span><span class="badge b-blue">M2 AI 主导</span></div>
+        <div class="row"><span class="badge b-orange">待验收</span><span class="badge b-gray">子任务完成 4/4</span><span class="badge b-blue">M2 AI 主导</span></div>
         <div style="font-size:15px;font-weight:600;margin-top:8px">T09 修复离线改派不生效</div>
         <div class="subtle" style="margin-top:4px">unique · v1.0 · 负责人 陈默 · Codex CLI</div>
       </div>
@@ -178,15 +179,17 @@ body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Mi
           <div><div class="n">¥38</div><div class="l">成本累计</div></div>
           <div><div class="n" style="font-size:13px;padding-top:2px">林岚</div><div class="l">下一步待办人</div></div>
         </div>
-        <div class="item" style="margin-top:10px"><div class="grow"><div class="t">当前 Run</div><div class="m">R-1024 · 已产出 · 18:42</div></div><span class="badge b-green">已产出</span></div>
+        <div class="item" style="margin-top:10px"><div class="grow"><div class="t">子任务完成</div><div class="m">4 / 4 已产出，任务状态由子任务与闸门聚合派生</div></div><span class="badge b-green">4/4</span></div>
+        <div class="item"><div class="grow"><div class="t">当前 Run</div><div class="m">R-1024 · 已产出 · 18:42</div></div><span class="badge b-green">已产出</span></div>
         <div class="item"><div class="grow"><div class="t">最近闸门</div><div class="m">产出评审通过 · 09:58</div></div></div>
-        <div class="item"><div class="grow"><div class="t">产出物</div><div class="m mono">PR #145 · ai/T09-requeue</div></div><span class="link">查看</span></div>
+        <div class="item"><div class="grow"><div class="t">产出物</div><div class="m mono">PR #145 · ai/T09-requeue</div></div><a class="link" href="javascript:void(0)" onclick="toggleArtifact()">查看</a></div>
+        <div class="note" id="artifact-detail" style="display:none">PR #145 · ai/T09-requeue → release/v1.0 · 评审通过 · 待合并 · 成本 ¥38。手机端只读，合并请在电脑端操作。</div>
       </div>
 
       <div class="m-card">
         <h2>验收标准</h2>
-        <div class="check"><span class="box on"></span><span>心跳超时后任务 30 分钟内保持原状并标记待改派</span></div>
-        <div class="check"><span class="box on"></span><span>超过 30 分钟自动回队列，原 Runner 不可再领取</span></div>
+        <div class="check"><span class="box on"></span><span>心跳超时后任务仍显示执行中，离线满 30 分钟告警并支持改派</span></div>
+        <div class="check"><span class="box on"></span><span>超过 30 分钟支持改派到其他在线 Runner，不手工改任务状态</span></div>
         <div class="check"><span class="box on"></span><span>改派后调度中心显示新 Runner，旧 Run 标记已中断</span></div>
         <div class="check"><span class="box"></span><span>一次性领取锁生效，任务不会被两台 Runner 同时领取</span></div>
         <div class="check"><span class="box"></span><span>补充单测覆盖改派分支</span></div>
@@ -194,7 +197,7 @@ body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Mi
 
       <div class="m-card">
         <h2>执行摘要 · R-1024</h2>
-        <div class="muted" style="font-size:12px;line-height:1.7">AI 已定位到改派逻辑只在心跳超时后触发，补充了重新入队调用与单测，提交 PR #145 等待复测。</div>
+        <div class="muted" style="font-size:12px;line-height:1.7">AI 已定位到改派逻辑只在心跳超时后触发，补充了重新入队调用与单测，提交 PR #145，产出评审已通过，等待合并。</div>
         <div class="subtle" style="margin-top:8px">完整会话与续聊请在电脑端查看。</div>
       </div>
 
@@ -211,7 +214,7 @@ body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Mi
       <div class="m-card">
         <div class="item">
           <div class="grow"><div class="t">T05 上下文包四层拼装</div><div class="m">计划确认 · 已等待 32 分钟</div></div>
-          <span class="badge b-red">超时</span>
+          <span class="badge b-red">等待超时</span>
         </div>
         <div class="item">
           <div class="grow"><div class="t">T06 AI 解析草稿 diff 留存</div><div class="m">产出评审 · PR #142 · 18 分钟</div></div>
@@ -227,7 +230,7 @@ body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Mi
         </div>
         <div class="item">
           <div class="grow"><div class="t">T12 移动端只读页</div><div class="m">计划确认 · 已等待 1 小时</div></div>
-          <span class="badge b-red">超时</span>
+          <span class="badge b-red">等待超时</span>
         </div>
       </div>
 
@@ -236,6 +239,7 @@ body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Mi
 
     <!-- 成本概览 + 消息 -->
     <section class="m-page" id="m-me">
+      <div class="note">页面合并说明：规格 9.2 的「成本概览」与「消息」两屏在移动端合并为「我的」；账号信息为只读附加，不占独立屏。移动端共 5 屏。</div>
       <div class="m-card">
         <div class="between"><h2 style="margin:0">成本概览</h2><span class="subtle">本月 · CNY</span></div>
         <div style="font-size:22px;font-weight:700;margin-top:8px">¥18,642</div>
@@ -295,6 +299,11 @@ function go(id,reset){
 function back(){
   if(stack.length>1){stack.pop()}
   render(stack[stack.length-1]);
+}
+
+function toggleArtifact(){
+  var el=document.getElementById('artifact-detail');
+  el.style.display=(el.style.display==='none')?'block':'none';
 }
 
 function render(id){
