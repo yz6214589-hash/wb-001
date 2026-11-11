@@ -188,16 +188,16 @@ body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Mi
 
       <div class="m-card">
         <h2>验收标准</h2>
-        <div class="check"><span class="box on"></span><span>心跳超时后任务仍显示执行中，离线满 30 分钟告警并支持改派</span></div>
-        <div class="check"><span class="box on"></span><span>超过 30 分钟支持改派到其他在线 Runner，不手工改任务状态</span></div>
-        <div class="check"><span class="box on"></span><span>改派后调度中心显示新 Runner，旧 Run 标记已中断</span></div>
+        <div class="check"><span class="box on"></span><span>心跳 30 秒、2 个周期判离线；租约 90 秒未续约才回收 Run，断网未过期时仍显示执行中</span></div>
+        <div class="check"><span class="box on"></span><span>租约到期未续约，子任务回到排队中并生成新 Run，不手工改任务状态</span></div>
+        <div class="check"><span class="box on"></span><span>离线满 30 分钟支持改派到其他在线 Runner，改派后旧 Run 标记已中断、新 Run 生成</span></div>
         <div class="check"><span class="box"></span><span>一次性领取锁生效，任务不会被两台 Runner 同时领取</span></div>
         <div class="check"><span class="box"></span><span>补充单测覆盖改派分支</span></div>
       </div>
 
       <div class="m-card">
         <h2>执行摘要 · R-1024</h2>
-        <div class="muted" style="font-size:12px;line-height:1.7">AI 已定位到改派逻辑只在心跳超时后触发，补充了重新入队调用与单测，提交 PR #145，产出评审已通过，等待合并。</div>
+        <div class="muted" style="font-size:12px;line-height:1.7">AI 已定位到回收逻辑只依赖心跳超时判断，没有 90 秒租约到期的兜底；已补充租约到期回收、子任务重新入队与单测，提交 PR #145，产出评审已通过，等待合并。</div>
         <div class="subtle" style="margin-top:8px">完整会话与续聊请在电脑端查看。</div>
       </div>
 
@@ -259,7 +259,7 @@ body{font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Mi
           <span class="badge b-orange">待办</span>
         </div>
         <div class="item">
-          <div class="grow"><div class="t">RUNNER-06 离线 24 分钟</div><div class="m">2 个排队任务待改派 · 10:12</div></div>
+          <div class="grow"><div class="t">RUNNER-06 离线 24 分钟</div><div class="m">执行中 Run 已按租约回收 · 2 个排队任务满 30 分钟后可改派</div></div>
           <span class="badge b-red">告警</span>
         </div>
         <div class="item">
