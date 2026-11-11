@@ -274,7 +274,7 @@ tbody tr:hover{background:#fbfcfd}
 
       <div class="card mt12">
         <div class="card-head"><h2>今日告警</h2><span class="more">按严重度排序</span></div>
-        <div class="alert">RUNNER-06 已离线 24 分钟，2 个排队任务达到 30 分钟后可改派。</div>
+        <div class="alert">RUNNER-06 已离线 24 分钟，执行中 Run 已按 90 秒租约回收；2 个排队任务在离线满 30 分钟后可改派。</div>
         <div class="alert mt12">T02 执行失败（退出码 1），已自动重试 2 次，建议人工介入。</div>
         <div class="alert mt12">Claude Code 调用成本较 7 日均值高 38%，今日 ¥642。</div>
       </div>
@@ -414,7 +414,7 @@ tbody tr:hover{background:#fbfcfd}
           </div>
           <div class="card">
             <div class="card-head"><h2>风险与待办</h2><span class="more">3 项</span></div>
-            <div class="alert">RUNNER-06 离线，2 个排队任务临近改派阈值（30 分钟）。</div>
+            <div class="alert">RUNNER-06 离线，执行中 Run 已按 90 秒租约回收并生成新 Run；2 个排队任务临近改派阈值（离线满 30 分钟）。</div>
             <div class="alert mt12">T05 计划已等待 32 分钟，阻塞后续 3 个任务。</div>
             <div class="alert mt12">T02 已自动重试 2 次仍失败（达到上限），建议改为 M3 人机协作后人工重试。</div>
           </div>
@@ -427,7 +427,7 @@ tbody tr:hover{background:#fbfcfd}
             <li><span class="t">10:20 · 林岚</span>删除 AI 生成任务 T10「自动路由」，原因：二期能力</li>
             <li><span class="t">09:58 · 陈默</span>提交 PR #145（T09 离线改派），等待评审</li>
             <li><span class="t">09:12 · 何晴</span>提交 1 次测试执行，聚合 3 条缺陷草稿</li>
-            <li><span class="t">08:30 · 系统</span>RUNNER-06 心跳丢失，判定离线</li>
+            <li><span class="t">08:30 · 系统</span>RUNNER-06 连续 2 个心跳周期（60 秒）未上报，判定离线</li>
           </ul>
         </div>
       </div>
@@ -669,9 +669,9 @@ tbody tr:hover{background:#fbfcfd}
             </div>
             <div class="bar"><i id="ac-bar" style="width:60%"></i></div>
             <div class="mt12">
-              <label class="check"><input type="checkbox" class="ac-check" checked onchange="updateAc()"><span>Runner 心跳超时后，任务仍显示「执行中」；离线满 30 分钟时调度中心告警并支持改派。</span></label>
-              <label class="check"><input type="checkbox" class="ac-check" checked onchange="updateAc()"><span>超过 30 分钟仍离线，调度中心告警并支持改派到其他在线 Runner，不手工改任务状态。</span></label>
-              <label class="check"><input type="checkbox" class="ac-check" checked onchange="updateAc()"><span>改派后调度中心显示新 Runner，旧 Runner 的 Run 标记为已中断。</span></label>
+              <label class="check"><input type="checkbox" class="ac-check" checked onchange="updateAc()"><span>Runner 心跳 30 秒，2 个周期未上报判断离线；断网但租约（90 秒）未过期时，任务仍显示「执行中」。</span></label>
+              <label class="check"><input type="checkbox" class="ac-check" checked onchange="updateAc()"><span>租约到期未续约时，调度中心回收当前 Run 并置「已中断（租约过期）」，子任务回到「排队中」并生成新 Run，不手工改任务状态。</span></label>
+              <label class="check"><input type="checkbox" class="ac-check" checked onchange="updateAc()"><span>离线满 30 分钟仍不可用时调度中心告警并支持改派；改派生成新 Run，旧 Run 标记「已中断（改派）」。</span></label>
               <label class="check"><input type="checkbox" class="ac-check" onchange="updateAc()"><span>同一任务不会同时被两台 Runner 领取（一次性领取锁生效）。</span></label>
               <label class="check"><input type="checkbox" class="ac-check" onchange="updateAc()"><span>补充单测覆盖改派分支，失败时保留日志与复现步骤。</span></label>
             </div>
@@ -726,13 +726,13 @@ tbody tr:hover{background:#fbfcfd}
               <tbody>
                 <tr><td class="mono">R-1024</td><td>Codex CLI / 后端修复</td><td>高精度</td><td><span class="badge b-green">已产出</span></td><td>18:42</td><td>¥28</td><td><button class="btn btn-sm" onclick="toast('打开 R-1024 完整会话（原型示意）')">查看会话</button></td></tr>
                 <tr><td class="mono">R-1023</td><td>Codex CLI / 后端修复</td><td>高精度</td><td><span class="badge b-red">失败</span></td><td>04:10</td><td>¥7</td><td><button class="btn btn-sm" onclick="toast('打开失败日志与复现步骤')">失败日志</button></td></tr>
-                <tr><td class="mono">R-1022</td><td>Claude Code / 后端修复</td><td>标准</td><td><span class="badge b-gray">已中断</span></td><td>00:52</td><td>¥3</td><td><button class="btn btn-sm" onclick="toast('该 Run 因 Runner 离线已中断，任务待改派')">查看</button></td></tr>
+                <tr><td class="mono">R-1022</td><td>Claude Code / 后端修复</td><td>标准</td><td><span class="badge b-gray">已中断</span></td><td>00:52</td><td>¥3</td><td><button class="btn btn-sm" onclick="toast('该 Run 因 Runner 离线且租约到期未续约已中断，子任务已回到排队中')">查看</button></td></tr>
               </tbody>
             </table>
-            <div class="note mt12">R-1022 因 Runner 离线标记「已中断」（中断原因：Runner 离线）；R-1023 失败后按自动重试规则生成 R-1024。R-1022、R-1023 为终态，不复活；同一子任务同一时刻最多一个活跃 Run。</div>
+            <div class="note mt12">R-1022 在 Runner 离线后租约到期未续约，标记「已中断（租约过期）」，子任务回到「排队中」并生成 R-1023；R-1023 失败后按自动重试规则生成 R-1024。R-1022、R-1023 为终态，不复活；同一子任务同一时刻最多一个活跃 Run。</div>
             <div class="sec-title" style="margin-top:16px">当前会话片段 · R-1024</div>
             <div class="code">用户  离线改派的接口已经改了，为什么 RUNNER-06 的任务没有回到队列？
-AI    我看到改派逻辑只在心跳超时后触发；当前代码写入了 reassign_at，但没有重新入队。
+AI    我看到回收逻辑只依赖心跳超时判断，没有 90 秒租约到期的兜底；当前代码在租约到期时写了 reassign_at，但没有把子任务放回「排队中」并生成新 Run。
 用户  按这个方案改，同时补一个单测。
 AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
             <div class="row mt12">
@@ -803,7 +803,7 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
         <div class="card stat"><div class="label">待改派</div><div class="num" style="color:#b45309">1</div><div class="sub">RUNNER-04 离线已满 30 分钟</div></div>
       </div>
 
-      <div class="note mt12">并发口径：7 台 Runner 的并发上限合计 19，当前执行中 11，团队基线配额 100。RUNNER-06 离线 24 分钟，其排队任务将在满 30 分钟后可改派。队列按 P0/P1/P2 排序，P0 可插队但不抢占正在执行的 Run。</div>
+      <div class="note mt12">并发口径：7 台 Runner 的并发上限合计 19，当前执行中 11，团队基线配额 100。心跳 30 秒，2 个周期未上报判离线；领取租约 90 秒，执行期间心跳自动续约，租约到期未续约即回收 Run、子任务回排队并生成新 Run。RUNNER-06 离线 24 分钟，其排队任务在离线满 30 分钟后可改派。队列按 P0/P1/P2 排序，P0 可插队但不抢占正在执行的 Run。</div>
 
       <div class="card mt12">
         <div class="card-head"><h2>Runner</h2><span class="more">按成员绑定与能力匹配领取</span></div>
@@ -831,11 +831,11 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
               <td><button class="btn btn-sm" onclick="toast('已暂停 RUNNER-07 领取新任务')">暂停领取</button></td>
             </tr>
             <tr>
-              <td class="mono">RUNNER-06</td><td>陈默 · 备用机</td><td class="runner-status"><span class="badge b-red">离线 24 分钟</span></td><td>0 / 2</td><td>—</td><td>—</td><td class="subtle">5 分钟前</td>
+              <td class="mono">RUNNER-06</td><td>陈默 · 备用机</td><td class="runner-status"><span class="badge b-red">离线 24 分钟</span></td><td>0 / 2</td><td>—</td><td>—</td><td class="subtle">24 分钟前</td>
               <td><button class="btn btn-sm" onclick="reassign('RUNNER-02',this)">改派到 RUNNER-02</button></td>
             </tr>
             <tr>
-              <td class="mono">RUNNER-04</td><td>林岚 · 备用机</td><td class="runner-status"><span class="badge b-red">离线 31 分钟</span></td><td>0 / 2</td><td>T05 上下文包四层拼装</td><td>—</td><td class="subtle">31 分钟前</td>
+              <td class="mono">RUNNER-04</td><td>林岚 · 备用机</td><td class="runner-status"><span class="badge b-red">离线 31 分钟</span></td><td>0 / 2</td><td>—</td><td>—</td><td class="subtle">31 分钟前</td>
               <td><button class="btn btn-sm" onclick="reassign('RUNNER-02',this)">改派到 RUNNER-02</button></td>
             </tr>
           </tbody>
@@ -989,12 +989,12 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
             <div id="bug-title">离线改派后任务仍显示原 Runner</div>
             <div class="sec-title">复现步骤</div>
             <div class="code" id="bug-steps">1. 让 RUNNER-06 领取任务 T09
-2. 断开 RUNNER-06 网络，等待 30 分钟
-3. 在调度中心点击「改派到 RUNNER-02」
+2. 断开 RUNNER-06 网络，等待租约过期（90 秒），子任务回到「排队中」并生成新 Run
+3. 保持离线至满 30 分钟，在调度中心点击「改派到 RUNNER-02」
 4. 刷新任务详情，负责人仍显示 RUNNER-06</div>
             <div class="sec-title">期望 / 实际</div>
-            <div class="code" id="bug-expect">期望：任务负责人变为 RUNNER-02，Run 标记已中断
-实际：负责人不变，Run 仍为执行中</div>
+            <div class="code" id="bug-expect">期望：任务负责人变为 RUNNER-02，旧 Run 标记「已中断（改派）」并生成新 Run
+实际：负责人不变，旧 Run 仍为执行中</div>
             <div class="sec-title">关联</div>
             <div class="chips"><span class="chip">v1.0</span><span class="chip">测试执行 TE-2026-1106-03</span><span class="chip">Issue #128</span><span class="chip">PR #145</span></div>
             <div class="sec-title">处理记录</div>
@@ -1033,7 +1033,7 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
       <div class="grid g2 mt12" style="grid-template-columns:1.4fr 1fr">
         <div class="card">
           <div class="card-head"><h2>版本目标与范围</h2><span class="more">计划 2026-11-20</span></div>
-          <p style="font-size:13px;line-height:1.8">跑通调度中心、任务详情与缺陷闭环：Runner 自动领取、优先级队列、离线 30 分钟改派、任务上下文包、产出评审与逐条验收。</p>
+          <p style="font-size:13px;line-height:1.8">跑通调度中心、任务详情与缺陷闭环：Runner 自动领取、优先级队列、心跳与 90 秒租约回收、离线满 30 分钟改派、任务上下文包、产出评审与逐条验收。</p>
           <div class="chips mt12"><span class="chip">调度中心</span><span class="chip">任务详情</span><span class="chip">缺陷闭环</span><span class="chip">移动端只读</span><span class="chip">成本与质量统计</span></div>
           <div class="note mt12">版本进度 = 该版本完成任务数 / 该版本总任务数（不含已取消）；任务全部完成不会自动改变版本状态，版本状态由版本负责人手动维护。</div>
         </div>
@@ -1105,7 +1105,7 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
           <tbody>
             <tr><td class="subtle">11-06 10:42</td><td>林岚</td><td><span class="badge b-blue">闸门动作</span></td><td>T07</td><td>计划确认通过，执行模式 M2 → M3</td><td>涉及布局评审，需要人工参与</td></tr>
             <tr><td class="subtle">11-06 10:31</td><td>苏萌</td><td><span class="badge b-blue">权限变更</span></td><td>成员 赵一</td><td>增加「上传产出」权限</td><td>数据标注模板只读，产出需单独授权</td></tr>
-            <tr><td class="subtle">11-06 10:12</td><td>系统</td><td><span class="badge b-orange">改派</span></td><td>RUNNER-04</td><td>T05 改派到 RUNNER-02，原 Run R-1018 标记已中断</td><td>设备离线满 31 分钟</td></tr>
+            <tr><td class="subtle">11-06 10:12</td><td>系统</td><td><span class="badge b-orange">改派</span></td><td>RUNNER-04</td><td>T05 改派到 RUNNER-02，原 Run R-1018 标记「已中断（改派）」，新 Run 已生成</td><td>设备离线满 31 分钟，原 Run 租约已过期</td></tr>
             <tr><td class="subtle">11-06 09:58</td><td>林岚</td><td><span class="badge b-blue">闸门动作</span></td><td>T09</td><td>产出评审通过，任务进入待验收</td><td>PR #145 已 approve</td></tr>
             <tr><td class="subtle">11-06 09:40</td><td>林岚</td><td><span class="badge b-blue">闸门动作</span></td><td>T09</td><td>计划确认通过，G1 不跳过</td><td>验收标准与上下文包齐全</td></tr>
             <tr><td class="subtle">11-06 09:22</td><td>苏萌</td><td><span class="badge b-orange">路由变更</span></td><td>规则 R-2026-11-01</td><td>高风险变更默认模式由 M2 调整为 M3</td><td>高风险任务需人工确认关键动作</td></tr>
@@ -1146,7 +1146,7 @@ AI    已完成，提交 ai/T09-requeue，PR #145 等待评审。</div>
             </div>
             <div class="list-row" data-msg-type="alert unread">
               <span class="badge b-red">告警</span>
-              <div class="grow"><div class="title">RUNNER-06 离线 24 分钟</div><div class="meta">2 个排队任务将在满 30 分钟后可改派 · 10:12</div></div>
+              <div class="grow"><div class="title">RUNNER-06 离线 24 分钟</div><div class="meta">执行中 Run 已按 90 秒租约回收 · 2 个排队任务满 30 分钟后可改派 · 10:12</div></div>
               <span class="badge b-blue msg-read">未读</span>
               <button class="btn btn-sm" onclick="go('#dispatch')">去处理</button>
             </div>
@@ -1355,7 +1355,7 @@ function reassign(target,btn){
   var tr=btn.closest('tr');
   tr.querySelector('.runner-status').innerHTML='<span class="badge b-blue">改派中</span>';
   btn.disabled=true;
-  toast('已将离线任务改派至 '+target+'，原 Run 标记为已中断');
+  toast('已将离线任务改派至 '+target+'：原 Run 标记「已中断（改派）」，已生成新 Run');
 }
 
 function confirmDraft(btn){
@@ -1367,7 +1367,7 @@ function confirmDraft(btn){
 }
 
 var bugData={
-  B01:{title:'离线改派后任务仍显示原 Runner',steps:'1. 让 RUNNER-06 领取任务 T09\n2. 断开 RUNNER-06 网络，等待 30 分钟\n3. 在调度中心点击「改派到 RUNNER-02」\n4. 刷新任务详情，负责人仍显示 RUNNER-06',expect:'期望：任务负责人变为 RUNNER-02，Run 标记已中断\n实际：负责人不变，Run 仍为执行中'},
+  B01:{title:'离线改派后任务仍显示原 Runner',steps:'1. 让 RUNNER-06 领取任务 T09\n2. 断开 RUNNER-06 网络，等待租约过期（90 秒），子任务回到「排队中」并生成新 Run\n3. 保持离线至满 30 分钟，在调度中心点击「改派到 RUNNER-02」\n4. 刷新任务详情，负责人仍显示 RUNNER-06',expect:'期望：任务负责人变为 RUNNER-02，旧 Run 标记「已中断（改派）」并生成新 Run\n实际：负责人不变，旧 Run 仍为执行中'},
   B02:{title:'验收标准勾选后进度条不更新',steps:'1. 打开任务 T09 详情\n2. 勾选第 4 项验收标准\n3. 观察验收进度与进度条',expect:'期望：进度变为 4/5，进度条同步\n实际：文字仍为 3/5，进度条不动'},
   B03:{title:'成本明细导出缺少币种列',steps:'1. 进入产品详情-成本\n2. 点击导出 CSV\n3. 用表格软件打开',expect:'期望：含币种列 CNY\n实际：缺少币种列'},
   B04:{title:'移动端任务详情返回 500',steps:'1. 用手机浏览器访问站点\n2. 进入任务详情\n3. 观察响应',expect:'期望：只读展示任务详情\n实际：返回 500，页面空白'},
